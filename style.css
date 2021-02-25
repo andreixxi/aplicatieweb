@@ -1,0 +1,36 @@
+#bg-video {
+	min-width:100%; 
+	position: absolute;
+	bottom: 0;
+	left: 0;
+} 
+
+#button0 {
+  position: absolute !important;
+  top: 50%;
+}
+
+#button0:focus,#button0:active {
+  outline: none !important;
+}
+
+.modal-dialog {
+  max-width: 800px !important;
+  margin: 30px auto !important;
+}
+
+.modal-body {
+position: relative !important;
+padding: 10px !important;
+}
+
+.close {
+position:absolute !important;
+right:-30px !important;
+top:0 !important;
+z-index:999 !important;
+font-size:2rem !important;
+font-weight: normal !important;
+color:#fff !important;
+opacity:1 !important;
+}

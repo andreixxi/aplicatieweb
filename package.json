@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "fullpage.js": "^3.1.0",
+    "lg-video": "^1.4.0",
+    "lightgallery": "^1.10.0"
+  }
+}
