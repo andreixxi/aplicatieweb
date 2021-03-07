@@ -7,15 +7,19 @@ $(function() {
         'navigationPosition': 'right',
     });
 
-    $(".video-btn").on("click", function() {
-        var theModal = $(this).data("target"),
-            videoSRC = $(this).attr("data-video"),
-            videoSRCauto = videoSRC + "?modestbranding=1&rel=0&controls=0&showinfo=0&html5=1&autoplay=1";
-
-            $(theModal + ' iframe').attr('src', videoSRCauto); // set the video source 
-
-            $(theModal + ' button.close').on("click", function () {
-                $(theModal + ' iframe').attr('src', videoSRC);
-              });
-    });
+    // for image gallery
+    lc_lightbox('.mybox', {
+        wrap_class: 'lcl_face_oc',
+        gallery: true, 
+        skin: 'dark',
+        counter: true,
+        fullscreen: true,
+        download: true,
+        socials: true,
+        ol_opacity: 0.5,
+        ol_color: '#333',
+        border_w: 5,
+        border_col: '#ddd',
+        radius: 5
+    })
 });

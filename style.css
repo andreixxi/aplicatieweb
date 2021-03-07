@@ -1,4 +1,4 @@
-.fullscreen-bg {
+#bg1 {
   background-color: black;
   position: fixed;
   top: 0;
@@ -8,7 +8,8 @@
   overflow: hidden;
   z-index: -100;
 }
-#bg-video {
+
+#bg-video1 {
   position: absolute;
   top: 0;
   left: 0;
@@ -16,39 +17,52 @@
   height: 100%;
 } 
 
-#button0 {
+#button1 {
   position: absolute !important;
   top: 50%;
   opacity: 0.7;
 }
 
-#button0:focus, #button0:active {
+#button1:focus, #button1:active {
   outline: none !important;
   box-shadow: none !important;
 }
+/*** PAGE 2 ***/
+#section2 {
+  background-color: pink;
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -100;
+  width: 100%;
+  height: 100%;
+}
+.sketchfab-embed-wrapper {
+  position: fixed;
+  width: 100%;
 
-.modal-content {
-  margin: 0 auto;
-  display: block;
-} 
-
-.modal-dialog {
-  max-width: 800px;
-  margin: 30px auto;
-  top: 140px;
 }
 
-.modal-body {
-/* position: relative; */
-padding: 0px;
+/** PAGE 3 **/
+ #bg3 {
+  background-color: navy;
+  overflow: hidden;
+  z-index: -100;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
-.close {
-position: absolute;
-right: -30px;
-/* z-index:999; */
-font-size: 2rem ;
-font-weight: normal;
-color: white;
-opacity: 1;
+#bg-video3 {
+  position: absolute;
+  /* top: 10vh; */
+  left: 0;
+  width:inherit;
+}  
+
+h2, .description {
+  color: white;
 }
