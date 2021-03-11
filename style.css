@@ -66,3 +66,14 @@
 h2, .description {
   color: white;
 }
+
+li {
+  background: #cce5ff;
+}
+.thumbnail {
+ opacity: 0.75;
+}
+
+.thumbnail:hover {
+  opacity: 1;
+}

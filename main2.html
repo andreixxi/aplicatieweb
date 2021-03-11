@@ -20,6 +20,8 @@
     <!-- lc_lightbox -->
     <link href="lc_lightbox.min.css" rel="stylesheet"/>
     <link href="skins/dark.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/css/splide-extension-video.min.css" rel="stylesheet">
     <!-- ------------------------------------------------------------------------------------------------------- -->
     <!-- SCRIPTS -->
     <!-- jquery -->
@@ -32,9 +34,12 @@
     <script type="text/javascript" src="fullPage.js/dist/fullpage.min.js"></script>
     <!-- lity (pentru video popup) -->
     <script src="lity.js"></script>
-    <!-- alloy_finger -->
+    <!-- alloy_finger (image gallery) -->
     <script src="alloy_finger.min.js"></script>
     <script src="lc_lightbox.lite.min.js"></script>
+    <!-- splide(pentru video slider) -->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/js/splide-extension-video.min.js"></script>
 </head>
 
 <body>
@@ -95,8 +100,36 @@
             </div>
         </div>
 
-        <!-- <div class="section" id="section4"> 
-             </div> -->
+        <div class="section text-center" id="section4" href="4"> 
+            <h1>VIDEOS</h1>
+                <br>
+                <h3>Take a look at our rendered videos!</h3>
+                <br>
+            <div class="splide">
+                <p>hey hey hey</p>
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide"  data-splide-html-video="media/video.mp4">
+                            <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+                            <p>descriere</p>
+                        </li>
+                        <li class="splide__slide"  data-splide-html-video="media/video.mp4">
+                            <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+                            <p>descriere</p>
+                        </li>
+                        <li class="splide__slide"  data-splide-html-video="media/video.mp4">
+                            <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+                            <p>descriere</p>
+                        </li>
+                        <li class="splide__slide"  data-splide-html-video="media/video.mp4">
+                            <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+                            <p>descriere</p>
+                            <br>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
     </div>
     <script src="app.js"></script>
     <!-- <script type="module" src="load3D.js"></script> -->

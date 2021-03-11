@@ -21,5 +21,11 @@ $(function() {
         border_w: 5,
         border_col: '#ddd',
         radius: 5
-    })
+    });
+
+    // video gallery
+    new Splide( '.splide', {
+        perPage: 3,
+        rewind : true,
+    } ).mount(window.splide.Extensions);
 });
