@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-} 
+}
 
 #button1 {
   position: absolute !important;
@@ -23,11 +23,15 @@
   opacity: 0.7;
 }
 
-#button1:focus, #button1:active {
+#button1:focus,
+#button1:active {
   outline: none !important;
   box-shadow: none !important;
 }
+
+
 /*** PAGE 2 ***/
+
 #section2 {
   background-color: pink;
   position: relative;
@@ -40,14 +44,16 @@
   width: 100%;
   height: 100%;
 }
+
 .sketchfab-embed-wrapper {
   position: fixed;
   width: 100%;
-
 }
 
+
 /** PAGE 3 **/
- #bg3 {
+
+#bg3 {
   background-color: navy;
   overflow: hidden;
   z-index: -100;
@@ -60,20 +66,140 @@
   position: absolute;
   /* top: 10vh; */
   left: 0;
-  width:inherit;
-}  
+  width: inherit;
+}
 
-h2, .description {
+h2,
+.description {
   color: white;
 }
 
 li {
   background: #cce5ff;
 }
+
 .thumbnail {
- opacity: 0.75;
+  opacity: 0.75;
 }
 
 .thumbnail:hover {
   opacity: 1;
+}
+
+
+/* 
+****
+HEADER  
+****
+*/
+
+#header {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+  top: 0px;
+}
+
+#bag-btn,
+#share-btn,
+#home-btn {
+  color: red;
+  float: right;
+  padding: 20px 50px 0 0;
+  font-size: 40px;
+}
+
+.navigation {
+  border: 1px solid rgba(255,255,255,0.1);
+  height: 100%;
+  width: 320px;
+  /* background: linear-gradient(-135deg, orchid, navy); */
+  background-color: rgba(255,255,255,0.1); /*pt bg transparent*/
+  color: red;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: calc(100% - 320px);
+  transition: right 0.5s;
+}
+
+.navigation .menu {
+  list-style-type: none;
+}
+
+.navigation .menu li {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.navigation .menu a {
+  display: block;
+  padding: 20px;
+  line-height: 20px;
+  color: rgb(216, 25, 25);
+  text-decoration: none;
+  position: relative;
+  z-index: 0;
+  text-align: center;
+}
+
+.navigation .menu a::after { /*animatie la hover*/
+  content: '';
+  background-color: rgba(206, 90, 90, 0.377);
+  position: absolute;
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  left: 0;
+  transition: left 0.25s, right 0.25s;
+}
+
+.navigation .menu a:hover::after {
+  right: 0;
+}
+
+
+/* Closed States */
+.navigation:not(.open) {
+  right: 100%;
+}
+
+.navigation:not(.open) .toggle-wrapper .show {
+  right: 0px;
+   color: red;
+   font-size: 50px;
+   margin: 20px 0 0 50px;
+}
+
+.navigation:not(.open) .toggle-wrapper .hide {
+  right: 50px;
+}
+
+.navigation .toggle-wrapper {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-left: none;
+  height: 52px;
+  width: 51px;
+  background-color: rgba(255,255,255,0.1);
+  overflow: hidden;
+  position: absolute;
+  top: -1px;
+  right: calc(0px - 52px);
+}
+
+.navigation .toggle-wrapper i {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: right 0.25s;
+}
+
+.navigation .toggle-wrapper .show {
+  right: -50px;
 }

@@ -1,81 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!--pentru ie 8 9 -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, width=device-width, initial-scale=1.0">
-  <title>Aplicatie model 3D</title>
-  <meta property="og:type" content="website">
-  <link rel="shortcut icon" href="media/icon.PNG" type="image/x-icon">
-  <link rel="apple-touch-icon-precomposed" href="media/icon.PNG">
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="media/icon.PNG">
-  <!-- <link rel="stylesheet" type="text/css" href="node_modules/fullpage.js/dist/fullpage.css"/> -->
-  <!--Use Swiper from CDN-->
-  <!-- <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css"/>
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/> -->
-  <link rel="stylesheet" href="stilizare_cu_de_toate.css"/>
-  <!-- <link rel="stylesheet" href="https://wstatic-cdn.plaync.com/promo/tricksterm/preorder/2020/1st-main/css/ui.promotion.css?_=202012301041">
-  <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
 
-  <script>
-            isLoginFlag = "false";
-            _device = "pc";
-        </script>
-        <script>
-          var dimensionValue = {
-            platform : _device,
-            isLogin : isLoginFlag };
-        </script>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Web app</title>
+  <meta name="author" content="Lungu Andrei" />
+  <meta name="Resource-type" content="Document" />
+  <link rel="shortcut icon" href="#">
+  <link rel="shortcut icon" href="media/icon.PNG" type="image/x-icon">
+  <!-- full page  -->
+  <!-- <link rel="stylesheet" type="text/css" href="fullPage.js/dist/fullpage.css" /> -->
+  <!-- <link rel="stylesheet" type="text/css" href="fullPage.js/dist/fullpage.min.css" /> -->
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- mine -->
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <!-- lity (pentru video popup) -->
+  <link href="lity.css" rel="stylesheet">
+  <!-- lc_lightbox -->
+  <link href="lc_lightbox.min.css" rel="stylesheet" />
+  <link href="skins/dark.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/splide.min.css" rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/css/splide-extension-video.min.css"
+    rel="stylesheet">
+  <!-- ------------------------------------------------------------------------------------------------------- -->
+  <!-- SCRIPTS -->
+  <!-- jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- popper-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.0/umd/popper.min.js"></script>
+  <!-- bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- fullpage (before jquery!!) -->
+  <script type="text/javascript" src="fullPage.js/dist/fullpage.min.js"></script>
+  <!-- lity (pentru video popup) -->
+  <script src="lity.js"></script>
+  <!-- alloy_finger (image gallery) -->
+  <script src="alloy_finger.min.js"></script>
+  <script src="lc_lightbox.lite.min.js"></script>
+  <!-- splide(pentru video slider) -->
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/js/splide.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/js/splide-extension-video.min.js"></script>
+  <!-- jQuery Custom Scroller CDN -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 </head>
 
-<body class="pc">
+<body>
+  <div id="header">
+  
+    <!-- LEFT SIDE ICON  -->
+  
+    <div class="navigation">
+      <div class="toggle-wrapper">
+        <i class="bi bi-list show"></i>
+        <i class="bi bi-x-octagon hide"></i>
+      </div>
+  
+      <ul class="menu">
+        <li data-menuanchor="main" class="active"><a href="#main">Home</a></li>
+        <li data-menuanchor="3d-view"><a href="#3d-view">3D view</a></li>
+        <li data-menuanchor="images"><a href="#images">Images</a></li>
+        <li data-menuanchor="videos"><a href="#videos">Videos</a></li>
+      </ul>
 
-  <div class="container">
-    <div id="main-site">
-      <div class="section section-main fp-noscroll active" data-anchor="main" data-tooltip="MAIN">
-        <div class="fp-bg">
-          <video class="video full-size" src="media/video.mp4" playsinline loop muted></video>
+    </div>
+  
+    <!-- RIGHT SIDE ICONS  -->
+    <i class="bi bi-bag-check" id="bag-btn"></i>
+    <i class="bi bi-share" id="share-btn"></i>
+    <i class="bi bi-house" id="home-btn"></i>
+  </div>
 
-          <div class="inner">
-            <div class="description">
-              <span>textul meu</span>
-              <span class="effect"></span>
-            </div>
-            <h2 class="title">Titlul meu</h2>
-            <a href="#modal-youtube" class="show-full-video icon" data-modal data-type="youtube" data-youtube-id="cfNjA9paMGw">FULL 영상 보기</a>
-            <!-- <a href="/preorder/record/201028/index" target="_self" class="go-preorder" data-tracking>사전예약 신청</a> -->
-          </div>
+ 
 
-          <!-- <div class="section section-character fp-noscroll" data-anchor="character" data-tooltip="사전 캐릭터 생성">
-            <div class="fp-bg">
-            </div>
-            <div class="inner">
-              <div class="description">모험 준비</div>
-              <h2 class="title">
-                <span>사전 캐릭터 생성</span>
-                <span class="effect-1"></span>
-              </h2>
-              <div class="date">maria tanase</div>
-              <div class="emoticon-event">
-                twerk<br>
-                twerk rand nou
-                <a href="https://twitter.com/home?lang=en" class="go-event-board">(nu se updateaza)te trimite pe twitter</a>
-              </div>
-              <div class="event-rule">
-                * u need to log in<br>girl shut up.
-              </div>
-              <a href="#lyPreorderCharacter" class="go-event-rule" data-modal>이벤트 유의사항</a>
-            </div>
-          </div> -->
 
+  <div id="fullpage">
+    <!-- PAGE 1 --- BG VIDEO + YT EMBED PLAY BUTTON  -->
+    <div class="section text-center" id="section1">
+      <!-- BACKGROUND VIDEO -->
+      <div id="bg1">
+        <video loop muted data-autoplay id="bg-video1" src="media/video.mp4" type="video/mp4"></video>
+      </div>
+      <a href="https://www.youtube.com/watch?v=phGur4M9ics" data-lity>
+        <button type="button" class="btn btn-light video-btn" id="button1">
+          <!-- imi pot face propriul SVG pentru play -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="pink" class="bi bi-play-btn"
+            viewBox="0 0 16 16">
+            <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+            <path
+              d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+          </svg>
+        </button>
+      </a>
+    </div>
+    <!-- PAGE 2 --- 3D MODEL VIEW  -->
+    <div class="section container-fluid text-center" id="section2">
+      <h2>PAGE 2</h2>
+      <!-- <div id="bg2">PAGE 2</div> -->
+      <div class="sketchfab-embed-wrapper">
+        <iframe title="Test"
+          src="https://sketchfab.com/models/33a150b845ee4b399f8a9c3709248013/embed?autostart=1&ui_theme=dark"></iframe>
+        <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
+          <a href="https://sketchfab.com/3d-models/test-33a150b845ee4b399f8a9c3709248013" target="_blank"
+            style="font-weight: bold; color: #1CAAD9;">Test</a>
+          by <a href="https://sketchfab.com/la21ixx" target="_blank"
+            style="font-weight: bold; color: #1CAAD9;">la21ixx</a>
+          on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campaign=share-popup"
+            target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+        </p>
+      </div>
+    </div>
+    <!-- PAGE 3 IMAGE GALLERY -->
+    <div class="section text-center" id="section3">
+      <div id="bg3">
+        <video loop muted data-autoplay id="bg-video3" src="media/ken.mp4" type="video/mp4"></video>
+      </div>
+      <h2>page 3</h2>
+      <div class="container mt-5 mb-5">
+        <a class="mybox" href="media/butterfly.png" title="title 1" data-lcl-txt="description 1"
+          data-lcl-author="andrei lungu">
+          <img src="media/butterfly.png" class="mb-2" width="200">
+        </a>
+        <a class="mybox" href="media/icon.png" title="title 2" data-lcl-txt="description 2"
+          data-lcl-author="andrei lungu">
+          <img src="media/icon.png" class="mb-2" width="200">
+        </a>
+        <a class="mybox" href="media/icon2.png" title="title 3" data-lcl-txt="description 3"
+          data-lcl-author="andrei lungu">
+          <img src="media/icon2.png" class="mb-2" width="200">
+        </a>
+        <a class="mybox" href="media/play-icon.png" title="title 4" data-lcl-txt="description 4"
+          data-lcl-author="andrei lungu">
+          <img src="media/play-icon.png" class="mb-2" width="200">
+        </a>
+      </div>
+    </div>
+    <!-- PAGE 4 VIDEO SLIDER  -->
+    <div class="section text-center" id="section4">
+      <h1>VIDEOS</h1>
+      <br>
+      <h3>Take a look at our rendered videos!</h3>
+      <br>
+      <div class="splide">
+        <p>hey hey hey</p>
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere</p>
+            </li>
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere</p>
+            </li>
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere</p>
+            </li>
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere</p>
+              <br>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="app.js"></script>
+  <!-- <script type="module" src="load3D.js"></script> -->
 </body>
 
 </html>
