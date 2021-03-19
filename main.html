@@ -36,56 +36,69 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- fullpage (before jquery!!) -->
   <script type="text/javascript" src="fullPage.js/dist/fullpage.min.js"></script>
-  <!-- lity (pentru video popup) -->
+  <!-- lity (for video popup) -->
   <script src="lity.js"></script>
   <!-- alloy_finger (image gallery) -->
   <script src="alloy_finger.min.js"></script>
   <script src="lc_lightbox.lite.min.js"></script>
-  <!-- splide(pentru video slider) -->
+  <!-- splide(for video slider) -->
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/js/splide.min.js"></script>
   <script
     src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/js/splide-extension-video.min.js"></script>
   <!-- jQuery Custom Scroller CDN -->
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script> <!-- for sns buttons-->
+
+
 </head>
 
 <body>
   <div id="header">
-  
-    <!-- LEFT SIDE ICON  -->
-  
+    <!-- LEFT SIDE ICON + MENU  -->
     <div class="navigation">
       <div class="toggle-wrapper">
         <i class="bi bi-list show"></i>
         <i class="bi bi-x-octagon hide"></i>
       </div>
-  
       <ul class="menu">
         <li data-menuanchor="main" class="active"><a href="#main">Home</a></li>
         <li data-menuanchor="3d-view"><a href="#3d-view">3D view</a></li>
         <li data-menuanchor="images"><a href="#images">Images</a></li>
         <li data-menuanchor="videos"><a href="#videos">Videos</a></li>
       </ul>
-
     </div>
-  
+
     <!-- RIGHT SIDE ICONS  -->
     <i class="bi bi-bag-check" id="bag-btn"></i>
-    <i class="bi bi-share" id="share-btn"></i>
     <i class="bi bi-house" id="home-btn"></i>
-  </div>
 
- 
+
+    <div id="socialShare">
+      <div class="socialBox">
+        <i class="bi bi-share" id="share-btn"></i>
+        <div id="socialGallery">
+          <div class="socialToolBox container">
+            <!-- eventual la story pe insta; fb messenger; kakao; line;  -->
+            <a class="facebook" href="#" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a class="twitter" href="#" target="_blank"><i class="bi bi-twitter"></i></a>
+            <a class="whatsapp" href="#" target="_blank"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 
   <div id="fullpage">
     <!-- PAGE 1 --- BG VIDEO + YT EMBED PLAY BUTTON  -->
-    <div class="section text-center" id="section1">
+    <div class="section text-center container" id="section1">
       <!-- BACKGROUND VIDEO -->
       <div id="bg1">
         <video loop muted data-autoplay id="bg-video1" src="media/video.mp4" type="video/mp4"></video>
       </div>
+      <h2>Wonbin - Character Presentation</h2>
       <a href="https://www.youtube.com/watch?v=phGur4M9ics" data-lity>
         <button type="button" class="btn btn-light video-btn" id="button1">
           <!-- imi pot face propriul SVG pentru play -->
@@ -98,6 +111,7 @@
         </button>
       </a>
     </div>
+
     <!-- PAGE 2 --- 3D MODEL VIEW  -->
     <div class="section container-fluid text-center" id="section2">
       <h2>PAGE 2</h2>
@@ -115,56 +129,108 @@
         </p>
       </div>
     </div>
+
     <!-- PAGE 3 IMAGE GALLERY -->
-    <div class="section text-center" id="section3">
+    <div class="section text-center container-fluid" id="section3">
       <div id="bg3">
         <video loop muted data-autoplay id="bg-video3" src="media/ken.mp4" type="video/mp4"></video>
       </div>
-      <h2>page 3</h2>
-      <div class="container mt-5 mb-5">
-        <a class="mybox" href="media/butterfly.png" title="title 1" data-lcl-txt="description 1"
-          data-lcl-author="andrei lungu">
-          <img src="media/butterfly.png" class="mb-2" width="200">
-        </a>
-        <a class="mybox" href="media/icon.png" title="title 2" data-lcl-txt="description 2"
-          data-lcl-author="andrei lungu">
-          <img src="media/icon.png" class="mb-2" width="200">
-        </a>
-        <a class="mybox" href="media/icon2.png" title="title 3" data-lcl-txt="description 3"
-          data-lcl-author="andrei lungu">
-          <img src="media/icon2.png" class="mb-2" width="200">
-        </a>
-        <a class="mybox" href="media/play-icon.png" title="title 4" data-lcl-txt="description 4"
-          data-lcl-author="andrei lungu">
-          <img src="media/play-icon.png" class="mb-2" width="200">
-        </a>
+      <h2>Gallery</h2>
+
+      <!-- margin top; margin bottom -->
+      <div class="container">
+        <div class="row">
+          <a class="mybox col" href="media/butterfly.png" title="title 1" data-lcl-txt="description 1"
+            data-lcl-author="andrei lungu">
+            <img src="media/butterfly.png" class="mb-2" alt="pic1" onContextMenu="return false;">
+          </a>
+          <a class="mybox col" href="media/icon.png" title="title 2" data-lcl-txt="description 2"
+            data-lcl-author="andrei lungu">
+            <img src="media/icon.png" class="mb-2" height="200" alt="pic2" onContextMenu="return false;">
+          </a>
+          <a class="mybox col" href="media/icon2.png" title="title 3" data-lcl-txt="description 3"
+            data-lcl-author="andrei lungu">
+            <img src="media/icon2.png" class="mb-2" height="200" alt="pic3" onContextMenu="return false;">
+          </a>
+          <a class="mybox col" href="media/play-icon.png" title="title 4" data-lcl-txt="description 4"
+            data-lcl-author="andrei lungu">
+            <img src="media/play-icon.png" class="mb-2" height="200" alt="pic4" onContextMenu="return false;">
+          </a>
+        </div>
+
+        <div id="description3"><p>Watch our scene setup which<br> goes straight to the eye and heart S2!</p></div>
+
+        <div class="row ">
+          <a class="mybox col-sm" href="media/butterfly.png" title="title 5" data-lcl-txt="description 5"
+            data-lcl-author="andrei lungu">
+            <img src="media/butterfly.png" id="img5" class="mb-2" height="200" alt="pic5" onContextMenu="return false;">
+          </a>
+          <a class="mybox" href="media/icon.png" title="title 6" data-lcl-txt="description 6"
+            data-lcl-author="andrei lungu">
+            <img src="media/icon.png" class="mb-2 hide-img" height="200" alt="pic6" onContextMenu="return false;">
+          </a>
+          <a class="mybox" href="media/icon2.png" title="title 7" data-lcl-txt="description 7"
+            data-lcl-author="andrei lungu">
+            <img src="media/icon2.png" class="mb-2 hide-img" height="200" alt="pic7" onContextMenu="return false;">
+          </a>
+          <a class="mybox" href="media/play-icon.png" title="title 8" data-lcl-txt="description 8"
+            data-lcl-author="andrei lungu">
+            <img src="media/play-icon.png" class="mb-2 hide-img" height="200" alt="pic8" onContextMenu="return false;">
+          </a>
+        </div>
       </div>
     </div>
+
     <!-- PAGE 4 VIDEO SLIDER  -->
-    <div class="section text-center" id="section4">
+    <div class="section text-center container-fluid" id="section4">
       <h1>VIDEOS</h1>
       <br>
-      <h3>Take a look at our rendered videos!</h3>
+      <!-- <h3>Take a look at our rendered videos!</h3> -->
       <br>
       <div class="splide">
-        <p>hey hey hey</p>
+        <!-- <p>hey hey hey</p> -->
         <div class="splide__track">
           <ul class="splide__list">
             <li class="splide__slide" data-splide-html-video="media/video.mp4">
-              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
-              <p>descriere</p>
+              <img class="thumbnail" src="thumbnails/thumbnail1.png"  height="auto">
+              <p>descriere1</p>
             </li>
             <li class="splide__slide" data-splide-html-video="media/video.mp4">
               <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
-              <p>descriere</p>
+              <p>descriere2</p>
             </li>
             <li class="splide__slide" data-splide-html-video="media/video.mp4">
               <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
-              <p>descriere</p>
+              <p>descriere3</p>
             </li>
             <li class="splide__slide" data-splide-html-video="media/video.mp4">
               <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
-              <p>descriere</p>
+              <p>descriere4</p>
+              <br>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- alt splide  ( nu apare momentan)-->
+      <div class="splide">
+        <!-- <p>hey hey hey2</p> -->
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png"  height="auto">
+              <p>descriere11111</p>
+            </li>
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere2</p>
+            </li>
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere3</p>
+            </li>
+            <li class="splide__slide" data-splide-html-video="media/video.mp4">
+              <img class="thumbnail" src="thumbnails/thumbnail1.png" width="300" height="auto">
+              <p>descriere4</p>
               <br>
             </li>
           </ul>

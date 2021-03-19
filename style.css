@@ -1,5 +1,7 @@
-#bg1 {
+body{
   background-color: black;
+}
+#bg1 {
   position: fixed;
   top: 0;
   right: 0;
@@ -29,11 +31,16 @@
   box-shadow: none !important;
 }
 
+#section1 h2{
+    color: red;
+    padding-top: 15%;
+    font-weight: bold;
+
+}
 
 /*** PAGE 2 ***/
 
 #section2 {
-  background-color: pink;
   position: relative;
   top: 0;
   right: 0;
@@ -54,7 +61,6 @@
 /** PAGE 3 **/
 
 #bg3 {
-  background-color: navy;
   overflow: hidden;
   z-index: -100;
   width: 100%;
@@ -63,28 +69,87 @@
 }
 
 #bg-video3 {
-  position: absolute;
-  /* top: 10vh; */
   left: 0;
   width: inherit;
 }
 
-h2,
-.description {
-  color: white;
+
+#section3 h2{
+  color: red;
+  padding-top: 10vh;
 }
 
-li {
-  background: #cce5ff;
+#section3  img{
+  border-style: outset;
+  border-color: red;
+  border-radius: 5px;
+  background-color: rgba(45, 160, 55, 0.342);
+}
+
+.mybox img {
+  height: 35vh;
+}
+
+.hide-img {
+  display: none;
+}
+
+@media only screen and (max-width: 1200px) {
+  #section3 #img5 {
+    display: none;
+  }
+  #section3 img {
+    height: 30vh;
+  }
+}
+
+/* @media only screen and (max-width: 768px) {
+  #section3 img {
+    height: 100px;
+  }
+} */
+
+#description3{
+  float: left;
+  background-color: rgba(255, 255, 0, 0.493);
+  font-size: large;
+  font-weight: bold;
+  margin-top: 3%;
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+@keyframes slidein {
+  from {
+    margin-right: 100%;
+    width: 0%;
+  }
+
+  to {
+    margin-right: 0%;
+    width: 28.5%;
+  }
+}
+/************/
+#section4 {
+  color: whitesmoke;
+}
+#section4 h1 {
+  color: white;
+}
+#section4 li p {
+  margin-top: 20px;
+  background: blueviolet;
 }
 
 .thumbnail {
   opacity: 0.75;
+  width: 100%;
 }
 
 .thumbnail:hover {
   opacity: 1;
 }
+
 
 
 /* 
@@ -112,7 +177,7 @@ HEADER
 .navigation {
   border: 1px solid rgba(255,255,255,0.1);
   height: 100%;
-  width: 320px;
+  width: 360px;
   /* background: linear-gradient(-135deg, orchid, navy); */
   background-color: rgba(255,255,255,0.1); /*pt bg transparent*/
   color: red;
@@ -125,6 +190,7 @@ HEADER
 
 .navigation .menu {
   list-style-type: none;
+  
 }
 
 .navigation .menu li {
@@ -140,6 +206,7 @@ HEADER
   position: relative;
   z-index: 0;
   text-align: center;
+  background-color: rgba(122, 88, 145, 0.733);
 }
 
 .navigation .menu a::after { /*animatie la hover*/
@@ -161,29 +228,32 @@ HEADER
 /* Closed States */
 .navigation:not(.open) {
   right: 100%;
+  
 }
 
 .navigation:not(.open) .toggle-wrapper .show {
-  right: 0px;
+   right: 0px;
    color: red;
    font-size: 50px;
-   margin: 20px 0 0 50px;
 }
 
 .navigation:not(.open) .toggle-wrapper .hide {
   right: 50px;
+  font-size: 50px;
 }
 
+
+/* The CSS rules for the hamburger toggle button. */
 .navigation .toggle-wrapper {
   border: 1px solid rgba(255,255,255,0.1);
   border-left: none;
-  height: 52px;
-  width: 51px;
+  height: 50px;
+  width: 50px;
   background-color: rgba(255,255,255,0.1);
   overflow: hidden;
   position: absolute;
-  top: -1px;
-  right: calc(0px - 52px);
+  top: 20px;
+  right: -52px;
 }
 
 .navigation .toggle-wrapper i {
@@ -195,11 +265,65 @@ HEADER
   color: inherit;
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0;
   transition: right 0.25s;
 }
 
 .navigation .toggle-wrapper .show {
   right: -50px;
+}
+
+#home-btn:hover, #share-btn:hover {
+  cursor: pointer;
+}
+
+ /******
+ ***  SHARE BUTTON  
+ ******/
+ 
+#socialShare {
+  /* width: 100%; */
+  text-align: right;
+  margin-top: 10px;
+}
+
+/* pentru butonase */
+#socialShare a,
+#socialShare > .socialBox {
+  /* position: relative; */
+  display: inline-block;
+  color: #fff;
+  background-color: transparent;
+  width: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+#socialGallery {
+  transform: translate(-50%, 0);
+  visibility: hidden;
+  width: 400px;
+}
+
+#socialGallery a {
+  margin: 12px 4px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.facebook:hover {
+  background: #3b5998 !important;
+  cursor: pointer;
+}
+
+.twitter:hover {
+  background: #00aced !important;
+}
+
+.whatsapp:hover {
+  background: #128C7E !important;
+}
+@media only screen and (max-width: 480px) {
+  #socialGallery {
+    width: 120px;
+  }
 }
