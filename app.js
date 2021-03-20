@@ -130,53 +130,14 @@ $(function () {
   });
 
   //////////////////////////////////////////////////////////////
-  // video gallery
-  // splide1 = new Splide('.splide', {
-  //   // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
-  //   perPage: 4,
-  //   rewind: true,
-  //   speed: 1000,
-  //   gap: '1em',
-  //   padding: '2em',
-  //   arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
-  //   pagination: false,
-  //   autoplay: true,
-  //   lazyLoad: 'nearby',
-  //   breakpoints: {
-  //     '1000': {
-  //       perPage: 3,
-  //       gap: '2em'
-  //     },
-  //     '900': {
-  //       perPage: 2,
-  //       gap: '2em'
-  //     },
-  //     '650': {
-  //       perPage: 1, 
-  //       gap: '2em'
-  //     }
-  //   },
-  //   video : {
-  //     // hideControls: true,
-  //     // autoplay: true,
-      
-  //     loop: true,
-  //     volume: 1,
-  //   },
-  //   i18n: {
-  //     prev: 'Previous slide',
-  //     next: 'Next slide',
-  //   }
-  // });
-  // // splide1.sync( splide1 );
-  // splide1.mount(window.splide.Extensions);
-
-  document.querySelectorAll('.splide').forEach(carousel => new Splide(carousel, {
+  // video gallery, pentru mobile sa am directie ttb + heightRatio setat
+  splide1 = new Splide('.splide', {
+    // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
     perPage: 4,
     rewind: true,
     speed: 1000,
     gap: '1em',
-    // padding: '2em',
+    padding: '2em',
     arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
     pagination: false,
     autoplay: true,
@@ -184,7 +145,7 @@ $(function () {
     breakpoints: {
       '1000': {
         perPage: 3,
-        gap: '2em'
+        gap: '2em',
       },
       '900': {
         perPage: 2,
@@ -196,24 +157,11 @@ $(function () {
       }
     },
     video : {
-      // hideControls: true,
-      // autoplay: true,
-      
       loop: true,
       volume: 1,
+      disableOverlayUI: true // hides the play button
     },
-    i18n: {
-      prev: 'Previous slide',
-      next: 'Next slide',
-    }
-  }).mount(window.splide.Extensions));
-  
+  });
+  splide1.mount(window.splide.Extensions);
 
-/*
-     * Determine if a slider is navigation for another.
-     * Use "sync" API to synchronize two sliders.
-     *
-     * @type {boolean}
- isNavigation: false, vezi aici pentru 2 slides (coregrafii si alte animatii idk)
-*/ 
 });
