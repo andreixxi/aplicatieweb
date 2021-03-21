@@ -1,6 +1,10 @@
+:root {
+  --color1: rgba(0,255,255,1);
+}
 body{
   background-color: black;
 }
+
 #bg1 {
   position: fixed;
   top: 0;
@@ -37,7 +41,7 @@ body{
 }
 
 #section1 h2{
-    color: rgba(0,255,255,1);
+    color: var(--color1);
     padding-top: 15%;
     font-weight: bold;
 
@@ -190,20 +194,20 @@ HEADER
 
 #bag-btn,
 #share-btn,
+#login-btn ,
 #home-btn {
-  color: rgba(0,255,255,1);
+  color: var(--color1);
   float: right;
   padding: 20px 50px 0 0;
-  font-size: 40px;
+  font-size: 35px;
 }
 
 .navigation {
   border: 1px solid rgba(255,255,255,0.1);
   height: 100%;
   width: 360px;
-  /* background: linear-gradient(-135deg, orchid, navy); */
   background-color: rgba(255,255,255,0.1); /*pt bg transparent*/
-  color: rgba(0,255,255,1);
+  color: var(--color1);
   position: fixed;
   z-index: 9999;
   top: 0;
@@ -213,7 +217,6 @@ HEADER
 
 .navigation .menu {
   list-style-type: none;
-  
 }
 
 .navigation .menu li {
@@ -224,7 +227,7 @@ HEADER
   display: block;
   padding: 20px;
   line-height: 20px;
-  color: rgba(0,255,255,1);
+  color: var(--color1);
   text-decoration: none;
   position: relative;
   z-index: 0;
@@ -256,7 +259,7 @@ HEADER
 
 .navigation:not(.open) .toggle-wrapper .show {
    right: 0px;
-   color: rgba(0,255,255,1);
+   color: var(--color1);
    font-size: 50px;
 }
 
@@ -295,7 +298,7 @@ HEADER
   right: -50px;
 }
 
-#home-btn:hover, #share-btn:hover {
+#home-btn:hover, #share-btn:hover, #login-btn:hover {
   cursor: pointer;
 }
 
@@ -303,8 +306,7 @@ HEADER
  ***  SHARE BUTTON  
  ******/
  
-#socialShare {
-  /* width: 100%; */
+#socialShare  {
   text-align: right;
   margin-top: 10px;
 }
@@ -315,7 +317,7 @@ HEADER
   /* position: relative; */
   display: inline-block;
   color: #fff;
-  background-color: transparent;
+  background-color: transparent;;
   width: 40px;
   line-height: 40px;
   text-align: center;
@@ -349,4 +351,153 @@ HEADER
   #socialGallery {
     width: 120px;
   }
+}
+
+/* ******************** */
+#section5 h1 {
+  color: var(--color1);
+    padding-top: 5%;
+}
+
+/******** AUTHENTICATION FORM  *******/
+#auth {
+  float: right;
+}
+.auth-form {
+  display: none;
+}
+.align {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding-bottom: 8px;
+}
+.logo {
+  position: relative;
+  left: -65%;
+  /* bottom: -100%; */
+  transform: translateY(50%);
+  z-index: 1;
+}
+.card {
+  z-index: 0;
+	/* margin-top: 28px; */
+	height: 100%;
+	max-height: 446px;
+	width: 396px;
+	background: rgba(110, 110, 110, 0.5);
+	border: 1px solid var(--color1);;
+	border-radius: 10px;
+	overflow: hidden;
+	transition: max-height 0.2s;
+}
+.extend {
+	max-height: 480px;
+}
+.head {
+	width: 100%;
+	display: flex;
+	height: 72px;
+	border-bottom: 1px solid var(--color1);;
+	justify-content: space-between;
+}
+.head a {
+	height: 100%;
+	padding: 0 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color1);
+	font-size: 20px;
+	font-weight: 500;
+  text-decoration: none;
+}
+.head .selected {
+	position: relative;
+	color: #00FF5C;
+	font-weight: 700;
+}
+.head .selected:after {
+	position: absolute;
+	content: "";
+	bottom: 0;
+	left: 0;
+	height: 5px;
+	width: 100%;
+	background: #00FF5C;
+	border-radius: 99px 99px 0 0;
+}
+.tabs {
+	height: calc(100% - 72px);
+	display: flex;
+}
+.tabs form {
+	width: 100%;
+	height: 100%;
+	flex-shrink: 0;
+	padding: 44px 38px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	right: 0;
+	transition: right 0.2s;
+}
+.extend form {
+	right: 100%;
+}
+.inputs {
+	width: 100%;
+	padding-top: 6px;
+  
+}
+.input {
+	position: relative;
+	margin-bottom: 20px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+  outline: none;
+  border: none;
+}
+
+.input input {
+	width: 100%;
+	font-size: 17px;
+  background: transparent;
+	border-radius: 8px;
+	padding: 16px 18px 16px 51px;
+	color: rgb(220,220,220); /*font-color*/
+  border-left: hidden;
+  border-top: hidden;
+  border-right: hidden;
+  border-color: var(--color1);
+}
+::placeholder {
+  color: white;
+  opacity: 1;
+}
+.input input:focus {
+  outline: none;
+}
+.input i {
+	width: 16px;
+	position: absolute;
+	left: 19px;
+  color: var(--color1);
+}
+
+.card button {
+	display: block;
+	background: transparent;
+	padding: 14px 52px;
+	border-radius: 12px;
+	color: var(--color1);
+	font-weight: 700;
+	font-size: 21px;
+	cursor: pointer;
+  border-color: var(--color1);
 }

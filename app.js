@@ -2,26 +2,27 @@ $(function () {
   // DO NOT DELETE
   $('#fullpage').fullpage({
     menu: '#menu',
-    anchors: ['main', '3d-view', 'images', 'videos'],
+    anchors: ['main', '3d-view', 'images', 'videos', 'something'],
     // sectionsColor: ['', '#7BAABE', '', '#7BAABE'], //Define the CSS background-color property for each section
     css3: true,
     controlArrows: true, //Determines whether to use control arrows for the slides to move right or left.
   });
 
   // MENU
-  $('.navigation .toggle-wrapper .show').on('click', function () {
-    $('.navigation').addClass('open');
-  });
+  {
+    $('.navigation .toggle-wrapper .show').on('click', function () {
+      $('.navigation').addClass('open');
+    });
 
-  $('.navigation .toggle-wrapper .hide').on('click', function () {
-    $('.navigation').removeClass('open');
-  });
+    $('.navigation .toggle-wrapper .hide').on('click', function () {
+      $('.navigation').removeClass('open');
+    });
 
-  // CLOSE MENU AFTER CHOOSING 1 PAGE
-  $('.navigation .menu li').on('click', function () {
-    $('.navigation').removeClass('open');
-  });
-
+    // CLOSE MENU AFTER CHOOSING 1 PAGE
+    $('.navigation .menu li').on('click', function () {
+      $('.navigation').removeClass('open');
+    });
+  }
 
   // HOME BUTTON: GO TO 1ST PAGE
   $('#home-btn').on('click', function () {
@@ -32,19 +33,14 @@ $(function () {
   // SHARE BUTTON
   // OPEN THE BUTTONS AND SMALL ANIMATION
   $(document).on('click', '#socialShare > .socialBox', function () {
-
     var self = $(this);
     var element = $('#socialGallery a');
     var c = 0;
-
     if (self.hasClass('animate')) {
       return;
     }
-
     if (!self.hasClass('open')) {
-
       self.addClass('open');
-
       TweenMax.staggerTo(element, 0.3, {
         opacity: 1,
         visibility: 'visible'
@@ -55,7 +51,6 @@ $(function () {
         ease: Cubic.easeOut
       },
         0.075);
-
       TweenMax.staggerTo(element, 0.2, {
         top: 0,
         delay: 0.1,
@@ -68,11 +63,8 @@ $(function () {
         }
       },
         0.075);
-
       self.addClass('animate');
-
     } else {
-
       TweenMax.staggerTo(element, 0.3, {
         opacity: 0,
         onComplete: function () {
@@ -88,36 +80,47 @@ $(function () {
   });
 
   // ACTUAL SHARE
+  {
+    const facebookBtn = document.querySelector(".facebook");
+    const twitterBtn = document.querySelector(".twitter");
+    const whatsappBtn = document.querySelector(".whatsapp");
 
-  const facebookBtn = document.querySelector(".facebook");
-  const twitterBtn = document.querySelector(".twitter");
-  const whatsappBtn = document.querySelector(".whatsapp");
+    function init() {
 
-  function init() {
+      let postUrl = encodeURI(document.location.href);
+      let postTitle = encodeURI("Hi everyone!! Check out this website: ");
+      /* 
+     whatsapp https://api.whatsapp.com/send?text=[post-title] [post-url]
+     fb https://www.facebook.com/sharer.php?u=[post-url]
+     twitter https://twitter.com/share?url=[post-url]&text=[post-title]&via=[via]&hashtags=[hashtags]
+     */
+      facebookBtn.setAttribute("href", `https://www.facebook.com/sharer.php?u=${postUrl}`);
+      twitterBtn.setAttribute("href", `https://twitter.com/share?url=${postUrl}&text=${postTitle}`);
+      whatsappBtn.setAttribute("href", `https://wa.me/?text=${postTitle} ${postUrl}`);
+    }
 
-    let postUrl = encodeURI(document.location.href);
-    let postTitle = encodeURI("Hi everyone!! Check out this website: ");
-    /* 
-   whatsapp https://api.whatsapp.com/send?text=[post-title] [post-url]
-   fb https://www.facebook.com/sharer.php?u=[post-url]
-   twitter https://twitter.com/share?url=[post-url]&text=[post-title]&via=[via]&hashtags=[hashtags]
-   */
-    facebookBtn.setAttribute("href", `https://www.facebook.com/sharer.php?u=${postUrl}`);
-    twitterBtn.setAttribute("href", `https://twitter.com/share?url=${postUrl}&text=${postTitle}`);
-    whatsappBtn.setAttribute("href", `https://wa.me/?text=${postTitle} ${postUrl}`);
+    init();
   }
 
-  init();
-
+  var vDownload = false;
+  firebaseApp.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // available properties: https://firebase.google.com/docs/reference/js/firebase.User
+      vDownload = true; // the user can download from img gallery
+    } else {
+      vDownload = false;
+    }
+  });
   //////////////////////////////////////////////////////////////
   // for image gallery
- lc_lightbox('.mybox', {
+
+  lc_lightbox('.mybox', {
     wrap_class: 'lcl_face_oc',
     gallery: true,
     skin: 'dark',
     counter: true,
     fullscreen: true,
-    download: true,
+    download: vDownload,
     socials: true,
     ol_opacity: 0.5, //lightbox overlay's opacity
     ol_color: '#333', //lightbox overlay's color	
@@ -126,7 +129,7 @@ $(function () {
     radius: 5,
     nav_btn_pos: 'middle',
     rclick_prevent: true
-    /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/ 
+    /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
   });
 
   //////////////////////////////////////////////////////////////
@@ -152,11 +155,11 @@ $(function () {
         gap: '2em'
       },
       '650': {
-        perPage: 1, 
+        perPage: 1,
         gap: '2em'
       }
     },
-    video : {
+    video: {
       loop: true,
       volume: 1,
       disableOverlayUI: true // hides the play button

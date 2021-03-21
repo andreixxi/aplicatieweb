@@ -27,6 +27,8 @@
   <link
     href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/css/splide-extension-video.min.css"
     rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
   <!-- ------------------------------------------------------------------------------------------------------- -->
   <!-- SCRIPTS -->
   <!-- jquery -->
@@ -50,8 +52,16 @@
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script> <!-- for sns buttons-->
-
-
+  <!-- login -->
+  <script src="login.js"></script>
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+  <!-- Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+  <script src="firebase.js"></script>
 </head>
 
 <body>
@@ -67,20 +77,64 @@
         <li data-menuanchor="3d-view"><a href="#3d-view">3D view</a></li>
         <li data-menuanchor="images"><a href="#images">Images</a></li>
         <li data-menuanchor="videos"><a href="#videos">Videos</a></li>
+        <li data-menuanchor="something"><a href="#something">something</a></li>
       </ul>
     </div>
 
     <!-- RIGHT SIDE ICONS  -->
     <i class="bi bi-bag-check" id="bag-btn"></i>
     <i class="bi bi-house" id="home-btn"></i>
+    <div id="auth">
+      <i class="bi bi-person-bounding-box show" id="login-btn"></i>
+      <div class="auth-form">
+        <div class="align">
+          <img class="logo" src="media/logo.svg">
+          <div class="card">
+            <div class="head">
+              <div></div>
+              <a id="login" class="selected" href="#login">Login</a>
+              <a id="register" href="#register">Register</a>
+              <div></div>
+            </div>
+            <div class="tabs">
+              <form>
+                <div class="inputs">
+                  <div class="input">
+                    <input placeholder="Email" type="text">
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                  <div class="input">
+                    <input placeholder="Password" type="password">
+                    <i class="bi bi-shield-lock"></i>
+                  </div>
+                </div>
+                <button>Login</button>
+              </form>
+              <form>
+                <div class="inputs">
+                  <div class="input">
+                    <input placeholder="Email" type="text">
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                  <div class="input">
+                    <input placeholder="Password" type="password">
+                    <i class="bi bi-shield-lock"></i>
+                  </div>
+                </div>
+                <button>Register</button>
+              </form>
+            </div>
+          </div>
+        </div>
 
+      </div>
+    </div>
 
     <div id="socialShare">
       <div class="socialBox">
         <i class="bi bi-share" id="share-btn"></i>
         <div id="socialGallery">
           <div class="socialToolBox container">
-            <!-- eventual la story pe insta; fb messenger; kakao; line;  -->
             <a class="facebook" href="#" target="_blank"><i class="bi bi-facebook"></i></a>
             <a class="twitter" href="#" target="_blank"><i class="bi bi-twitter"></i></a>
             <a class="whatsapp" href="#" target="_blank"><i class="bi bi-whatsapp"></i></a>
@@ -89,6 +143,8 @@
       </div>
 
     </div>
+
+
   </div>
 
 
@@ -253,7 +309,8 @@
               <p>descriere3</p>
             </li>
             <li class="splide__slide">
-              <a href="https://www.youtube.com/watch?v=en4BDQgflG0&ab_channel=Apink%28%EC%97%90%EC%9D%B4%ED%95%91%ED%81%AC%29" data-lity>
+              <a href="https://www.youtube.com/watch?v=en4BDQgflG0&ab_channel=Apink%28%EC%97%90%EC%9D%B4%ED%95%91%ED%81%AC%29"
+                data-lity>
                 <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail1.png" alt="video with 1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
                   <path
@@ -272,7 +329,14 @@
         </div>
       </div>
     </div>
+
+    <!-- PAGE 5 -->
+    <div class="section text-center container-fluid" id="section5">
+
+    </div>
+
   </div>
+  <!--fullpage end-->
 
   <script src="app.js"></script>
   <!-- <script type="module" src="load3D.js"></script> -->
