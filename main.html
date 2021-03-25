@@ -6,7 +6,6 @@
   <title>Web app</title>
   <meta name="author" content="Lungu Andrei" />
   <meta name="Resource-type" content="Document" />
-  <link rel="shortcut icon" href="#">
   <link rel="shortcut icon" href="media/icon.PNG" type="image/x-icon">
   <!-- full page  -->
   <!-- <link rel="stylesheet" type="text/css" href="fullPage.js/dist/fullpage.css" /> -->
@@ -52,16 +51,16 @@
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script> <!-- for sns buttons-->
-  <!-- login -->
-  <script src="login.js"></script>
   <!-- firebase -->
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
   <!-- Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
   <script src="firebase.js"></script>
+  <!-- font icon-->
+  <script src="https://kit.fontawesome.com/a69a1aaae4.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -86,6 +85,7 @@
     <i class="bi bi-house" id="home-btn"></i>
     <div id="auth">
       <i class="bi bi-person-bounding-box show" id="login-btn"></i>
+      <i class="bi bi-box-arrow-right" id="signout"></i>
       <div class="auth-form">
         <div class="align">
           <img class="logo" src="media/logo.svg">
@@ -100,36 +100,45 @@
               <form>
                 <div class="inputs">
                   <div class="input">
-                    <input placeholder="Email" type="text">
+                    <input placeholder="Email" type="email" id="lemail">
                     <i class="bi bi-envelope"></i>
+                    <span class="errorMsg"></span>
                   </div>
                   <div class="input">
-                    <input placeholder="Password" type="password">
+                    <input placeholder="Password" type="password" id="lpassword">
                     <i class="bi bi-shield-lock"></i>
+                    <p class="errorMsg"></p>
                   </div>
                 </div>
-                <button>Login</button>
+                <button id="signin">Login</button>
+                <div id="authProviders">
+                  &nbsp; <p>OR USE ANOTHER ACCOUNT</p>
+                  <i class="bi bi-google" id="googlesignin" title="google"></i>
+                  <i class="bi bi-facebook" id="facebooksignin" title="facebook"></i>
+                  <i class="bi bi-twitter" id="twittersignin" title="twitter"></i>
+                  <i class="fab fa-yahoo" id="yahoosignin" title="yahoo"></i>
+                </div>
               </form>
               <form>
                 <div class="inputs">
                   <div class="input">
-                    <input placeholder="Email" type="text">
+                    <input placeholder="Email" type="email" id="remail">
                     <i class="bi bi-envelope"></i>
+                    <p class="errorMsg"></p>
                   </div>
                   <div class="input">
-                    <input placeholder="Password" type="password">
+                    <input placeholder="Password" type="password" id="rpassword">
                     <i class="bi bi-shield-lock"></i>
+                    <p class="errorMsg"></p>
                   </div>
                 </div>
-                <button>Register</button>
+                <button id="signup">Register</button>
               </form>
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
     <div id="socialShare">
       <div class="socialBox">
         <i class="bi bi-share" id="share-btn"></i>
@@ -171,9 +180,9 @@
 
     <!-- PAGE 2 --- 3D MODEL VIEW  -->
     <div class="section container-fluid text-center" id="section2">
-      <h2>PAGE 2</h2>
-      <!-- <div id="bg2">PAGE 2</div> -->
-      <div class="sketchfab-embed-wrapper">
+      <h2 style="color:white">PAGE 2</h2>
+      <div id="bg2">PAGE 2</div>
+      <!-- <div class="sketchfab-embed-wrapper">
         <iframe title="Test"
           src="https://sketchfab.com/models/33a150b845ee4b399f8a9c3709248013/embed?autostart=1&ui_theme=dark"></iframe>
         <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
@@ -184,7 +193,7 @@
           on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campaign=share-popup"
             target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
         </p>
-      </div>
+      </div> -->
     </div>
 
     <!-- PAGE 3 IMAGE GALLERY -->
@@ -337,8 +346,9 @@
 
   </div>
   <!--fullpage end-->
-
-  <script src="app.js"></script>
+  <!-- login -->
+  <script type="module" src="login.js"></script>
+  <script type="module" src="app.js"></script>
   <!-- <script type="module" src="load3D.js"></script> -->
 </body>
 

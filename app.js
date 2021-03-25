@@ -1,5 +1,5 @@
 $(function () {
-  // DO NOT DELETE
+  // FULLPAGE FOR SCROLL AND MENU 
   $('#fullpage').fullpage({
     menu: '#menu',
     anchors: ['main', '3d-view', 'images', 'videos', 'something'],
@@ -102,39 +102,46 @@ $(function () {
     init();
   }
 
-  var vDownload = false;
-  firebaseApp.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // available properties: https://firebase.google.com/docs/reference/js/firebase.User
-      vDownload = true; // the user can download from img gallery
-    } else {
-      vDownload = false;
-    }
-  });
   //////////////////////////////////////////////////////////////
-  // for image gallery
+  firebase.auth().onAuthStateChanged(function (user) {
+    var userBool;
+    if (user) {
+      // User is signed in.
+      userBool = true;
+      console.log("user is signed in", userBool);
+      var uid = user.uid;
+      console.log('uid', uid);
 
-  lc_lightbox('.mybox', {
-    wrap_class: 'lcl_face_oc',
-    gallery: true,
-    skin: 'dark',
-    counter: true,
-    fullscreen: true,
-    download: vDownload,
-    socials: true,
-    ol_opacity: 0.5, //lightbox overlay's opacity
-    ol_color: '#333', //lightbox overlay's color	
-    border_w: 5,
-    border_col: '#ddd',
-    radius: 5,
-    nav_btn_pos: 'middle',
-    rclick_prevent: true
-    /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
+    } else {
+      // No user is signed in.
+      userBool = false;
+      console.log("no user is signed in", userBool);
+    }
+
+    // INITIALISE IMAGE GALLERY
+    lc_lightbox('.mybox', {
+      wrap_class: 'lcl_face_oc',
+      gallery: true,
+      skin: 'dark',
+      counter: true,
+      fullscreen: true,
+      download: userBool,
+      socials: true,
+      ol_opacity: 0.5, //lightbox overlay's opacity
+      ol_color: '#333', //lightbox overlay's color	
+      border_w: 5,
+      border_col: '#ddd',
+      radius: 5,
+      nav_btn_pos: 'middle',
+      rclick_prevent: true
+      /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
+    });
   });
 
+  // firebase.auth().signOut();
   //////////////////////////////////////////////////////////////
   // video gallery, pentru mobile sa am directie ttb + heightRatio setat
-  splide1 = new Splide('.splide', {
+  splide = new Splide('.splide', {
     // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
     perPage: 4,
     rewind: true,
@@ -164,7 +171,6 @@ $(function () {
       volume: 1,
       disableOverlayUI: true // hides the play button
     },
-  });
-  splide1.mount(window.splide.Extensions);
+  }).mount(window.splide.Extensions);
 
 });

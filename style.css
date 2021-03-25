@@ -195,13 +195,21 @@ HEADER
 #bag-btn,
 #share-btn,
 #login-btn ,
-#home-btn {
+#home-btn,
+#signout {
   color: var(--color1);
   float: right;
   padding: 20px 50px 0 0;
   font-size: 35px;
 }
 
+#signout{
+  display: none;
+  color: var(--color1);
+}
+#signout:hover {
+  cursor: pointer;
+}
 .navigation {
   border: 1px solid rgba(255,255,255,0.1);
   height: 100%;
@@ -363,6 +371,9 @@ HEADER
 #auth {
   float: right;
 }
+#auth p {
+  color: var(--color1);
+}
 .auth-form {
   display: none;
 }
@@ -500,4 +511,14 @@ HEADER
 	font-size: 21px;
 	cursor: pointer;
   border-color: var(--color1);
+}
+
+#authProviders i {
+  color: var(--color1);
+  margin-right: 20px;
+  opacity: 0.5;
+}
+#authProviders i:hover {
+  cursor: pointer;
+  opacity: 1;
 }

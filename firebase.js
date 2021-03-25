@@ -7,7 +7,8 @@ var firebaseConfig = {
     appId: "1:636171680645:web:276e7106d1742b80c322ec",
     measurementId: "G-LCV9LML3HJ"
 };
-
+ 
 // Initialize Firebase
-var firebaseApp = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+
