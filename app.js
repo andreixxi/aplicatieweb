@@ -2,10 +2,21 @@ $(function () {
   // FULLPAGE FOR SCROLL AND MENU 
   $('#fullpage').fullpage({
     menu: '#menu',
-    anchors: ['main', '3d-view', 'images', 'videos', 'something'],
+    anchors: ['index', '3d-view', 'images', 'videos', 'something'],
     // sectionsColor: ['', '#7BAABE', '', '#7BAABE'], //Define the CSS background-color property for each section
     css3: true,
     controlArrows: true, //Determines whether to use control arrows for the slides to move right or left.
+    onLeave: function (origin, destination, direction) {
+      if (destination.isLast == true) {
+        $('#footer').hide(500);
+      } else {
+        $('#footer').show(500);
+      }
+    }
+  });
+
+  $('#footer i').on('click', function(){
+    fullpage_api.moveSectionDown(); // go to next section when clicking footer
   });
 
   // MENU
@@ -26,7 +37,7 @@ $(function () {
 
   // HOME BUTTON: GO TO 1ST PAGE
   $('#home-btn').on('click', function () {
-    fullpage_api.moveTo('main');
+    fullpage_api.moveTo('index');
   });
 
 
@@ -103,39 +114,38 @@ $(function () {
   }
 
   //////////////////////////////////////////////////////////////
-  firebase.auth().onAuthStateChanged(function (user) {
-    var userBool;
+  // show correct icon (either login or signout) on page refresh
+  firebase.auth().onAuthStateChanged(function (user) {  
     if (user) {
       // User is signed in.
-      userBool = true;
-      console.log("user is signed in", userBool);
-      var uid = user.uid;
-      console.log('uid', uid);
-
+      console.log("user is signed in", user.uid);
+      $('#signout').show();
+      $('#login-btn').hide();
     } else {
       // No user is signed in.
-      userBool = false;
-      console.log("no user is signed in", userBool);
+      console.log("no user is signed in");
+      $('#login-btn').show();
+      $('#signout').hide();
     }
+  });
 
-    // INITIALISE IMAGE GALLERY
-    lc_lightbox('.mybox', {
-      wrap_class: 'lcl_face_oc',
-      gallery: true,
-      skin: 'dark',
-      counter: true,
-      fullscreen: true,
-      download: userBool,
-      socials: true,
-      ol_opacity: 0.5, //lightbox overlay's opacity
-      ol_color: '#333', //lightbox overlay's color	
-      border_w: 5,
-      border_col: '#ddd',
-      radius: 5,
-      nav_btn_pos: 'middle',
-      rclick_prevent: true
-      /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
-    });
+  // INITIALISE IMAGE GALLERY
+  lc_lightbox('.mybox', {
+    wrap_class: 'lcl_face_oc',
+    gallery: true,
+    skin: 'dark',
+    counter: true,
+    fullscreen: true,
+    download: localStorage.getItem('user'),
+    socials: true,
+    ol_opacity: 0.5, //lightbox overlay's opacity
+    ol_color: '#333', //lightbox overlay's color	
+    border_w: 5,
+    border_col: '#ddd',
+    radius: 5,
+    nav_btn_pos: 'middle',
+    rclick_prevent: true
+    /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
   });
 
   // firebase.auth().signOut();
