@@ -2,7 +2,7 @@ $(function () {
   // FULLPAGE FOR SCROLL AND MENU 
   $('#fullpage').fullpage({
     menu: '#menu',
-    anchors: ['index', '3d-view', 'images', 'videos', 'something'],
+    anchors: ['index', '3d-view', 'images', 'videos', 'shop', 'contact'],
     // sectionsColor: ['', '#7BAABE', '', '#7BAABE'], //Define the CSS background-color property for each section
     css3: true,
     controlArrows: true, //Determines whether to use control arrows for the slides to move right or left.
@@ -15,7 +15,7 @@ $(function () {
     }
   });
 
-  $('#footer i').on('click', function(){
+  $('#footer i').on('click', function () {
     fullpage_api.moveSectionDown(); // go to next section when clicking footer
   });
 
@@ -114,19 +114,18 @@ $(function () {
   }
 
   //////////////////////////////////////////////////////////////
-  // show correct icon (either login or signout) on page refresh
-  firebase.auth().onAuthStateChanged(function (user) {  
-    if (user) {
-      // User is signed in.
-      console.log("user is signed in", user.uid);
-      $('#signout').show();
-      $('#login-btn').hide();
-    } else {
-      // No user is signed in.
-      console.log("no user is signed in");
-      $('#login-btn').show();
-      $('#signout').hide();
-    }
+  firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        console.log("user is signed in", user.uid);
+        $('#signout').show();
+        $('#login-btn').hide();
+      } else {
+        // No user is signed in.
+        console.log("no user is signed in");
+        $('#login-btn').show();
+        $('#signout').hide();
+      }
   });
 
   // INITIALISE IMAGE GALLERY
@@ -136,7 +135,6 @@ $(function () {
     skin: 'dark',
     counter: true,
     fullscreen: true,
-    download: localStorage.getItem('user'),
     socials: true,
     ol_opacity: 0.5, //lightbox overlay's opacity
     ol_color: '#333', //lightbox overlay's color	
@@ -144,7 +142,10 @@ $(function () {
     border_col: '#ddd',
     radius: 5,
     nav_btn_pos: 'middle',
-    rclick_prevent: true
+    rclick_prevent: true,
+    elems_parsed: function (opts) {
+      opts['download'] = (localStorage.getItem('user') === 'true' && true);
+    }
     /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
   });
 
@@ -156,7 +157,7 @@ $(function () {
     perPage: 4,
     rewind: true,
     speed: 1000,
-    gap: '1em',
+    gap: '2em',
     padding: '2em',
     arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
     pagination: false,

@@ -127,7 +127,7 @@ $(function () {
                             firebase.auth().signInWithEmailAndPassword(email, dbHash)
                                 .then(function () {
                                     console.log('signed in');
-                                    localStorage.setItem('user', true);
+                                    // localStorage.setItem('user', true);
                                     // hide auth form and show sign out button
                                     $('#login-btn').hide(1000);
                                     $('#signout').show(1000);
@@ -158,7 +158,7 @@ $(function () {
         firebase.auth().signInWithPopup(provider)
             .then(function () {
                 console.log('signed in with google');
-                localStorage.setItem('user', true);
+                // localStorage.setItem('user', true);
                 // hide auth form and show sign out button
                 $('#login-btn').hide(1000);
                 $('#signout').show(1000);
@@ -179,7 +179,7 @@ $(function () {
         firebase.auth().signInWithPopup(provider)
             .then(function () {
                 console.log('signed in with facebook');
-                localStorage.setItem('user', true);
+                // localStorage.setItem('user', true);
                 // hide auth form and show sign out button
                 $('#login-btn').hide(1000);
                 $('#signout').show(1000);
@@ -199,8 +199,8 @@ $(function () {
         var provider = new firebase.auth.TwitterAuthProvider();
         firebase.auth().signInWithPopup(provider)
             .then(function () {
-                console.log('signed in with facebook');
-                localStorage.setItem('user', true);
+                console.log('signed in with twitter');
+                // localStorage.setItem('user', true);
                 // hide auth form and show sign out button
                 $('#login-btn').hide(1000);
                 $('#signout').show(1000);
@@ -220,8 +220,8 @@ $(function () {
         var provider = new firebase.auth.OAuthProvider('yahoo.com');
         firebase.auth().signInWithPopup(provider)
             .then(function () {
-                console.log('signed in with facebook');
-                localStorage.setItem('user', true);
+                console.log('signed in with yahoo');
+                // localStorage.setItem('user', true);
                 // hide auth form and show sign out button
                 $('#login-btn').hide(1000);
                 $('#signout').show(1000);
@@ -242,7 +242,7 @@ $(function () {
         firebase.auth().signOut()
             .then(() => {
                 console.log('signed out');
-                localStorage.setItem('user', false);
+                // localStorage.setItem('user', false);
                 $('#login-btn').show(1000);
                 $('#signout').hide(1000);
             })
