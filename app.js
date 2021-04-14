@@ -2,7 +2,7 @@ $(function () {
   // FULLPAGE FOR SCROLL AND MENU 
   $('#fullpage').fullpage({
     menu: '#menu',
-    anchors: ['index', '3d-view', 'images', 'videos', 'shop', 'contact'],
+    anchors: ['home', '3d-view', 'images', 'videos', 'shop', 'contact'],
     // sectionsColor: ['', '#7BAABE', '', '#7BAABE'], //Define the CSS background-color property for each section
     css3: true,
     controlArrows: true, //Determines whether to use control arrows for the slides to move right or left.
@@ -11,6 +11,17 @@ $(function () {
         $('#footer').hide(500);
       } else {
         $('#footer').show(500);
+      }
+
+      if (destination.anchor == '3d-view') {
+        $('#threedbody').show(500);
+        $('#stats').show(500);
+         $('#panel').show(500);
+      }
+      else {
+        $('#threedbody').hide(500);
+        $('#stats').hide(500);
+        $('#panel').hide(500);
       }
     }
   });
@@ -37,7 +48,7 @@ $(function () {
 
   // HOME BUTTON: GO TO 1ST PAGE
   $('#home-btn').on('click', function () {
-    fullpage_api.moveTo('index');
+    fullpage_api.moveTo('home');
   });
 
 
@@ -117,11 +128,13 @@ $(function () {
   firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
-        console.log("user is signed in", user.uid);
+        localStorage.setItem('user', true);
+        console.log("user is signed in");
         $('#signout').show();
         $('#login-btn').hide();
       } else {
         // No user is signed in.
+        localStorage.setItem('user', false);
         console.log("no user is signed in");
         $('#login-btn').show();
         $('#signout').hide();
@@ -157,7 +170,7 @@ $(function () {
     perPage: 4,
     rewind: true,
     speed: 1000,
-    gap: '2em',
+    gap: '2.1em',
     padding: '2em',
     arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
     pagination: false,

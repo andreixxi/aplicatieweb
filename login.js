@@ -73,7 +73,7 @@ $(function () {
             firebase.auth().createUserWithEmailAndPassword(email, hash)
                 .then(function () {
                     console.log('signed up');
-                    localStorage.setItem('user', true);
+                    // localStorage.setItem('user', true);
                     // hide auth form and show sign out button
                     $('#login-btn').hide(1000);
                     $('#signout').show(1000);

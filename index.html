@@ -66,7 +66,7 @@
   <script type="module" src="login.js"></script>
   <script type="module" src="contact-form.js"></script>
   <script type="module" src="app.js"></script>
-  <!-- <script type="module" src="load3D.js"></script> -->
+  <script type="module" src="load3D.js"></script>
 </head>
 
 <body>
@@ -78,7 +78,7 @@
         <i class="bi bi-x-octagon hide"></i>
       </div>
       <ul class="menu">
-        <li data-menuanchor="index" class="active"><a href="#index">Home</a></li>
+        <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
         <li data-menuanchor="3d-view"><a href="#3d-view">3D view</a></li>
         <li data-menuanchor="images"><a href="#images">Images</a></li>
         <li data-menuanchor="videos"><a href="#videos">Videos</a></li>
@@ -161,7 +161,7 @@
   <div id="fullpage">
     <!-- PAGE 1 --- BG VIDEO + YT EMBED PLAY BUTTON  -->
     <div class="section container" id="section1">
-      <h2>Wonbin - Character Presentation</h2>
+      <h2>Wonbin<br>Character Presentation</h2>
       <a href="https://www.youtube.com/watch?v=phGur4M9ics" data-lity>
         <button type="button" class="btn btn-light" id="button1">
           <!-- imi pot face propriul SVG pentru play -->
@@ -180,21 +180,9 @@
     </div>
 
     <!-- PAGE 2 --- 3D MODEL VIEW  -->
-    <div class="section container-fluid text-center" id="section2">
-      <h2 style="color:white">PAGE 2</h2>
-      <div id="bg2">PAGE 2</div>
-      <!-- <div class="sketchfab-embed-wrapper">
-        <iframe title="Test"
-          src="https://sketchfab.com/models/33a150b845ee4b399f8a9c3709248013/embed?autostart=1&ui_theme=dark"></iframe>
-        <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
-          <a href="https://sketchfab.com/3d-models/test-33a150b845ee4b399f8a9c3709248013" target="_blank"
-            style="font-weight: bold; color: #1CAAD9;">Test</a>
-          by <a href="https://sketchfab.com/la21ixx" target="_blank"
-            style="font-weight: bold; color: #1CAAD9;">la21ixx</a>
-          on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campaign=share-popup"
-            target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-        </p>
-      </div> -->
+    <div class="section" id="section2">
+      <div id="threedbody">
+      </div>
     </div>
 
     <!-- PAGE 3 IMAGE GALLERY -->
@@ -297,8 +285,6 @@
       <br>
       <div class="splide">
         <!-- root -->
-
-        <p>hey hey hey</p>
         <div class="splide__track">
           <!-- track -->
           <ul class="splide__list">
@@ -403,7 +389,7 @@
 
     <!-- PAGE 6 -->
     <div class="section text-center container-fluid" id="section6">
-      <h1 style="color: aqua;"> Contact us </h1>
+      <h1>Contact us</h1>
       <div class="contact-form">
         <p>If you have any questions, suggestions or feedback, please do not hesitate to contact us!	٩(๑･ิᴗ･ิ)۶٩(･ิᴗ･ิ๑)۶</p>
         <div class="align">
@@ -411,7 +397,7 @@
           <div class="card">
             <div class="head">
               <div></div>
-              <a id="login" class="selected" href="#">Contact us</a>
+              <a>Contact us</a>
               <div></div>
             </div>
             <div class="tabs">
