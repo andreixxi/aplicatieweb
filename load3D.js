@@ -149,7 +149,7 @@ function createPanel() {
 
     const panel = new GUI({ width: 310, autoPlace: true });
     panel.domElement.id = 'panel';
-    
+    $('#panel').hide();
     const folder1 = panel.addFolder('Base Actions');
     const folder2 = panel.addFolder('Additive Action Weights');
     const folder3 = panel.addFolder('General Speed');

@@ -15,12 +15,12 @@ $(function () {
 
       if (destination.anchor == '3d-view') {
         $('#threedbody').show(500);
-        $('#stats').show(500);
+        // $('#stats').show(500);
          $('#panel').show(500);
       }
       else {
         $('#threedbody').hide(500);
-        $('#stats').hide(500);
+        // $('#stats').hide(500);
         $('#panel').hide(500);
       }
     }
