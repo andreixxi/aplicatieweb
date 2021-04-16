@@ -8,7 +8,6 @@ import { GLTFLoader } from '/three.js/examples/jsm/loaders/GLTFLoader.js';
 let scene, renderer, camera, stats;
 let model, skeleton, mixer, clock;
 
-
 const crossFadeControls = [];
 
 let currentBaseAction = 'idle';
@@ -28,6 +27,7 @@ let panelSettings, numAnimations;
 
 init();
 
+const material = new THREE.MeshNormalMaterial();
 function init() {
 
     const container = document.getElementById('threedbody');
@@ -53,7 +53,6 @@ function init() {
     scene.add(dirLight);
 
     // ground
-
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
     mesh.rotation.x = - Math.PI / 2;
     mesh.receiveShadow = true;
@@ -65,58 +64,47 @@ function init() {
         model = gltf.scene;
         scene.add(model);
 
+        console.log(model.children);
+        
         model.traverse(function (object) {
-
             if (object.isMesh) object.castShadow = true;
-
         });
 
         skeleton = new THREE.SkeletonHelper(model);
         skeleton.visible = false;
         scene.add(skeleton);
 
+        const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+        let mesh2 = new THREE.Mesh( geometry, material );
+        scene.add( mesh2 );
+
         const animations = gltf.animations;
         mixer = new THREE.AnimationMixer(model);
 
         numAnimations = animations.length;
-
         for (let i = 0; i !== numAnimations; ++i) {
-
             let clip = animations[i];
             const name = clip.name;
-
             if (baseActions[name]) {
-
                 const action = mixer.clipAction(clip);
                 activateAction(action);
                 baseActions[name].action = action;
                 allActions.push(action);
-
             } else if (additiveActions[name]) {
-
                 // Make the clip additive and remove the reference frame
-
                 THREE.AnimationUtils.makeClipAdditive(clip);
-
                 if (clip.name.endsWith('_pose')) {
-
                     clip = THREE.AnimationUtils.subclip(clip, clip.name, 2, 3, 30);
-
                 }
-
                 const action = mixer.clipAction(clip);
                 activateAction(action);
                 additiveActions[name].action = action;
                 allActions.push(action);
-
             }
-
         }
 
         createPanel();
-
         animate();
-
     });
 
     stats = new Stats();
@@ -134,15 +122,12 @@ function init() {
     // camera
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100);
     camera.position.set(- 1, 2, 3);
-
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enablePan = false; // translate camera 
     controls.enableZoom = false;
     controls.target.set(0, 1, 0);
     controls.update();
-
     window.addEventListener('resize', onWindowResize);
-
 }
 
 function createPanel() {
@@ -150,50 +135,42 @@ function createPanel() {
     const panel = new GUI({ width: 310, autoPlace: true });
     panel.domElement.id = 'panel';
     $('#panel').hide();
+
     const folder1 = panel.addFolder('Base Actions');
     const folder2 = panel.addFolder('Additive Action Weights');
     const folder3 = panel.addFolder('General Speed');
+    const folder4 = panel.addFolder('Model Settings');
 
     panelSettings = {
         'modify time scale': 1.0
     };
 
     const baseNames = ['None', ...Object.keys(baseActions)];
-
     for (let i = 0, l = baseNames.length; i !== l; ++i) {
-
         const name = baseNames[i];
         const settings = baseActions[name];
         panelSettings[name] = function () {
-
             const currentSettings = baseActions[currentBaseAction];
             const currentAction = currentSettings ? currentSettings.action : null;
             const action = settings ? settings.action : null;
-
             prepareCrossFade(currentAction, action, 0.35);
-
         };
-
         crossFadeControls.push(folder1.add(panelSettings, name));
-
     }
 
     for (const name of Object.keys(additiveActions)) {
-
         const settings = additiveActions[name];
-
         panelSettings[name] = settings.weight;
         folder2.add(panelSettings, name, 0.0, 1.0, 0.01).listen().onChange(function (weight) {
-
             setWeight(settings.action, weight);
             settings.weight = weight;
-
         });
-
     }
 
     folder3.add(panelSettings, 'modify time scale', 0.0, 1.5, 0.01).onChange(modifyTimeScale);
 
+    folder4.add(material, 'wireframe');
+    
     folder1.open();
     folder2.open();
     folder3.open();
@@ -216,15 +193,10 @@ function createPanel() {
         };
 
         const settings = baseActions[control.property];
-
         if (!settings || !settings.weight) {
-
             control.setInactive();
-
         }
-
     });
-
 }
 
 function activateAction(action) {
