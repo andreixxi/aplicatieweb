@@ -3,7 +3,6 @@ $(function () {
   $('#fullpage').fullpage({
     menu: '#menu',
     anchors: ['home', '3d-view', 'images', 'videos', 'shop', 'contact'],
-    // sectionsColor: ['', '#7BAABE', '', '#7BAABE'], //Define the CSS background-color property for each section
     css3: true,
     controlArrows: true, //Determines whether to use control arrows for the slides to move right or left.
     onLeave: function (origin, destination, direction) {
@@ -197,4 +196,17 @@ $(function () {
     },
   }).mount(window.splide.Extensions);
 
+  //shop slider
+  splide = new Splide('#shop-splide', {
+    // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
+    perPage: 2,
+    rewind: true,
+    speed: 1000,
+    gap: '2.1em',
+    padding: '2em',
+    arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
+    pagination: false,
+    autoplay: true,
+    lazyLoad: 'nearby',
+  }).mount(window.splide.Extensions);
 });

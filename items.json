@@ -1,0 +1,40 @@
+{
+    "images": [
+        {
+            "id": 1,
+            "name": "img1",
+            "price": 3000000,
+            "imgName": "thumbnail2.png"
+        },
+        {
+            "id": 2,
+            "name": "img2",
+            "price": 400,
+            "imgName": "thumbnail2.png"
+        },
+        {
+            "id": 3,
+            "name": "img3",
+            "price": 500,
+            "imgName": "thumbnail2.png"
+        },
+        {
+            "id": 4,
+            "name": "img4",
+            "price": 500,
+            "imgName": "thumbnail2.png"
+        },
+        {
+            "id": 5,
+            "name": "img5",
+            "price": 500,
+            "imgName": "thumbnail2.png"
+        },
+        {
+            "id": 6,
+            "name": "img6",
+            "price": 500,
+            "imgName": "thumbnail2.png"
+        }
+    ]
+}

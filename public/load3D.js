@@ -27,7 +27,6 @@ let panelSettings, numAnimations;
 
 init();
 
-const material = new THREE.MeshNormalMaterial();
 function init() {
 
     const container = document.getElementById('threedbody');
@@ -64,8 +63,6 @@ function init() {
         model = gltf.scene;
         scene.add(model);
 
-        console.log(model.children);
-        
         model.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
         });
@@ -73,10 +70,6 @@ function init() {
         skeleton = new THREE.SkeletonHelper(model);
         skeleton.visible = false;
         scene.add(skeleton);
-
-        const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-        let mesh2 = new THREE.Mesh( geometry, material );
-        scene.add( mesh2 );
 
         const animations = gltf.animations;
         mixer = new THREE.AnimationMixer(model);
@@ -121,17 +114,16 @@ function init() {
 
     // camera
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100);
-    camera.position.set(- 1, 2, 3);
+    camera.position.set(-1, 2, 3);
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enablePan = false; // translate camera 
-    controls.enableZoom = false;
+    controls.enablePan = true; // translate camera 
+    controls.enableZoom = true;
     controls.target.set(0, 1, 0);
     controls.update();
     window.addEventListener('resize', onWindowResize);
 }
 
 function createPanel() {
-
     const panel = new GUI({ width: 310, autoPlace: true });
     panel.domElement.id = 'panel';
     $('#panel').hide();
@@ -142,7 +134,8 @@ function createPanel() {
     const folder4 = panel.addFolder('Model Settings');
 
     panelSettings = {
-        'modify time scale': 1.0
+        'modify time scale': 1.0,
+        'wireframe': false
     };
 
     const baseNames = ['None', ...Object.keys(baseActions)];
@@ -169,27 +162,23 @@ function createPanel() {
 
     folder3.add(panelSettings, 'modify time scale', 0.0, 1.5, 0.01).onChange(modifyTimeScale);
 
-    folder4.add(material, 'wireframe');
+    folder4.add(panelSettings, 'wireframe').onChange(toggleWireframe);
     
     folder1.open();
     folder2.open();
     folder3.open();
+    folder4.open();
 
     crossFadeControls.forEach(function (control) {
-
         control.classList1 = control.domElement.parentElement.parentElement.classList;
         control.classList2 = control.domElement.previousElementSibling.classList;
 
         control.setInactive = function () {
-
             control.classList2.add('control-inactive');
-
         };
 
         control.setActive = function () {
-
             control.classList2.remove('control-inactive');
-
         };
 
         const settings = baseActions[control.property];
@@ -208,6 +197,13 @@ function activateAction(action) {
 
 function modifyTimeScale(speed) {
     mixer.timeScale = speed;
+}
+
+function toggleWireframe(wireframe) {
+	model.traverse( function( object ) {
+		if ( object.isMesh ) 
+            object.material.wireframe = wireframe;
+	});
 }
 
 function prepareCrossFade(startAction, endAction, duration) {

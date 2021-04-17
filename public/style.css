@@ -343,8 +343,8 @@ HEADER
   }
 }
 /***********
-SECTION 4
-*/
+SECTION 4 - VIDEO SLIDER
+***************/
 #section4 {color: var(--color3);
 }
 
@@ -379,12 +379,111 @@ SECTION 4
   fill: url(#MyGradient);
 }
 
-/* ******************** */
+/* ******************** 
+SECTION5 - SHOPPING CART
+************************/
+#section5 {
+  width: 95%;
+}
 #section5 h1 {
   color: var(--color1);
+  padding-top: 100px;
 }
 
-/******** AUTHENTICATION FORM  *******/
+.shop-container {
+  margin-top: 40px;
+}
+
+#shop1 {
+  background-color: var(--color3);
+}
+
+.shop-img {
+  width: 100%;
+}
+#shop-splide .splide__slide {
+  opacity: 1;
+}
+#shop-splide .splide__slide:hover{
+  cursor:auto;
+}
+#shop-splide .splide__slide p{
+  color: var(--color2);
+  margin-top: 10px;
+}
+#shop-splide .splide__slide .row {
+  width: 90%;
+  text-align: center;
+}
+.shopbtn {
+	background: rgba(157, 213, 212, 0.5);
+  margin-top: 7px;
+  height: 30px;
+	border-radius: 8px;
+	color: var(--color2);
+	font-weight: 500;
+	font-size: 15px;
+	cursor: pointer;
+  border-color: var(--color4);
+}
+#cart {
+  text-align: center;
+  color: var(--color4);
+  max-height: 50vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#cart-border{
+  height: 1px;
+  background-color: var(--color4);
+  margin-bottom: 1em;
+}
+#cart h2{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#cart {
+  background-color: var(--color2);
+}
+.cart-row{
+  margin-bottom: 0.5em;
+}
+.cart-quantity-input {
+  height: 20px;
+  width: 40px;
+  border-radius: 5px;
+  padding: 0;
+  text-align: center;
+  margin-right: 25px;
+}
+.btn-purchase, .btn-remove{
+  background: rgba(0,255,255, 0.3);
+	border-radius: 8px;
+	color: var(--color4);
+	font-weight: 500;
+	font-size: 15px;
+  border-color: var(--color4);
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--color3); 
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color5); 
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color1); 
+}
+/******** 
+AUTHENTICATION FORM  
+*******/
 #auth {
   float: right;
 }
@@ -480,7 +579,6 @@ SECTION 4
 .inputs {
 	width: 100%;
 	padding-top: 6px;
-  
 }
 .input {
 	position: relative;

@@ -2,12 +2,12 @@ $(function () {
     // toggle login <-> register 
     $(window).on("hashchange", function () {
         if (location.hash.slice(1) == "register") {
-            $(".card").addClass("extend");
+            $("#auth .card").addClass("extend");
             $("#login").removeClass("selected");
             $("#register").addClass("selected");
             $('#authProviders').hide();
         } else {
-            $(".card").removeClass("extend");
+            $("#auth .card").removeClass("extend");
             $("#login").addClass("selected");
             $("#register").removeClass("selected");
             $('#authProviders').show();

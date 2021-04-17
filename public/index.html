@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Web app</title>
+  <meta name="author" content="Lungu Andrei" />
+  <meta name="Resource-type" content="Document" />
+  <link rel="shortcut icon" href="media/icon.png" type="image/x-icon">
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- mine -->
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <!-- lity (pentru video popup) -->
+  <link href="lity.css" rel="stylesheet">
+  <!-- lc_lightbox -->
+  <link href="lc_lightbox.min.css" rel="stylesheet" />
+  <link href="skins/dark.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/themes/splide-sea-green.min.css"
+    rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/css/splide-extension-video.min.css"
+    rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
+  <!-- ------------------------------------------------------------------------------------------------------- -->
+  <!-- SCRIPTS -->
+  <!-- jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- popper-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.0/umd/popper.min.js"></script>
+  <!-- bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- fullpage (before jquery!!) -->
+  <script type="text/javascript" src="fullPage.js/dist/fullpage.min.js"></script>
+  <!-- lity (for video popup) -->
+  <script src="lity.js"></script>
+  <!-- alloy_finger (image gallery) -->
+  <script src="alloy_finger.min.js"></script>
+  <script src="lc_lightbox.lite.min.js"></script>
+  <!-- splide(for video slider) -->
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/js/splide.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/js/splide-extension-video.min.js"></script>
+  <!-- jQuery Custom Scroller CDN -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script> <!-- for sns buttons-->
+  <!-- firebase -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+  <!-- Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+  <!-- font icon-->
+  <script src="https://kit.fontawesome.com/a69a1aaae4.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+  <script src="store.js"></script>
+  <script type="module" src="login.js"></script>
+  <script type="module" src="contact-form.js"></script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="load3D.js"></script>
+</head>
+
+<body>
+  <div id="header">
+    <!-- LEFT SIDE ICON + MENU  -->
+    <div class="navigation">
+      <div class="toggle-wrapper">
+        <i class="bi bi-list show"></i>
+        <i class="bi bi-x-octagon hide"></i>
+      </div>
+      <ul class="menu">
+        <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
+        <li data-menuanchor="3d-view"><a href="#3d-view">3D view</a></li>
+        <li data-menuanchor="images"><a href="#images">Images</a></li>
+        <li data-menuanchor="videos"><a href="#videos">Videos</a></li>
+        <li data-menuanchor="shop"><a href="#shop">Shop</a></li>
+        <li data-menuanchor="contact"><a href="#contact">Contact us</a></li>
+      </ul>
+    </div>
+    <!-- RIGHT SIDE ICONS  -->
+    <i class="bi bi-bag-check" id="bag-btn"></i>
+    <i class="bi bi-house" id="home-btn"></i>
+    <div id="auth">
+      <i class="bi bi-person-bounding-box show" id="login-btn"></i>
+      <i class="bi bi-box-arrow-right" id="signout"></i>
+      <div class="auth-form">
+        <div class="align">
+          <img class="logo" src="media/logo.svg" onContextMenu="return false;">
+          <div class="card">
+            <div class="head">
+              <div></div>
+              <a id="login" class="selected" href="#login">Login</a>
+              <a id="register" href="#register">Register</a>
+              <div></div>
+            </div>
+            <div class="tabs">
+              <form>
+                <div class="errorMsg"></div>
+                <div class="inputs loginform">
+                  <div class="input">
+                    <input placeholder="Email" type="email" id="lemail" required>
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                  <div class="input">
+                    <input placeholder="Password" type="password" id="lpassword" required>
+                    <i class="bi bi-shield-lock"></i>
+                  </div>
+                </div>
+                <button id="signin">Login</button>
+                <div id="authProviders">
+                  &nbsp; <p>OR USE ANOTHER ACCOUNT</p>
+                  <i class="bi bi-google" id="googlesignin" title="google"></i>
+                  <i class="bi bi-facebook" id="facebooksignin" title="facebook"></i>
+                  <i class="bi bi-twitter" id="twittersignin" title="twitter"></i>
+                  <i class="fab fa-yahoo" id="yahoosignin" title="yahoo"></i>
+                </div>
+              </form>
+              <form>
+                <div class="errorMsg"></div>
+                <div class="inputs registerform">
+                  <div class="input">
+                    <input placeholder="Email" type="email" id="remail" required>
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                  <div class="input">
+                    <input placeholder="Password" type="password" id="rpassword" required>
+                    <i class="bi bi-shield-lock"></i>
+                  </div>
+                </div>
+                <button id="signup">Register</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="socialShare">
+      <div class="socialBox">
+        <i class="bi bi-share" id="share-btn"></i>
+        <div id="socialGallery">
+          <div class="socialToolBox container">
+            <a class="facebook" href="#" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a class="twitter" href="#" target="_blank"><i class="bi bi-twitter"></i></a>
+            <a class="whatsapp" href="#" target="_blank"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="fullpage">
+    <!-- PAGE 1 --- BG VIDEO + YT EMBED PLAY BUTTON  -->
+    <div class="section container" id="section1">
+      <h2>Wonbin<br>Character Presentation</h2>
+      <a href="https://www.youtube.com/watch?v=phGur4M9ics" data-lity>
+        <button type="button" class="btn btn-light" id="button1">
+          <!-- imi pot face propriul SVG pentru play -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(0,255,255,1)" class="bi bi-play-btn"
+            viewBox="0 0 16 16">
+            <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+            <path
+              d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+          </svg>
+        </button>
+      </a>
+      <!-- BACKGROUND VIDEO -->
+      <div id="bg1">
+        <video loop muted data-autoplay id="bg-video1" src="media/video.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+
+    <!-- PAGE 2 --- 3D MODEL VIEW  -->
+    <div class="section" id="section2">
+      <div id="threedbody"></div>
+    </div>
+
+    <!-- PAGE 3 IMAGE GALLERY -->
+    <div class="section container-fluid" id="section3">
+      <h2>Gallery</h2>
+      <div class="gallery-container">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col align-self-center">
+              <a class="mybox" href="media/butterfly.png" title="title 1" data-lcl-txt="description 1"
+                data-lcl-author="andrei lungu" onContextMenu="return false;">
+                <svg viewBox='0 0 120 100' class="border-img">
+                  <defs>
+                    <pattern id="galleryimg1" patternUnits="userSpaceOnUse" width="120" height="100">
+                      <image href="media/butterfly.png" x="0" y="0" width="120" height="150" />
+                    </pattern>
+                  </defs>
+                  <path
+                    d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
+                    style='stroke:var(--color1); fill: url(#galleryimg1)' />
+                </svg>
+              </a>
+            </div>
+            <div class="col align-self-start">
+              <a class="mybox" href="media/butterfly.png" title="title 2" data-lcl-txt="description 2"
+                data-lcl-author="andrei lungu" onContextMenu="return false;">
+                <svg viewBox='0 0 120 100' class="border-img">
+                  <defs>
+                    <pattern id="galleryimg2" patternUnits="userSpaceOnUse" width="120" height="100">
+                      <image href="media/butterfly.png" x="0" y="0" width="130" height="130" />
+                    </pattern>
+                  </defs>
+                  <path
+                    d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
+                    style='stroke:var(--color1); fill: url(#galleryimg2)' />
+                </svg>
+              </a>
+            </div>
+            <div class="col align-self-end">
+              <a class="mybox" href="media/icon2.png" title="title 3" data-lcl-txt="description 3"
+                data-lcl-author="andrei lungu" onContextMenu="return false;">
+                <svg viewBox='0 0 120 100' class="border-img">
+                  <defs>
+                    <pattern id="galleryimg3" patternUnits="userSpaceOnUse" width="120" height="100">
+                      <image href="media/logo.svg" x="0" y="0" width="100" height="100" />
+                    </pattern>
+                  </defs>
+                  <path
+                    d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
+                    style='stroke:var(--color1); fill: url(#galleryimg3)' />
+                </svg>
+              </a>
+            </div>
+            <div class="col align-self-center">
+              <a class="mybox" href="media/butterfly.png" title="title 4" data-lcl-txt="description 4"
+                data-lcl-author="andrei lungu" onContextMenu="return false;">
+                <svg viewBox='0 0 120 100' class="border-img">
+                  <defs>
+                    <pattern id="galleryimg4" patternUnits="userSpaceOnUse" width="120" height="100">
+                      <image href="media/butterfly.png" x="0" y="0" width="50" height="150" />
+                    </pattern>
+                  </defs>
+                  <path
+                    d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
+                    style='stroke:var(--color1); fill: url(#galleryimg4)' />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a class="mybox" href="media/butterfly.png" title="title 5" data-lcl-txt="description 5"
+          data-lcl-author="andrei lungu">
+          <img src="media/butterfly.png" class="hide-img" alt="pic5" onContextMenu="return false;">
+        </a>
+        <a class="mybox" href="media/butterfly.png" title="title 6" data-lcl-txt="description 6"
+          data-lcl-author="andrei lungu">
+          <img src="media/icon.png" class="hide-img" alt="pic6" onContextMenu="return false;">
+        </a>
+        <a class="mybox" href="media/icon2.png" title="title 7" data-lcl-txt="description 7"
+          data-lcl-author="andrei lungu">
+          <img src="media/icon2.png" class="hide-img" alt="pic7" onContextMenu="return false;">
+        </a>
+        <a class="mybox" href="media/play-icon.png" title="title 8" data-lcl-txt="description 8"
+          data-lcl-author="andrei lungu">
+          <img src="media/play-icon.png" class="hide-img" alt="pic8" onContextMenu="return false;">
+        </a>
+      </div>
+      <div id="description3">
+        <p>Watch our scene setup which goes straight to the eye and heart S2!<br><br>
+          Rendered both in eevee and cycles! ٩(◕‿◕｡)۶<br><br>
+          <span>!!! If you want to download a picture don't forget to signin !!!</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- PAGE 4 VIDEO SLIDER  -->
+    <div class="section text-center container-fluid" id="section4">
+      <h1>VIDEOS</h1>
+      <br>
+      <h3>Take a look at the rendered videos!</h3>
+      <br>
+      <div class="splide">
+        <!-- root -->
+        <div class="splide__track">
+          <!-- track -->
+          <ul class="splide__list">
+
+            <li class="splide__slide">
+              <a href="media/video.mp4" data-lity>
+                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                  <path
+                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                  <defs>
+                    <linearGradient id="MyGradient">
+                      <stop offset="5%" stop-color="#00FFFF" />
+                      <stop offset="95%" stop-color="#20B2AA" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </a>
+              <p>descriere1</p>
+            </li>
+            <li class="splide__slide">
+              <a href="media/video.mp4" data-lity>
+                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                  <path
+                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                </svg>
+              </a>
+              <p>descriere2</p>
+            </li>
+            <li class="splide__slide">
+              <a href="media/video.mp4" data-lity>
+                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                  <path
+                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                </svg>
+              </a>
+              <p>descriere3</p>
+            </li>
+            <li class="splide__slide">
+              <a href="https://www.youtube.com/watch?v=en4BDQgflG0&ab_channel=Apink%28%EC%97%90%EC%9D%B4%ED%95%91%ED%81%AC%29"
+                data-lity>
+                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                  <path
+                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                </svg>
+              </a>
+              <p>descriere4</p>
+            </li>
+            <li class="splide__slide">
+              <a href="https://www.youtube.com/watch?v=en4BDQgflG0&ab_channel=Apink%28%EC%97%90%EC%9D%B4%ED%95%91%ED%81%AC%29"
+                data-lity>
+                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                  <path
+                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                </svg>
+              </a>
+              <p>descriere5</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5 -->
+    <div class="section container-fluid" id="section5">
+      <h1 class="text-center">SHOP</h1>
+      <div class="row shop-container">
+        <!-- SHOP SLIDER -->
+        <div id="shop1" class="col-md-8 col-md-70">
+          <div class="splide" id="shop-splide">
+            <div class="splide__track">
+              <ul class="splide__list">
+                <li class="splide__slide">
+                  <img class="shop-img" src="thumbnails/thumbnail2.png" alt="video with 1">
+                  <div class="row">
+                    <p class="price col">$3</p>
+                    <p class="desc col">img1</p>
+                    <button class="shopbtn col">add</button>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <img class="shop-img" src="thumbnails/thumbnail2.png" alt="video with 1">
+                  <div class="row">
+                    <p class="price col">$4</p>
+                    <p class="desc col">img2</p>
+                    <button class="shopbtn col">add</button>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <img class="shop-img" src="thumbnails/thumbnail2.png" alt="video with 1">
+                  <div class="row">
+                    <p class="price col">$5</p>
+                    <p class="desc col">img3</p>
+                    <button class="shopbtn col">add</button>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <img class="shop-img" src="thumbnails/thumbnail2.png" alt="video with 1">
+                  <div class="row">
+                    <p class="price col">$5</p>
+                    <p class="desc col">img4</p>
+                    <button class="shopbtn col">add</button>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <img class="shop-img" src="thumbnails/thumbnail2.png" alt="video with 1">
+                  <div class="row">
+                    <p class="price col">$5</p>
+                    <p class="desc col">img5</p>
+                    <button class="shopbtn col">add</button>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <img class="shop-img" src="thumbnails/thumbnail2.png" alt="video with 1">
+                  <div class="row">
+                    <p class="price col">$5</p>
+                    <p class="desc col">img6</p>
+                    <button class="shopbtn col">add</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHOPPING CART -->
+        <div id="cart" class="col-md-4 col-md-30">
+          <h2>CART</h2>
+          <div class="row">
+            <span class="col">ITEM</span>
+            <span class="col">PRICE</span>
+            <span class="col">QUANTITY</span>
+          </div>
+          <div id="cart-border"></div>
+
+          <div class="cart-items"></div>
+
+          <div class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price">$0</span>
+          </div>
+          <button class="btn-purchase" type="button">PURCHASE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 6 -->
+    <div class="section text-center container-fluid" id="section6">
+      <h1>Contact us</h1>
+      <div class="contact-form">
+        <p>If you have any questions, suggestions or feedback, please do not hesitate to contact us!
+          ٩(๑･ิᴗ･ิ)۶٩(･ิᴗ･ิ๑)۶</p>
+        <div class="align">
+          <img class="logo" src="media/butterfly.png">
+          <div class="card">
+            <div class="head">
+              <div></div>
+              <a>Contact us</a>
+              <div></div>
+            </div>
+            <div class="tabs">
+              <form>
+                <div class="alert_msg"></div>
+                <div class="inputs">
+                  <div class="input">
+                    <input placeholder="Name" type="text" id="ctext" required>
+                    <i class="bi bi-person-circle"></i>
+                  </div>
+                  <div class="input">
+                    <input placeholder="Email" type="email" id="cemail" required>
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                  <div class="input">
+                    <input placeholder="Your message" type="text" id="cmessage" required>
+                    <i class="bi bi-chat-dots"></i>
+                  </div>
+                </div>
+                <button id="send">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--fullpage end-->
+  <div id="footer">
+    <i class="bi bi-caret-down-fill"></i>
+    <p>SCROLL DOWN</p>
+  </div>
+</body>
+
+</html>

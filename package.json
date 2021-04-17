@@ -1,8 +1,31 @@
 {
   "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
     "firebase": "^8.3.1",
     "fullpage.js": "^3.1.0",
     "lg-video": "^1.4.0",
-    "lightgallery": "^1.10.0"
+    "lightgallery": "^1.10.0",
+    "stripe": "^8.144.0"
+  },
+  "name": "aplicatieweb",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreixxi/aplicatieweb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreixxi/aplicatieweb/issues"
+  },
+  "homepage": "https://github.com/andreixxi/aplicatieweb#readme",
+  "description": "",
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
