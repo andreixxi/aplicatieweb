@@ -3,8 +3,9 @@
         {
             "id": 1,
             "name": "img1",
-            "price": 3000000,
-            "imgName": "thumbnail2.png"
+            "price": 300,
+            "imgName": "thumbnail2.png",
+            "gDriveLink" : ""
         },
         {
             "id": 2,

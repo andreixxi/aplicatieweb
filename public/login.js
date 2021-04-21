@@ -106,7 +106,7 @@ $(function () {
     }
 
     // SIGN IN WITH EMAIL AND PASSWORD
-    $('#signin').on('click',  function () {
+    $('#signin').on('click', function () {
         var valid = true; //check if both email and pass have been completed
         $('.loginform input').each(function () {
             if ($(this).val() == "") {
@@ -116,35 +116,32 @@ $(function () {
         if (valid) {
             var email = $('#lemail').val();
             var rawPassword = $('#lpassword').val();
+            var found = 0;
             db.collection("users").get().then(function (querySnapshot) {
                 querySnapshot.forEach(async function (doc) {
                     if (email == doc.data().email) { // found the email in db
+                        found = 1;
                         var dbHash = doc.data().hash; // get hash and salt from the user stored in db
-                        var dbSalt = doc.data().salt; 
+                        var dbSalt = doc.data().salt;
                         var passSalt = rawPassword.concat(dbSalt); //concat pass and salt
                         var newHash = await digestMessage(passSalt) // apply hash function
-                        if (dbHash == newHash) {
-                            firebase.auth().signInWithEmailAndPassword(email, dbHash)
-                                .then(function () {
-                                    console.log('signed in');
-                                    // localStorage.setItem('user', true);
-                                    // hide auth form and show sign out button
-                                    $('#login-btn').hide(1000);
-                                    $('#signout').show(1000);
-                                    $('.auth-form').hide(1000);
-                                })
-                                .catch((error) => {
-                                        showError();
-                                });
-                        }
-                        else {
-                            showError();
-                        }
-                    }
-                    else {
-                        showError();
-                    }
-                });
+                        firebase.auth().signInWithEmailAndPassword(email, newHash)
+                            .then(function () {
+                                console.log('signed in');
+                                // localStorage.setItem('user', true);
+                                // hide auth form and show sign out button
+                                $('#login-btn').hide(1000);
+                                $('#signout').show(1000);
+                                $('.auth-form').hide(1000);
+                            })
+                            .catch((error) => {
+                                showError(); // WRONG PASSWORD
+                            });
+                    } // END IF EMAIL == DOC.DATA().EMAIL
+                }); // END QUERY
+                if (found == 0) {
+                    showError(); // EMAIL NOT IN DB
+                }
             })
                 .catch((error) => {
                     console.log("Error getting document:", error);

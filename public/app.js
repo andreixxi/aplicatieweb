@@ -50,6 +50,11 @@ $(function () {
     fullpage_api.moveTo('home');
   });
 
+  // SHOP BUTTON: GO TO SHOP PAGE
+  $('#bag-btn').on('click', function() {
+    fullpage_api.moveTo('shop');
+  });
+
 
   // SHARE BUTTON
   // OPEN THE BUTTONS AND SMALL ANIMATION
@@ -196,9 +201,8 @@ $(function () {
     },
   }).mount(window.splide.Extensions);
 
-  //shop slider
+  //SHOP SLIDER
   splide = new Splide('#shop-splide', {
-    // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
     perPage: 2,
     rewind: true,
     speed: 1000,
@@ -208,5 +212,6 @@ $(function () {
     pagination: false,
     autoplay: true,
     lazyLoad: 'nearby',
-  }).mount(window.splide.Extensions);
+  },
+  ).mount(window.splide.Extensions);
 });

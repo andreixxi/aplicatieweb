@@ -3,6 +3,8 @@ $(function () {
     $('.cart-quantity-input').on('change', quantityChange); //update quantity
     $('.shopbtn').on('click', addCartItem); //add item
     $('.btn-purchase').on('click', purchase); //purchase
+
+    $('.shop-form').hide();
 });
 
 function removeCartItem(event) {
@@ -25,19 +27,102 @@ function addCartItem(event) {
     var title = item.getElementsByClassName('desc')[0].innerText;
     var price = item.getElementsByClassName('price')[0].innerText.replace('$', '');
     var imgSrc = item.getElementsByClassName('shop-img')[0].src;
-    addItemToCart(title, price, imgSrc);
+    var id = item.dataset.itemId;
+    addItemToCart(title, price, imgSrc, id);
     updateCartTotal();
+}
+
+var stripeHandler = StripeCheckout.configure({
+    key: stripePublicKey,
+    locale: 'en',
+    token: function (token) {
+        var items = [];
+        var customer = {};
+
+        var name = $(".shop-form input[name='name']").val();
+        var email = $(".shop-form input[name='email']").val();
+      
+        customer.name = name;
+        customer.email = email;
+
+        var cartItemContainer = document.getElementsByClassName('cart-items')[0];
+        var cartRows = cartItemContainer.getElementsByClassName('cart-row');
+
+        for (var i = 0; i < cartRows.length; i++) {
+            var cartRow = cartRows[i];
+            var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0];
+            var quantity = quantityElement.value;
+            var id = cartRow.dataset.itemId;
+            items.push({
+                id: id,
+                quantity: quantity
+            });
+        }
+
+        fetch('/purchase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                stripeTokenId: token.id,
+                items: items,
+                customer: customer
+            })
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            alert(data.message);
+            //empty cart
+            var cartItems = $('.cart-items');
+            cartItems.empty();
+            updateCartTotal();
+        }).catch(function (error) {
+            console.error(error);
+        });
+    }
+});
+
+function sendEmail(inputEmail, inputName, link) {
+    emailjs.init('user_T9Jn1YIeD2qZZS2zmpU0K');
+    emailjs.send("gmail", "template_shop", {
+        from_name: "LA21",
+        to_name: inputName,
+        to_email: inputEmail,
+        link: link // TODO
+    }).then((result) => {
+        console.log(result.text)
+    }, (error) => {
+        console.log(error.text);
+    });
 }
 
 function purchase() {
-    alert('Thank you for your purchase.');
-    var cartItems = $('.cart-items');
-    cartItems.empty();
-    updateCartTotal();
+    var price = parseFloat(document.getElementsByClassName('cart-total-price')[0].innerText.replace('$', '')) * 100;
+    $('.shop-form').show(500);
+    $('.shop-container').hide(500);
+    $('#shop-confirm').on('click', function (event) {
+        event.preventDefault();
+        var valid = true; //check if values have been completed
+        $('.shop-form input').each(function () {
+            if ($(this).val() == "") {
+                valid = false;
+            }
+        });
+        if (valid) {
+            $('.shop-form').hide(500);
+            stripeHandler.open({
+                amount: price,
+            });
+        }
+    });
 }
 
-function addItemToCart(title, price, imgSrc) {
+function addItemToCart(title, price, imgSrc, id) {
     var cartRow = document.createElement('div');
+    cartRow.classList.add('cart-row');
+    cartRow.dataset.itemId = id;
     var cartItems = $('.cart-items')[0];
     var cartItemNames = cartItems.getElementsByClassName('cart-item-title');
     for (var i = 0; i < cartItemNames.length; i++) {
@@ -46,7 +131,7 @@ function addItemToCart(title, price, imgSrc) {
             return;
         }
     }
-    var cartRowContent = `<div class="row cart-row">
+    var cartRowContent = `<div class="row">
                                 <div class="col">
                                     <img class="cart-item-image" src="${imgSrc}" width="50" height="auto">
                                     <span class="cart-item-title">${title}</span>

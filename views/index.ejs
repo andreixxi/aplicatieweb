@@ -59,11 +59,14 @@
   <!-- font icon-->
   <script src="https://kit.fontawesome.com/a69a1aaae4.js" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-  <script src="store.js"></script>
   <script type="module" src="login.js"></script>
   <script type="module" src="contact-form.js"></script>
   <script type="module" src="app.js"></script>
   <script type="module" src="load3D.js"></script>
+  <!-- stripe before store.js-->
+  <script src="https://checkout.stripe.com/checkout.js" defer></script>
+  <script>var stripePublicKey = '<%= stripePublicKey %>'</script>
+  <script src="store.js" defer></script>
 </head>
 
 <body>
@@ -75,12 +78,12 @@
         <i class="bi bi-x-octagon hide"></i>
       </div>
       <ul class="menu">
-        <li data-menuanchor="home" class="active"><a href="home">Home</a></li>
-        <li data-menuanchor="3d-view"><a href="3d-view">3D view</a></li>
-        <li data-menuanchor="images"><a href="images">Images</a></li>
-        <li data-menuanchor="videos"><a href="videos">Videos</a></li>
-        <li data-menuanchor="shop"><a href="shop">Shop</a></li>
-        <li data-menuanchor="contact"><a href="contact">Contact us</a></li>
+        <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
+        <li data-menuanchor="3d-view"><a href="#3d-view">3D view</a></li>
+        <li data-menuanchor="images"><a href="#images">Images</a></li>
+        <li data-menuanchor="videos"><a href="#videos">Videos</a></li>
+        <li data-menuanchor="shop"><a href="#shop">Shop</a></li>
+        <li data-menuanchor="contact"><a href="#contact">Contact us</a></li>
       </ul>
     </div>
     <!-- RIGHT SIDE ICONS  -->
@@ -381,7 +384,32 @@
 
     <!-- PAGE 5 -->
     <div class="section container-fluid" id="section5">
-      <h1 class="text-center">SHOP carne de cal</h1>
+      <h1 class="text-center">SHOP</h1>
+      <!-- SHOP FORM-->
+      <div class="shop-form">
+        <div class="head">
+              <div></div>
+              <a>PLEASE ENTER THE DELIVERY DETAILS</a>
+              <div></div>
+            </div>
+        <div class="tabs">
+          <form>
+            <div class="alert_msg"></div>
+            <div class="inputs">
+              <div class="input">
+                <input placeholder="Name" type="text" id="stext" name="name" required>
+                <i class="bi bi-person-circle"></i>
+              </div>
+              <div class="input">
+                <input placeholder="Email" type="email" id="semail" name="email" required>
+                <i class="bi bi-envelope"></i>
+              </div>
+            </div>
+            <button id="shop-confirm">Confirm</button>
+          </form>
+        </div>
+      </div>
+
       <div class="row shop-container">
         <!-- SHOP SLIDER -->
         <div id="shop1" class="col-md-8 col-md-70">
@@ -389,11 +417,14 @@
             <div class="splide__track">
               <ul class="splide__list">
                 <% items.images.forEach(function(item) { %>
-                  <li class="splide__slide" data-item-id="<%= item.id  %>">
-                    <img class="shop-img" src="thumbnails/<%= item.imgName  %>" alt="video with 1">
+                  <li class="splide__slide" data-item-id="<%= item.id %>">
+                    <img class="shop-img" src="thumbnails/<%= item.imgName %>" alt="video">
                     <div class="row">
-                      <p class="price col">$<%= item.price / 100  %></p>
-                      <p class="desc col"><%= item.name  %> </p>
+                      <p class="price col">$<%= item.price / 100 %>
+                      </p>
+                      <p class="desc col">
+                        <%= item.name %>
+                      </p>
                       <button class="shopbtn col">add</button>
                     </div>
                   </li>
@@ -406,7 +437,7 @@
         <!-- SHOPPING CART -->
         <div id="cart" class="col-md-4 col-md-30">
           <h2>CART</h2>
-          <div class="row">
+          <div class="row cart-row">
             <span class="col">ITEM</span>
             <span class="col">PRICE</span>
             <span class="col">QUANTITY</span>
@@ -422,6 +453,7 @@
           <button class="btn-purchase" type="button">PURCHASE</button>
         </div>
       </div>
+      
     </div>
 
     <!-- PAGE 6 -->

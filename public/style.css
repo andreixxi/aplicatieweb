@@ -33,12 +33,11 @@ a {
 }
 
 #button1 {
-  position: absolute !important;
   opacity: 0.5;
   background-color: transparent;
   border: none;
-  transform: translate(-50%,-50%);
   position: absolute;
+  transform: translate(-50%,-50%);
   top: 50%;
   left: 50%;
 }
@@ -182,7 +181,7 @@ HEADER
   right: -50px;
 }
 
-#home-btn:hover, #share-btn:hover, #login-btn:hover {
+#home-btn:hover, #share-btn:hover, #login-btn:hover, #bag-btn:hover {
   cursor: pointer;
 }
 
@@ -389,15 +388,13 @@ SECTION5 - SHOPPING CART
   color: var(--color1);
   padding-top: 100px;
 }
-
 .shop-container {
   margin-top: 40px;
+  z-index: -1;
 }
-
 #shop1 {
   background-color: var(--color3);
 }
-
 .shop-img {
   width: 100%;
 }
@@ -433,7 +430,6 @@ SECTION5 - SHOPPING CART
   overflow-y: scroll;
   overflow-x: hidden;
 }
-
 #cart-border{
   height: 1px;
   background-color: var(--color4);
@@ -480,6 +476,26 @@ SECTION5 - SHOPPING CART
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color1); 
+}
+/******** 
+SHOP FORM 
+*****/
+.shop-form {
+  width: 30%;
+  position: absolute;
+  margin: 2% 32%; /* top and bottom ; left and right */
+  background-color: rgba(255, 245, 195, 0.3);
+  z-index: 1;
+}
+.shop-form .head {
+  color: var(--color1);
+}
+#shop-confirm {
+  color: var(--color1);
+  background: transparent;
+  border-radius: 12px;
+  padding: 7px;
+  font-weight: 700;
 }
 /******** 
 AUTHENTICATION FORM  
