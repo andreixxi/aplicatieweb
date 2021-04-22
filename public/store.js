@@ -41,7 +41,7 @@ var stripeHandler = StripeCheckout.configure({
 
         var name = $(".shop-form input[name='name']").val();
         var email = $(".shop-form input[name='email']").val();
-      
+
         customer.name = name;
         customer.email = email;
 
@@ -77,6 +77,11 @@ var stripeHandler = StripeCheckout.configure({
             //empty cart
             var cartItems = $('.cart-items');
             cartItems.empty();
+
+            //show shop again
+            $('.shop-container').show(500);
+            // cartRow.getElementsByClassName('btn-remove')[0].addEventListener('click', removeCartItem);
+            // cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChange);
             updateCartTotal();
         }).catch(function (error) {
             console.error(error);
@@ -84,39 +89,38 @@ var stripeHandler = StripeCheckout.configure({
     }
 });
 
-function sendEmail(inputEmail, inputName, link) {
-    emailjs.init('user_T9Jn1YIeD2qZZS2zmpU0K');
-    emailjs.send("gmail", "template_shop", {
-        from_name: "LA21",
-        to_name: inputName,
-        to_email: inputEmail,
-        link: link // TODO
-    }).then((result) => {
-        console.log(result.text)
-    }, (error) => {
-        console.log(error.text);
-    });
-}
-
 function purchase() {
     var price = parseFloat(document.getElementsByClassName('cart-total-price')[0].innerText.replace('$', '')) * 100;
-    $('.shop-form').show(500);
-    $('.shop-container').hide(500);
-    $('#shop-confirm').on('click', function (event) {
-        event.preventDefault();
-        var valid = true; //check if values have been completed
-        $('.shop-form input').each(function () {
-            if ($(this).val() == "") {
-                valid = false;
+    if (price) {
+        $('.shop-form').show(500);
+        $('.shop-container').hide(500);
+        $('#shop-confirm').on('click', function (event) {
+            event.preventDefault();
+            var valid = true; //check if values have been completed
+            $('.shop-form input').each(function () {
+                if ($(this).val() == "") {
+                    valid = false;
+                }
+            });
+            if (valid) {
+                $('.shop-form').hide(500);
+                stripeHandler.open({
+                    amount: price,
+                });
             }
         });
-        if (valid) {
+        $('.shop-form input').each(function () {
+            $(this).val(''); //empty for future purchases 
+        });
+        // go back
+        $('#shop-back').on('click', function (event) {
+            event.preventDefault();
             $('.shop-form').hide(500);
-            stripeHandler.open({
-                amount: price,
-            });
-        }
-    });
+            $('.shop-container').show(500);
+        });
+    } else {
+        alert('EMPTY CART');
+    }
 }
 
 function addItemToCart(title, price, imgSrc, id) {

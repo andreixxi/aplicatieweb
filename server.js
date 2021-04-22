@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
-const emailInit = process.env.EMAIL_JS_INIT
 const gmailAcc = process.env.gmailAcc
 const gmailPass = process.env.gmailPass
 
@@ -13,8 +12,6 @@ const app = express();
 const fs = require('fs'); //file system module allows you to work with the file system on your computer.
 const stripe = require('stripe')(stripeSecretKey);
 const nodemailer = require("nodemailer");
-// const bodyParser = require('body-parser');
-// const exphbs = require('express-handlebars');
 
 const port = process.env.PORT || 3000;
 
@@ -36,10 +33,35 @@ app.get('/', function (req, res) {
     });
 });
 
+function sendEmail(customerEmail, emailContent) {
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    host: "localhost", // TO CHANGE IF I DEPLOY IT 
+    port: 587, // 465 for web(SSL)
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: gmailAcc,
+        pass: gmailPass,
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+// send mail with defined transport object
+let info = transporter.sendMail({
+    from: `"LA21IXX" <${gmailAcc}>`, // sender address
+    to: customerEmail, // list of receivers
+    subject: "LA21IXX ORDER", // Subject line
+    text: "Hello", // plain text body
+    html: emailContent, // html body
+});
+console.log("Message sent: %s", info.messageId);
+console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+}
 
 app.post('/purchase', function (req, res) {
-    console.log('body', req.body);
-
     fs.readFile('items.json', function (err, data) {
         if (err) {
             res.status(500).end();
@@ -72,36 +94,15 @@ app.post('/purchase', function (req, res) {
             }).then(function () {
                 //success
                 console.log('charge succesful');
-               // res.render('downloadpage.ejs');
-                // create reusable transporter object using the default SMTP transport
-                let transporter = nodemailer.createTransport({
-                    service: 'Gmail',
-                    host: "localhost", // TO CHANGE IF I DEPLOY IT 
-                    port: 587, // 465 for web(SSL)
-                    secure: false, // true for 465, false for other ports
-                    auth: {
-                        user: gmailAcc,
-                        pass: gmailPass,
-                    },
-                    tls: {
-                        rejectUnauthorized: false
-                    }
-                });
 
-                // send mail with defined transport object
-                let info = transporter.sendMail({
-                    from: `"LA21IXX" <${gmailAcc}>`, // sender address
-                    to: customerEmail, // list of receivers
-                    subject: "LA21IXX ORDER", // Subject line
-                    text: "Hello", // plain text body
-                    html: emailContent, // html body
-                });
-                console.log("Message sent: %s", info.messageId);
-                console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-               
+                //send email to customer
+                sendEmail(customerEmail, emailContent);
+
                 res.json({
                     message: 'Successfully purchased items. You will soon get your items via email.'
                 });
+
+                // res.render('downloadpage.ejs');
 
                 //SEND DATA OR SHOW DOWNLOAD BUTTON ON A PROTECTED PAGE....
             }).catch(function () {
@@ -110,6 +111,12 @@ app.post('/purchase', function (req, res) {
             });
         }
     });
+});
+
+app.get('/purchase', function (req, res) {
+
+    res.render('downloadpage.ejs');
+
 });
 
 app.listen(port, () => {

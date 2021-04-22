@@ -405,7 +405,10 @@
                 <i class="bi bi-envelope"></i>
               </div>
             </div>
-            <button id="shop-confirm">Confirm</button>
+            <div id="shop-btns">
+              <button id="shop-back">Go back</button>
+              <button id="shop-confirm">Confirm</button>
+            </div>
           </form>
         </div>
       </div>
@@ -418,7 +421,9 @@
               <ul class="splide__list">
                 <% items.images.forEach(function(item) { %>
                   <li class="splide__slide" data-item-id="<%= item.id %>">
-                    <img class="shop-img" src="thumbnails/<%= item.imgName %>" alt="video">
+                    <a class="myshopbox" href="thumbnails/<%= item.imgName %>" title="<%= item.name %>" onContextMenu="return false;">
+                      <img class="shop-img" src="thumbnails/<%= item.imgName %>" alt="<%= item.imgName %>">
+                    </a>
                     <div class="row">
                       <p class="price col">$<%= item.price / 100 %>
                       </p>

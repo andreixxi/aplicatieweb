@@ -394,6 +394,7 @@ SECTION5 - SHOPPING CART
 }
 #shop1 {
   background-color: var(--color3);
+  max-height: 50vh;
 }
 .shop-img {
   width: 100%;
@@ -490,7 +491,10 @@ SHOP FORM
 .shop-form .head {
   color: var(--color1);
 }
-#shop-confirm {
+#shop-btns {
+  display: block;
+}
+#shop-confirm, #shop-back {
   color: var(--color1);
   background: transparent;
   border-radius: 12px;

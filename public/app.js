@@ -214,4 +214,22 @@ $(function () {
     lazyLoad: 'nearby',
   },
   ).mount(window.splide.Extensions);
+  
+  // SHOP IMG MODALS
+  lc_lightbox('.myshopbox', {
+    wrap_class: 'lcl_face_oc',
+    gallery: false,
+    skin: 'dark',
+    fullscreen: false,
+    socials: false,
+    txt_toggle_cmd: false,
+    ol_opacity: 0.5, //lightbox overlay's opacity
+    ol_color: '#333', //lightbox overlay's color	
+    border_w: 5,
+    border_col: '#ddd',
+    radius: 5,
+    // nav_btn_pos: 'middle',
+    rclick_prevent: true,
+    download: false
+  });
 });
