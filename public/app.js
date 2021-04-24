@@ -210,7 +210,6 @@ $(function () {
     padding: '2em',
     arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
     pagination: false,
-    autoplay: true,
     lazyLoad: 'nearby',
   },
   ).mount(window.splide.Extensions);

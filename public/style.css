@@ -445,7 +445,8 @@ SECTION5 - SHOPPING CART
 }
 .cart-row{
   margin-bottom: 0.5em;
-}
+  display: flex	;
+} 
 .cart-quantity-input {
   height: 20px;
   width: 40px;

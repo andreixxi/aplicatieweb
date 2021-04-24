@@ -15,7 +15,7 @@ function removeCartItem(event) {
 
 function quantityChange(event) {
     var inputChanged = event.target;
-    if (isNaN(inputChanged.value) || inputChanged.value <= 0) { //is number or <= 0
+    if (isNaN(inputChanged.value) || inputChanged.value <= 0) { // input is not number or <= 0
         inputChanged.value = 1;
     }
     updateCartTotal();
@@ -74,6 +74,7 @@ var stripeHandler = StripeCheckout.configure({
             return res.json();
         }).then(function (data) {
             alert(data.message);
+            
             //empty cart
             var cartItems = $('.cart-items');
             cartItems.empty();
@@ -135,8 +136,8 @@ function addItemToCart(title, price, imgSrc, id) {
             return;
         }
     }
-    var cartRowContent = `<div class="row">
-                                <div class="col">
+    var cartRowContent = `
+                                <div class="cart-item col">
                                     <img class="cart-item-image" src="${imgSrc}" width="50" height="auto">
                                     <span class="cart-item-title">${title}</span>
                                 </div>
@@ -145,7 +146,7 @@ function addItemToCart(title, price, imgSrc, id) {
                                     <input class="cart-quantity-input" type="number" value="1">
                                     <button class="btn-remove"><i class="bi bi-x"></i></button>
                                 </div>
-                            </div>`
+                           `
     cartRow.innerHTML = cartRowContent;
     cartItems.append(cartRow);
     cartRow.getElementsByClassName('btn-remove')[0].addEventListener('click', removeCartItem);
@@ -156,15 +157,12 @@ function updateCartTotal() {
     var cartContainer = document.getElementsByClassName('cart-items')[0];
     var cartRows = cartContainer.getElementsByClassName('cart-row');
     var total = 0;
-
     for (var i = 0; i < cartRows.length; i++) {
         var cartRow = cartRows[i];
         var price = parseFloat(cartRow.getElementsByClassName('cart-price')[0].innerText.replace('$', ''));
         var quantity = cartRow.getElementsByClassName('cart-quantity-input')[0].value;
         total += price * quantity;
     }
-
-
     total = (Math.round(total * 100) / 100).toFixed(2);
     $('.cart-total-price')[0].innerText = '$' + total;
 }

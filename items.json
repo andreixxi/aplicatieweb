@@ -5,37 +5,42 @@
             "name": "img1",
             "price": 300,
             "imgName": "hand_sketch.png",
-            "gDriveLink" : ""
+            "path" : "public/thumbnails/"
         },
         {
             "id": 2,
             "name": "img2",
             "price": 400,
-            "imgName": "thumbnail2.png"
+            "imgName": "thumbnail2.png",
+            "path" : "public/thumbnails/"
         },
         {
             "id": 3,
             "name": "img3",
             "price": 500,
-            "imgName": "thumbnail2.png"
+            "imgName": "thumbnail2.png",
+            "path" : "public/thumbnails/"
         },
         {
             "id": 4,
             "name": "img4",
             "price": 500,
-            "imgName": "thumbnail2.png"
+            "imgName": "thumbnail2.png",
+            "path" : "public/thumbnails/"
         },
         {
             "id": 5,
             "name": "img5",
             "price": 500,
-            "imgName": "thumbnail2.png"
+            "imgName": "thumbnail2.png",
+            "path" : "public/thumbnails/"
         },
         {
             "id": 6,
             "name": "img6",
             "price": 500,
-            "imgName": "thumbnail2.png"
+            "imgName": "thumbnail2.png",
+            "path" : "public/thumbnails/"
         }
     ]
 }
