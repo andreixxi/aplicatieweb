@@ -139,7 +139,7 @@ app.post('/purchase', function (req, res) {
             var link = 'TODO'; // to do
             const emailContent = `
                             <p>Hello ${customerName},</p>
-                            <p>Thank you for your purchase. You can access your items at the following link:</p>
+                            <p>Thank you for your purchase. You can access your items here:</p>
                             <p>${link}</p>
                             `;
             const emailAttachment = [];

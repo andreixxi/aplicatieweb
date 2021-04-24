@@ -34,7 +34,11 @@ function addCartItem(event) {
 
 var stripeHandler = StripeCheckout.configure({
     key: stripePublicKey,
-    locale: 'en',
+    locale: 'auto',
+    closed: function() {
+        $('.shop-form').hide(500);
+        $('.shop-container').show(500);
+    },
     token: function (token) {
         var items = [];
         var customer = {};
