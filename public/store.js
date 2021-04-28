@@ -35,7 +35,7 @@ function addCartItem(event) {
 var stripeHandler = StripeCheckout.configure({
     key: stripePublicKey,
     locale: 'auto',
-    closed: function() {
+    closed: function () {
         $('.shop-form').hide(500);
         $('.shop-container').show(500);
     },
@@ -78,7 +78,7 @@ var stripeHandler = StripeCheckout.configure({
             return res.json();
         }).then(function (data) {
             alert(data.message);
-            
+
             //empty cart
             var cartItems = $('.cart-items');
             cartItems.empty();
@@ -140,8 +140,7 @@ function addItemToCart(title, price, imgSrc, id) {
             return;
         }
     }
-    var cartRowContent = `
-                                <div class="cart-item col">
+    var cartRowContent = `<div class="cart-item col">
                                     <img class="cart-item-image" src="${imgSrc}" width="50" height="auto">
                                     <span class="cart-item-title">${title}</span>
                                 </div>

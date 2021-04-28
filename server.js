@@ -22,15 +22,46 @@ app.use(express.json());
 app.use(express.static('public/'));
 
 // show items in shop from the backend
-app.get('/', function (req, res) {
+// app.get('/', function (req, res) {
+//     fs.readFile('items.json', function (err, data) {
+//         if (err) {
+//             res.status(500).end();
+//         } else {
+//             res.render('admin.ejs', {
+//                 stripePublicKey: stripePublicKey,
+//                 items: JSON.parse(data)
+//             });
+//         }
+//     });
+// });
+
+var email;
+app.post('/', function async(req, res, next) {
+    email = req.body.email;
+    next(); // pass control to the next handler
+});
+
+app.all('/', function (req, res) {
     fs.readFile('items.json', function (err, data) {
         if (err) {
             res.status(500).end();
         } else {
-            res.render('index.ejs', {
-                stripePublicKey: stripePublicKey,
-                items: JSON.parse(data)
-            });
+            console.log('email in backend', email, email == gmailAcc);
+            if (email == gmailAcc) { //admin
+                console.log('admin');
+                // res.json({admin:true});
+                res.render('admin.ejs', {
+                    stripePublicKey: stripePublicKey,
+                    items: JSON.parse(data)
+                });
+            } else {
+                console.log('not admin');
+                // res.json({admin:false})
+                res.render('index.ejs', {
+                    stripePublicKey: stripePublicKey,
+                    items: JSON.parse(data)
+                });
+            }
         }
     });
 });
@@ -49,7 +80,7 @@ function createArchive(customerName, emailAttachment) {
     // This event is fired when the data source is drained no matter what was the data source.
     // It is not part of this library but rather from the NodeJS Stream API.
     // @see: https://nodejs.org/api/stream.html#stream_event_end
-    output.on('end', function() {
+    output.on('end', function () {
         console.log('Data has been drained');
     });
 
@@ -109,25 +140,25 @@ function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
-const removeDir = function(path) {
+const removeDir = function (path) {
     if (fs.existsSync(path)) {
-      const files = fs.readdirSync(path)
-  
-      if (files.length > 0) {
-        files.forEach(function(filename) {
-          if (fs.statSync(path + "/" + filename).isDirectory()) {
-            removeDir(path + "/" + filename)
-          } else {
-            fs.unlinkSync(path + "/" + filename)
-          }
-        })
-      } else {
-        console.log("No files found in the directory.")
-      }
+        const files = fs.readdirSync(path)
+
+        if (files.length > 0) {
+            files.forEach(function (filename) {
+                if (fs.statSync(path + "/" + filename).isDirectory()) {
+                    removeDir(path + "/" + filename)
+                } else {
+                    fs.unlinkSync(path + "/" + filename)
+                }
+            })
+        } else {
+            console.log("No files found in the directory.")
+        }
     } else {
-      console.log("Directory path not found.")
+        console.log("Directory path not found.")
     }
-  }
+}
 
 app.post('/purchase', function (req, res) {
     fs.readFile('items.json', function (err, data) {
@@ -172,7 +203,7 @@ app.post('/purchase', function (req, res) {
 
                 //delete the archives
                 removeDir(path.join(__dirname, 'archives'));
-                
+
                 res.json({
                     message: 'Successfully purchased items. You will soon get your items via email.'
                 });

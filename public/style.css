@@ -302,6 +302,8 @@ HEADER
 
 .gallery-container div {
   float: left;
+  
+  /* width: 99%; */
 }
 
 .border-img  {
@@ -341,6 +343,29 @@ HEADER
     margin-top: 10%;
   }
 }
+
+.fa-caret-right {
+  color: var(--color1);
+  font-size: 4vmax;
+  float: right;
+  position: absolute;
+  right: 50%;
+  top: 50vh;
+  margin-right: 1vw;
+}
+.fa-caret-right:hover, .fa-caret-left:hover {
+  cursor: pointer;
+}
+
+.fa-caret-left {
+  color: var(--color1);
+  font-size: 4vmax;
+  float: left;
+  position: absolute;
+  top: 50vh;
+  margin-left: 1vw;
+}
+
 /***********
 SECTION 4 - VIDEO SLIDER
 ***************/
@@ -395,9 +420,11 @@ SECTION5 - SHOPPING CART
 #shop1 {
   background-color: var(--color3);
   max-height: 50vh;
+  border-radius: 25px;
 }
 .shop-img {
   width: 100%;
+  border-radius: 25px;
 }
 #shop-splide .splide__slide {
   opacity: 1;
@@ -430,6 +457,7 @@ SECTION5 - SHOPPING CART
   max-height: 50vh;
   overflow-y: scroll;
   overflow-x: hidden;
+  border-radius: 25px;
 }
 #cart-border{
   height: 1px;

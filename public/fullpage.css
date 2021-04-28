@@ -1,0 +1,39 @@
+/*!
+ * fullPage 3.0.9
+ * https://github.com/alvarotrigo/fullPage.js
+ *
+ * @license GPLv3 for open source use only
+ * or Fullpage Commercial License for commercial use
+ * http://alvarotrigo.com/fullPage/pricing/
+ *
+ * Copyright (C) 2018 http://alvarotrigo.com/fullPage - A project by Alvaro Trigo
+ */
+
+ .fp-slide {
+     float: left; /*DON'T delete*/
+ }
+ .fp-slides {
+    z-index:1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out; /* Safari<=6 Android<=4.3 */
+    transition: all 0.3s ease-out;
+ }
+ .fp-notransition {
+     -webkit-transition: none !important;
+     transition: none !important;
+ }
+
+ .fp-auto-height.fp-section,
+ .fp-auto-height .fp-slide,
+ .fp-auto-height .fp-tableCell{
+     height: auto !important;
+ }
+ 
+ .fp-responsive .fp-auto-height-responsive.fp-section,
+ .fp-responsive .fp-auto-height-responsive .fp-slide,
+ .fp-responsive .fp-auto-height-responsive .fp-tableCell {
+     height: auto !important;
+ }
+ 

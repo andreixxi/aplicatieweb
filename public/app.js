@@ -1,10 +1,41 @@
 $(function () {
+
+  //////////////////////////////////////////////////////////////
+function init() {
+  firebase.auth().onAuthStateChanged(function (user) {
+    var email = undefined;
+    if (user) {
+      // User is signed in.
+      localStorage.setItem('user', true);
+      console.log("user is signed in");
+      $('#signout').show();
+      $('#login-btn').hide();
+      email = user.email;
+    } else {
+      // No user is signed in.
+      localStorage.setItem('user', false);
+      console.log("no user is signed in");
+      $('#login-btn').show();
+      $('#signout').hide();
+    }
+    fetch('/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+  });
+}
+init();
   // FULLPAGE FOR SCROLL AND MENU 
   $('#fullpage').fullpage({
     menu: '#menu',
-    anchors: ['home', '3d-view', 'images', 'videos', 'shop', 'contact'],
     css3: true,
-    controlArrows: true, //Determines whether to use control arrows for the slides to move right or left.
+    controlArrows: false, //Determines whether to use control arrows for the slides to move right or left.
     onLeave: function (origin, destination, direction) {
       if (destination.isLast == true) {
         $('#footer').hide(500);
@@ -15,7 +46,7 @@ $(function () {
       if (destination.anchor == '3d-view') {
         $('#threedbody').show(500);
         // $('#stats').show(500);
-         $('#panel').show(500);
+        $('#panel').show(500);
       }
       else {
         $('#threedbody').hide(500);
@@ -27,6 +58,12 @@ $(function () {
 
   $('#footer i').on('click', function () {
     fullpage_api.moveSectionDown(); // go to next section when clicking footer
+  });
+  $('.fa-caret-right').on('click', function () {
+    fullpage_api.moveSlideRight();  // go to right slide
+  });
+  $('.fa-caret-left').on('click', function () {
+    fullpage_api.moveSlideLeft();  // go to left slide
   });
 
   // MENU
@@ -51,7 +88,7 @@ $(function () {
   });
 
   // SHOP BUTTON: GO TO SHOP PAGE
-  $('#bag-btn').on('click', function() {
+  $('#bag-btn').on('click', function () {
     fullpage_api.moveTo('shop');
   });
 
@@ -128,23 +165,6 @@ $(function () {
     init();
   }
 
-  //////////////////////////////////////////////////////////////
-  firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        localStorage.setItem('user', true);
-        console.log("user is signed in");
-        $('#signout').show();
-        $('#login-btn').hide();
-      } else {
-        // No user is signed in.
-        localStorage.setItem('user', false);
-        console.log("no user is signed in");
-        $('#login-btn').show();
-        $('#signout').hide();
-      }
-  });
-
   // INITIALISE IMAGE GALLERY
   lc_lightbox('.mybox', {
     wrap_class: 'lcl_face_oc',
@@ -166,7 +186,7 @@ $(function () {
     /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
   });
 
-  // firebase.auth().signOut();
+  
   //////////////////////////////////////////////////////////////
   // video gallery, pentru mobile sa am directie ttb + heightRatio setat
   splide = new Splide('.splide', {
@@ -213,7 +233,7 @@ $(function () {
     lazyLoad: 'nearby',
   },
   ).mount(window.splide.Extensions);
-  
+
   // SHOP IMG MODALS
   lc_lightbox('.myshopbox', {
     wrap_class: 'lcl_face_oc',
