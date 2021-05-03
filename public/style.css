@@ -280,6 +280,30 @@ HEADER
 }
 
 
+/******* face morphing*******/
+.slide2-img {
+  margin: 5rem;
+}
+.slide2-img input::-webkit-file-upload-button {
+  background-color: var(--color3);
+  color: var(--color2);
+  padding: 0.5rem;
+  border-radius: 0.9rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.slide2-img p, form {
+  color: var(--color3);
+  margin: 0.5rem;
+}
+.slide2-img h1{
+  color: var(--color1);
+}
+.slide2-img form {
+  /* display: inline-block; */
+  float:left;
+}
 /**
  SECTION 3
   **/

@@ -153,13 +153,31 @@ $(function () {
     $('#googlesignin').on('click', function () {
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider)
-            .then(function () {
+            .then(function (result) {
                 console.log('signed in with google');
                 // localStorage.setItem('user', true);
                 // hide auth form and show sign out button
                 $('#login-btn').hide(1000);
                 $('#signout').show(1000);
                 $('.auth-form').hide(1000);
+
+                fetch('/googlesignin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: result.user.email
+                    })
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (data) {
+                    if (data.admin) {
+                        location.reload();
+                    }
+                }); //end fetch
+
             })
             .catch((error) => {
                 setTimeout(function () {
@@ -232,7 +250,7 @@ $(function () {
                     $('.errorMsg').text('');
                 }, 3000);
             });
-    })
+    });
 
     //SIGN OUT
     $('#signout').on('click', function () {
@@ -242,6 +260,8 @@ $(function () {
                 // localStorage.setItem('user', false);
                 $('#login-btn').show(1000);
                 $('#signout').hide(1000);
+                window.location.hash = '';
+                location.reload();
             })
             .catch((error) => {
                 alert('There has been an error while signing out.');

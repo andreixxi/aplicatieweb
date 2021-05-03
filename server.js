@@ -14,49 +14,41 @@ const stripe = require('stripe')(stripeSecretKey);
 const nodemailer = require('nodemailer');
 const archiver = require('archiver');
 const path = require('path');
+const fileupload = require('express-fileupload');
+// const tf = require('@tensorflow/tfjs-node');// import nodejs bindings to native tensorflow, not required, but will speed up things drastically (python required)
+const faceapi = require('@vladmandic/face-api');
+const sharp = require('sharp');
+const sizeOf = require('image-size');
+const canvas = require('canvas');
+const triangulate = require("delaunay-triangulate");
+const PythonShell = require('python-shell').PythonShell;
 
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.static('public/'));
+app.use(fileupload());
 
-// show items in shop from the backend
-// app.get('/', function (req, res) {
-//     fs.readFile('items.json', function (err, data) {
-//         if (err) {
-//             res.status(500).end();
-//         } else {
-//             res.render('admin.ejs', {
-//                 stripePublicKey: stripePublicKey,
-//                 items: JSON.parse(data)
-//             });
-//         }
-//     });
-// });
-
+// get user email if it exists
 var email;
 app.post('/', function async(req, res, next) {
     email = req.body.email;
     next(); // pass control to the next handler
 });
 
+//render index or admin page
 app.all('/', function (req, res) {
     fs.readFile('items.json', function (err, data) {
         if (err) {
             res.status(500).end();
         } else {
-            console.log('email in backend', email, email == gmailAcc);
             if (email == gmailAcc) { //admin
-                console.log('admin');
-                // res.json({admin:true});
                 res.render('admin.ejs', {
                     stripePublicKey: stripePublicKey,
                     items: JSON.parse(data)
                 });
             } else {
-                console.log('not admin');
-                // res.json({admin:false})
                 res.render('index.ejs', {
                     stripePublicKey: stripePublicKey,
                     items: JSON.parse(data)
@@ -65,6 +57,183 @@ app.all('/', function (req, res) {
         }
     });
 });
+
+//check if admin
+app.post('/googlesignin', function (req, res) {
+    var admin = false;
+    if (req.body.email == gmailAcc) {
+        admin = true;
+    } else {
+        admin = false;
+    }
+    res.json({ admin: admin });
+});
+
+//upload image to server
+var img1Name, img2Name;
+app.post('/saveImage', function (req, res) {
+    const files = [req.files.image1, req.files.image2]; // files from request
+    const fileNames = [req.files.image1.name, req.files.image2.name];
+    const paths = [__dirname + '/uploads/' + fileNames[0], __dirname + '/uploads/' + fileNames[1]];
+    img1Name = fileNames[0];
+    img2Name = fileNames[1];
+
+    //upload images to folder
+    for (var i = 0; i < 2; i++) {
+        files[i].mv(paths[i], (err) => {
+            if (err) {
+                console.error(err);
+                res.end(JSON.stringify({ status: 'error', message: err }));
+                return;
+            }
+            res.end(JSON.stringify({ status: 'success', currPath: '/uploads/' + fileNames[i] }));
+        });
+    }
+});
+
+app.post('/processImg', async function (req, res) {
+    const { outputImg1, outputImg2 } = await processImages(img1Name, img2Name);
+    facialDetection(outputImg1, outputImg2);
+});
+
+async function processImages(img1Name, img2Name) {
+    let img1 = `uploads/${img1Name}`; //get images
+    let img2 = `uploads/${img2Name}`;
+    var imgs = [img1, img2];
+
+    var name1 = img1Name.split('.')[0]; //get name w/o extension
+    var name2 = img2Name.split('.')[0];
+
+    var imgExt1 = img1Name.split('.')[1]; //get extensions
+    var imgExt2 = img2Name.split('.')[1];
+
+    outputImg1 = `uploads/${name1}_resized.${imgExt1}`;
+    outputImg2 = `uploads/${name2}_resized.${imgExt2}`;
+    var outputs = [outputImg1, outputImg2];
+
+    var dimensions1 = sizeOf(img1); //first img size
+    var w1 = dimensions1.width;
+    var h1 = dimensions1.height
+
+    var dimensions2 = sizeOf(img2); //2nd img size
+    var w2 = dimensions2.width;
+    var h2 = dimensions2.height;
+
+    wmin = Math.min(w1, w2); // min width and height
+    hmin = Math.min(h1, h2);
+
+    //resize both images to min width/height
+    for (var i = 0; i < 2; i++) {
+        sharp(imgs[i]).resize({
+            height: hmin,
+            width: wmin,
+            fit: 'contain' // contain - centreaza imaginea si in rest fundal negru; fill face un aspect urat
+        }).toFile(outputs[i])
+            .then(function (newFileInfo) {
+                console.log(`image ${i} was resized successfully`);
+            })
+            .catch(function (err) {
+                console.log(`error while resizing image ${i}`);
+            });
+    }
+
+    return { outputImg1, outputImg2 };
+}
+
+async function facialDetection(outputImg1, outputImg2) {
+    //load  models
+    const MODEL_URL = `${__dirname}/public/models/`;
+    await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODEL_URL);
+    await faceapi.nets.faceLandmark68Net.loadFromDisk(MODEL_URL);
+    await faceapi.nets.faceRecognitionNet.loadFromDisk(MODEL_URL);
+
+    console.log('loaded models');
+
+    var images = [outputImg1, outputImg2];
+    var img1Coords = [], img2Coords = [];
+    var imgCoords = [img1Coords, img2Coords];
+
+    // 1. Find Point Correspondences using Facial Feature Detection
+    for (var i = 0; i < 2; i++) {
+        const img = await canvas.loadImage(__dirname + '\\' + images[i]);
+        const cvs = canvas.createCanvas(img.width, img.height);
+        const context = cvs.getContext('2d');
+        context.drawImage(img, 0, 0, img.width, img.height);
+        faceapi.env.monkeyPatch({ Canvas: canvas.Canvas, Image: canvas.Image, ImageData: canvas.ImageData });
+        let fullFaceDescriptions = await faceapi.detectSingleFace(cvs).withFaceLandmarks();
+
+        // write facial landmarks to .txt
+        let file = fs.createWriteStream(images[i] + '.txt');
+        file.on('error', function (error) {
+            console.log('There has been an error while writing facial landmarks to file.');
+        });
+        for (var idx = 0; idx < fullFaceDescriptions.landmarks._positions.length; idx++) {
+            file.write(fullFaceDescriptions.landmarks._positions[idx]._x + ' ' + fullFaceDescriptions.landmarks._positions[idx]._y + '\n');
+            imgCoords[i].push({
+                x: fullFaceDescriptions.landmarks._positions[idx]._x,
+                y: fullFaceDescriptions.landmarks._positions[idx]._y
+            }); //save to array to average them afterwards
+        }
+        console.log('Finished writing facial landmarks to .txt');
+        file.end();
+    } // end  Facial Feature Detection
+
+    //calculate the average of corresponding points in the two sets and obtain a single set of points
+    var alpha = 0.5;
+    var avgCoords = [];
+    var file = fs.createWriteStream('uploads/avg.txt');
+    file.on('error', function (error) {
+        console.log('There has been an error while writing avg pts to file.');
+    });
+    for (var i = 0; i < img1Coords.length; i++) {
+        var x = (1 - alpha) * img1Coords[i].x + alpha * img2Coords[i].x;
+        var y = (1 - alpha) * img1Coords[i].y + alpha * img2Coords[i].y;
+        file.write(x + ' ' + y + '\n');
+        avgCoords.push({
+            x: x,
+            y: y
+        });
+    } // end average
+    console.log('Finished writing avg to .txt');
+    file.end();
+
+    // 2. Delaunay Triangulation
+    //every 2 values represent a point (x, y) 
+    var delaunayCoords = [];
+    for (var i = 0; i < avgCoords.length; i++) {
+        delaunayCoords[i] = [];
+        delaunayCoords[i][0] = avgCoords[i].x;
+        delaunayCoords[i][1] = avgCoords[i].y;
+    }
+    var triangles = triangulate(delaunayCoords); // get triangles from points
+
+    // write triangles to file
+    file = fs.createWriteStream(__dirname + '/uploads/tri.txt');
+    file.on('error', function (error) {
+        console.log('There has been an error while writing triangles to file.');
+    });
+    triangles.forEach(function (tr) {
+        file.write(tr[0] + ' ' + tr[1] + ' ' + tr[2] + '\n');
+    });
+    console.log('Finished writing triangles to .txt');
+    file.end();
+
+    // 3. Warping images and alpha blending in py
+    let options = {
+        args: [
+            `${outputImg1}`, //path to image 1
+            `${outputImg2}`, //path to image 2
+            `uploads\\avg.txt`, //path to avg coords
+            `uploads\\tri.txt` //path to triangles
+        ]
+    };
+    // run python script for face morph
+    PythonShell.run('public/faceMorph.py', options, function (err, results) {
+        if (err) throw err;
+        console.log(results);
+        console.log('finished running python script');
+    });
+}
 
 function createArchive(customerName, emailAttachment) {
     // create a file to stream archive data to.
@@ -160,6 +329,7 @@ const removeDir = function (path) {
     }
 }
 
+//purchase functionality
 app.post('/purchase', function (req, res) {
     fs.readFile('items.json', function (err, data) {
         if (err) {

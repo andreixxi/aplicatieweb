@@ -27,7 +27,7 @@ function init() {
       body: JSON.stringify({
         email: email
       })
-    });
+    }); // end fetch
   });
 }
 init();

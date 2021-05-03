@@ -1,24 +1,35 @@
 {
   "dependencies": {
+    "@tensorflow/tfjs-node": "^3.6.1",
+    "@vladmandic/face-api": "^1.2.2",
     "archiver": "^5.3.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "canvas": "^2.7.0",
     "cors": "^2.8.5",
+    "delaunator": "^5.0.0",
+    "delaunay-triangulate": "^1.1.6",
     "ejs": "^3.1.6",
     "emailjs": "^3.4.0",
     "emailjs-com": "^2.6.4",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-handlebars": "^5.3.0",
+    "face-api.js": "^0.22.2",
     "firebase": "^8.3.1",
     "firebase-admin": "^9.6.0",
     "fs-extra": "^9.1.0",
     "fullpage.js": "^3.1.0",
+    "image-size": "^1.0.0",
     "jquery": "^3.6.0",
     "jsdom": "^16.5.3",
     "lg-video": "^1.4.0",
     "lightgallery": "^1.10.0",
+    "multer": "^1.4.2",
     "nodemailer": "^6.5.0",
+    "python-shell": "^3.0.0",
     "rimraf": "^3.0.2",
+    "sharp": "^0.28.1",
     "stripe": "^8.144.0"
   },
   "name": "aplicatieweb",
@@ -40,6 +51,8 @@
   "homepage": "https://github.com/andreixxi/aplicatieweb#readme",
   "description": "",
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/node": "^7.13.13",
     "dotenv": "^8.2.0"
   }
 }

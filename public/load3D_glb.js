@@ -6,6 +6,9 @@ import { GLTFLoader } from '/three.js/examples/jsm/loaders/GLTFLoader.js';
 
 let scene, renderer, camera, stats, controls;
 let model, skeleton, mixer, clock;
+let selected, color;
+let raycaster, mouse, intersects, objects = [];
+let colorControls;
 
 const crossFadeControls = [];
 
@@ -70,9 +73,27 @@ function init() {
         scene.add(model);
 
         model.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
+            if (object.isMesh) {
+                object.castShadow = true;
+                objects.push(object);
+                // console.log(object)
+                if (object.name == 'low_shirt_SHIRT_FINAL_PLZ002')
+                selected = object; 
+            }
             // object.name: {rightsole)_baked002, low_shirt_SHIRT_FINAL_PLZ002 etc} ;
         });
+        console.log('selected', selected);     
+        console.log(selected.material.color);
+        color = selected.material.color.getStyle();
+        colorControls = new function () {
+            this.color = color; //first save shirt color 
+        }
+
+        console.log('color', color);
+
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
+        intersects = [];
 
         skeleton = new THREE.SkeletonHelper(model);
         skeleton.visible = false;
@@ -122,6 +143,7 @@ function init() {
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.domElement.id = 'renderer';
+    renderer.domElement.addEventListener("click", onClickChangeColor);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -130,7 +152,7 @@ function init() {
 
     // camera
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100);
-    camera.position.set(-1, -1, 3);
+    camera.position.set(-1, 0, 3);
     
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enablePan = true; // translate camera 
@@ -156,6 +178,7 @@ function createPanel() {
         'modify time scale': 1.0,
         'wireframe': false,
         'skeleton': false,
+        'color' : '',
         'autoRotate': false,
         'resetCamera': false,
     };
@@ -186,6 +209,7 @@ function createPanel() {
 
     folder4.add(panelSettings, 'wireframe').onChange(toggleWireframe);
     folder4.add(panelSettings, 'skeleton').onChange(toggleSkeleton);
+    folder4.add(panelSettings, 'color').onChange(changeColor);
 
     folder5.add(panelSettings, 'autoRotate').onChange(toggleAutoRotate);
     folder5.add(panelSettings, 'resetCamera').onChange(resetCamera);
@@ -236,6 +260,23 @@ function toggleWireframe(wireframe) {
 function toggleSkeleton(skel) {
     skeleton.visible = skel;
 }
+
+function changeColor(color) {
+    selected.material.color.setStyle(color);
+}
+
+function onClickChangeColor(event) {
+    mouse.x = event.clientX / window.innerWidth * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  
+    raycaster.setFromCamera(mouse, camera);
+    intersects = raycaster.intersectObjects(objects);
+    if (intersects.length > 0) {
+      selected = intersects[159].object;
+      colorControls.color = selected.material.color.getStyle();
+      panelSettings[3] = selected.material.color.getStyle();
+    }
+  }
 
 function toggleAutoRotate(rotate) {
     controls.autoRotate = rotate;
