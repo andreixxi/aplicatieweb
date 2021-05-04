@@ -22,6 +22,8 @@ const sizeOf = require('image-size');
 const canvas = require('canvas');
 const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
+var jsdom = require('jsdom');
+$ = require('jquery')(new jsdom.JSDOM().window);
 
 const port = process.env.PORT || 3000;
 
@@ -72,6 +74,7 @@ app.post('/googlesignin', function (req, res) {
 //upload image to server
 var img1Name, img2Name;
 app.post('/saveImage', function (req, res) {
+    console.log("Both images were uploaded, algorithm starting...");
     const files = [req.files.image1, req.files.image2]; // files from request
     const fileNames = [req.files.image1.name, req.files.image2.name];
     const paths = [__dirname + '/uploads/' + fileNames[0], __dirname + '/uploads/' + fileNames[1]];
@@ -91,9 +94,11 @@ app.post('/saveImage', function (req, res) {
     }
 });
 
-app.post('/processImg', async function (req, res) {
+app.get('/processImg', async function (req, res) {
     const { outputImg1, outputImg2 } = await processImages(img1Name, img2Name);
-    facialDetection(outputImg1, outputImg2);
+    await facialDetection(outputImg1, outputImg2).then(function () {
+        res.send(`${__dirname}\\uploads\\MorphFace.jpg`);
+    });
 });
 
 async function processImages(img1Name, img2Name) {
@@ -230,8 +235,7 @@ async function facialDetection(outputImg1, outputImg2) {
     // run python script for face morph
     PythonShell.run('public/faceMorph.py', options, function (err, results) {
         if (err) throw err;
-        console.log(results);
-        console.log('finished running python script');
+        console.log('finished running python script. morphing images done.');
     });
 }
 

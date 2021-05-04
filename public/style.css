@@ -284,7 +284,10 @@ HEADER
 .slide2-img {
   margin: 5rem;
 }
-.slide2-img input::-webkit-file-upload-button {
+#getResult {
+  height: 0;
+}
+.slide2-img input::-webkit-file-upload-button, #resbtn {
   background-color: var(--color3);
   color: var(--color2);
   padding: 0.5rem;
@@ -292,6 +295,9 @@ HEADER
   border: none;
   cursor: pointer;
   margin-top: 1rem;
+}
+#resbtn {
+  margin-top: 1.5rem;
 }
 .slide2-img p, form {
   color: var(--color3);

@@ -67,14 +67,7 @@
   <script src="https://checkout.stripe.com/checkout.js" defer></script>
   <script>var stripePublicKey = '<%= stripePublicKey %>'</script>
   <script src="store.js" defer></script>
-  <script src="face-api.js"></script>
-  <script src="https://unpkg.com/delaunator@5.0.0/delaunator.min.js"></script>
-  <script src="opencv.js" type="text/javascript"></script>
-  <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
-<script type="text/javascript"src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython.min.js"></script>
-  <script src="computervision.js" type="module"> </script>
   <script src="imgs.js" type="module"> </script>
-<script type="text/python" src="facemorph.py"></script>
 </head>
 
 <body>
@@ -291,23 +284,21 @@
       <div class="slide" id="image-processing" data-anchor="image-processing">
         <i class="fas fa-caret-left"></i>
         <div class="container-fluid slide2-img">
-          <h2>Try our face morphing algorithm right now!</h2>
-          <p>Click on the "Choose file" button to upload a picture:</p>
+          <h2>Try our face morphing algorithm!</h2>
+          <p>For best results, pick two profile images of similar view and size. Click on the "Choose file" button to upload a picture:</p>
           <div class="uploadbuttons">
-
             <form>
               <input type="file" id="picture1">
               <div id="appendimg1"></div>
             </form>
-
             <form>
               <input type="file" id="picture2">
               <div id="appendimg2"></div>
             </form>
-
           </div>
-          <div id="appendResult">
-            <img src="">
+          <div id="getResult">
+            <button id="resbtn">Get result</button>
+            <div id="appendResult"></div>
           </div>
         </div>
       </div>

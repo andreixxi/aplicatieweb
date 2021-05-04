@@ -67,7 +67,7 @@ function init() {
     scene.add(mesh);
 
     const loader = new GLTFLoader();
-    loader.load('character3D/character.glb', function (gltf) {
+    loader.load('character3D/char.glb', function (gltf) {
 
         model = gltf.scene;
         scene.add(model);
@@ -82,14 +82,14 @@ function init() {
             }
             // object.name: {rightsole)_baked002, low_shirt_SHIRT_FINAL_PLZ002 etc} ;
         });
-        console.log('selected', selected);     
+        // console.log('selected', selected);     
         console.log(selected.material.color);
         color = selected.material.color.getStyle();
         colorControls = new function () {
             this.color = color; //first save shirt color 
         }
 
-        console.log('color', color);
+        // console.log('color', color);
 
         raycaster = new THREE.Raycaster();
         mouse = new THREE.Vector2();
