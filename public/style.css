@@ -299,7 +299,7 @@ HEADER
 #resbtn {
   margin-top: 1.5rem;
 }
-.slide2-img p, form {
+.slide2-img p, form, img {
   color: var(--color3);
   margin: 0.5rem;
 }
@@ -332,8 +332,8 @@ HEADER
 
 .gallery-container div {
   float: left;
-  
-  /* width: 99%; */
+  width: 99%;
+  width: fit-content; 
 }
 
 .border-img  {

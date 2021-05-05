@@ -1,3 +1,4 @@
+
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
@@ -7,6 +8,7 @@ const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
 const gmailAcc = process.env.gmailAcc
 const gmailPass = process.env.gmailPass
 
+const dev = process.env.NODE_ENV !== 'production';
 const express = require('express');
 const app = express();
 const fs = require('fs'); //file system module allows you to work with the file system on your computer.
@@ -24,6 +26,8 @@ const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
 var jsdom = require('jsdom');
 $ = require('jquery')(new jsdom.JSDOM().window);
+const fetch = require("node-fetch");
+const server = dev ? 'http://localhost:3000' : 'https://your_deployment.server.com'; //TODO 
 
 const port = process.env.PORT || 3000;
 
@@ -80,7 +84,6 @@ app.post('/saveImage', function (req, res) {
     const paths = [__dirname + '/uploads/' + fileNames[0], __dirname + '/uploads/' + fileNames[1]];
     img1Name = fileNames[0];
     img2Name = fileNames[1];
-
     //upload images to folder
     for (var i = 0; i < 2; i++) {
         files[i].mv(paths[i], (err) => {
@@ -89,17 +92,27 @@ app.post('/saveImage', function (req, res) {
                 res.end(JSON.stringify({ status: 'error', message: err }));
                 return;
             }
-            res.end(JSON.stringify({ status: 'success', currPath: '/uploads/' + fileNames[i] }));
+            // res.end(JSON.stringify({ status: 'images were successfully saved to the server'}));
+            res.end(fileNames.toString());
         });
     }
 });
 
-app.get('/processImg', async function (req, res) {
+app.get('/processImg',async function (req, res) {
     const { outputImg1, outputImg2 } = await processImages(img1Name, img2Name);
-    await facialDetection(outputImg1, outputImg2).then(function () {
-        res.send(`${__dirname}\\uploads\\MorphFace.jpg`);
-    });
+    await facialDetection(outputImg1, outputImg2);
+    setTimeout(function() {
+        const image64 = base64_encode(`${__dirname}\\uploads\\MorphedFace.jpg`);
+        res.send(image64)}, 5000); // wait 5s
 });
+
+// function to encode file data to base64 encoded string
+function base64_encode(file) {
+    // read binary data and convert to base64 encoded string
+    var base64 = 'data:image/jpeg;base64,'
+    var image64 = fs.readFileSync(file, 'base64');
+    return base64 + image64;
+}
 
 async function processImages(img1Name, img2Name) {
     let img1 = `uploads/${img1Name}`; //get images
