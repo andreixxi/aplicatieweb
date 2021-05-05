@@ -1,4 +1,4 @@
-$(function () {
+  export default function faceMorphing() {
     const formData = new FormData();
     $('#resbtn').hide();
     $(".uploadbuttons").on("change", function (e) {
@@ -34,6 +34,8 @@ $(function () {
                         $('#resbtn').on('click', function () {
                             const image = `<img src="${img}" style="width:20vw;height:auto;">`;
                             $("#appendResult").html(image);
+
+                            //fetch to delete images + .txt in server
                         });
                     });
                 }).then(function (data) {
@@ -43,4 +45,4 @@ $(function () {
         };
         reader.readAsDataURL(tgt.files[0]);
     });
-});
+}

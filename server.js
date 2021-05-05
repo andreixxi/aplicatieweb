@@ -1,4 +1,3 @@
-
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
@@ -8,7 +7,6 @@ const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
 const gmailAcc = process.env.gmailAcc
 const gmailPass = process.env.gmailPass
 
-const dev = process.env.NODE_ENV !== 'production';
 const express = require('express');
 const app = express();
 const fs = require('fs'); //file system module allows you to work with the file system on your computer.
@@ -26,8 +24,6 @@ const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
 var jsdom = require('jsdom');
 $ = require('jquery')(new jsdom.JSDOM().window);
-const fetch = require("node-fetch");
-const server = dev ? 'http://localhost:3000' : 'https://your_deployment.server.com'; //TODO 
 
 const port = process.env.PORT || 3000;
 
@@ -103,6 +99,7 @@ app.get('/processImg',async function (req, res) {
     await facialDetection(outputImg1, outputImg2);
     setTimeout(function() {
         const image64 = base64_encode(`${__dirname}\\uploads\\MorphedFace.jpg`);
+        removeDir(path.join(__dirname, 'uploads')); //clean folder
         res.send(image64)}, 5000); // wait 5s
 });
 
@@ -147,11 +144,11 @@ async function processImages(img1Name, img2Name) {
             width: wmin,
             fit: 'contain' // contain - centreaza imaginea si in rest fundal negru; fill face un aspect urat
         }).toFile(outputs[i])
-            .then(function (newFileInfo) {
-                console.log(`image ${i} was resized successfully`);
+            .then(function () {
+                console.log(`images were resized successfully`);
             })
-            .catch(function (err) {
-                console.log(`error while resizing image ${i}`);
+            .catch(function () {
+                console.log(`error while resizing images`);
             });
     }
 

@@ -299,7 +299,7 @@ HEADER
 #resbtn {
   margin-top: 1.5rem;
 }
-.slide2-img p, form, img {
+.slide2-img p, .slide2-img form, .slide2-img img {
   color: var(--color3);
   margin: 0.5rem;
 }
@@ -420,7 +420,6 @@ SECTION 4 - VIDEO SLIDER
   opacity: 1;
   cursor: pointer;
 }
-
 
 .video-btn {
   position: absolute;
@@ -589,7 +588,6 @@ AUTHENTICATION FORM
 }
 .card {
   z-index: 0;
-	/* margin-top: 28px; */
 	height: 100%;
 	max-height: 446px;
 	width: 396px;
@@ -622,6 +620,7 @@ AUTHENTICATION FORM
 }
 .head .selected {
 	position: relative;
+  height: 72px;
 	color: #00FF5C;
 	font-weight: 700;
 }

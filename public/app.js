@@ -1,36 +1,49 @@
-$(function () {
+import faceMorphing from './imgs.js';
 
+$(function () {
   //////////////////////////////////////////////////////////////
-function init() {
-  firebase.auth().onAuthStateChanged(function (user) {
-    var email = undefined;
-    if (user) {
-      // User is signed in.
-      localStorage.setItem('user', true);
-      console.log("user is signed in");
-      $('#signout').show();
-      $('#login-btn').hide();
-      email = user.email;
-    } else {
-      // No user is signed in.
-      localStorage.setItem('user', false);
-      console.log("no user is signed in");
-      $('#login-btn').show();
-      $('#signout').hide();
-    }
-    fetch('/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email
-      })
-    }); // end fetch
-  });
-}
-init();
+  function init() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      var email = undefined;
+      if (user) {
+        // User is signed in.
+        localStorage.setItem('user', true);
+        console.log("user is signed in");
+        $('#signout').show();
+        $('#login-btn').hide();
+        if (user.email !== null) {
+          email = user.email;
+        }
+        else {
+          email = user.displayName;
+        }
+        // show the face morphing thing
+        $('.uploadbuttons form').show();
+        $('#getResult').show();
+      } else {
+        // No user is signed in.
+        localStorage.setItem('user', false);
+        console.log("no user is signed in");
+        $('#login-btn').show();
+        $('#signout').hide();
+        // hide the face morphing thing
+        $('.uploadbuttons form').hide();
+        $('#getResult').hide();
+      }
+      fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      }); // end fetch
+    });
+  }
+  init();
+  faceMorphing();
   // FULLPAGE FOR SCROLL AND MENU 
   $('#fullpage').fullpage({
     menu: '#menu',
@@ -186,7 +199,7 @@ init();
     /*vezi metoda fb_direct_share la: https://lcweb.it/lc-lightbox/documentation?section=opts*/
   });
 
-  
+
   //////////////////////////////////////////////////////////////
   // video gallery, pentru mobile sa am directie ttb + heightRatio setat
   splide = new Splide('.splide', {
