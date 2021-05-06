@@ -83,7 +83,7 @@ function init() {
             // object.name: {rightsole)_baked002, low_shirt_SHIRT_FINAL_PLZ002 etc} ;
         });
         // console.log('selected', selected);     
-        console.log(selected.material.color);
+        // console.log(selected.material.color);
         color = selected.material.color.getStyle();
         colorControls = new function () {
             this.color = color; //first save shirt color 

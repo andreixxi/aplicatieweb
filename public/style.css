@@ -399,7 +399,9 @@ HEADER
 /***********
 SECTION 4 - VIDEO SLIDER
 ***************/
-#section4 {color: var(--color3);
+#section4 {
+  padding-top: 10vh;
+  color: var(--color3);
 }
 
 #section4 li p {
@@ -440,7 +442,7 @@ SECTION5 - SHOPPING CART
 }
 #section5 h1 {
   color: var(--color1);
-  padding-top: 100px;
+  padding-top: 10vh;
 }
 .shop-container {
   margin-top: 40px;
@@ -452,11 +454,12 @@ SECTION5 - SHOPPING CART
   border-radius: 25px;
 }
 .shop-img {
-  width: 100%;
   border-radius: 25px;
+  /* max-width: 18vw; */
 }
 #shop-splide .splide__slide {
   opacity: 1;
+  text-align: center;
 }
 #shop-splide .splide__slide:hover{
   cursor:auto;
@@ -500,7 +503,7 @@ SECTION5 - SHOPPING CART
 #cart {
   background-color: var(--color2);
 }
-.cart-row{
+.cart-row {
   margin-bottom: 0.5em;
   display: flex	;
 } 
@@ -756,7 +759,8 @@ CONTACT FORM LAST PAGE
 *******/
 #section6 h1 {
   color: var(--color1);
-  padding-top: 5vmax;
+  /* padding-top: 5vmax; */
+  padding-top: 10vh;
 }
 
 .contact-form p {

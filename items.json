@@ -4,43 +4,46 @@
             "id": 1,
             "name": "img1",
             "price": 300,
-            "imgName": "hand_sketch.png",
-            "path" : "public/thumbnails/"
+            "imgName": "render1.png",
+            "thumbName": "render1.jpg",
+            "path": "public/shop/full/",
+            "file": "render1.png"
         },
         {
             "id": 2,
             "name": "img2",
             "price": 400,
-            "imgName": "thumbnail2.png",
-            "path" : "public/thumbnails/"
+            "imgName": "render2.png",
+            "thumbName": "render2.jpg",
+            "path": "public/shop/full/",
+            "file": "render2.png"
         },
         {
             "id": 3,
             "name": "img3",
             "price": 500,
-            "imgName": "thumbnail2.png",
-            "path" : "public/thumbnails/"
+            "imgName": "render3.png",
+            "thumbName": "render3.jpg",
+            "path": "public/shop/full/",
+            "file": "render3.png"
         },
         {
             "id": 4,
             "name": "img4",
             "price": 500,
-            "imgName": "thumbnail2.png",
-            "path" : "public/thumbnails/"
+            "imgName": "render4.png",
+            "thumbName": "render4.jpg",
+            "path" : "public/shop/full/",
+            "file": "render4.png"
         },
         {
             "id": 5,
-            "name": "img5",
-            "price": 500,
-            "imgName": "thumbnail2.png",
-            "path" : "public/thumbnails/"
-        },
-        {
-            "id": 6,
-            "name": "img6",
-            "price": 500,
-            "imgName": "thumbnail2.png",
-            "path" : "public/thumbnails/"
+            "name": "char obj",
+            "price": 7500,
+            "imgName": "charobj.png",
+            "thumbName": "charobj.jpg",
+            "path" : "public/shop/full/",
+            "file": "charobj.obj"
         }
     ]
 }

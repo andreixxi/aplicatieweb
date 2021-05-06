@@ -297,7 +297,7 @@
             </form>
           </div>
           <div id="getResult">
-            <button id="resbtn">Get result</button>
+            <button id="resbtn">Show result</button>
             <div id="appendResult"></div>
           </div>
         </div>
@@ -448,9 +448,9 @@
               <ul class="splide__list">
                 <% items.images.forEach(function(item) { %>
                   <li class="splide__slide" data-item-id="<%= item.id %>">
-                    <a class="myshopbox" href="thumbnails/<%= item.imgName %>" title="<%= item.name %>"
+                    <a class="myshopbox" href="shop/full/<%= item.imgName %>" title="<%= item.name %>"
                       onContextMenu="return false;">
-                      <img class="shop-img" src="thumbnails/<%= item.imgName %>" alt="<%= item.imgName %>">
+                      <img class="shop-img img-fluid" src="shop/thumbs/<%= item.thumbName %>" alt="<%= item.imgName %>">
                     </a>
                     <div class="row">
                       <p class="price col">$<%= item.price / 100 %>

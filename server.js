@@ -71,15 +71,12 @@ app.post('/googlesignin', function (req, res) {
     res.json({ admin: admin });
 });
 
-//upload image to server
-var img1Name, img2Name;
+//upload images to server
 app.post('/saveImage', function (req, res) {
     console.log("Both images were uploaded, algorithm starting...");
     const files = [req.files.image1, req.files.image2]; // files from request
     const fileNames = [req.files.image1.name, req.files.image2.name];
     const paths = [__dirname + '/uploads/' + fileNames[0], __dirname + '/uploads/' + fileNames[1]];
-    img1Name = fileNames[0];
-    img2Name = fileNames[1];
     //upload images to folder
     for (var i = 0; i < 2; i++) {
         files[i].mv(paths[i], (err) => {
@@ -88,13 +85,15 @@ app.post('/saveImage', function (req, res) {
                 res.end(JSON.stringify({ status: 'error', message: err }));
                 return;
             }
-            // res.end(JSON.stringify({ status: 'images were successfully saved to the server'}));
-            res.end(fileNames.toString());
+            res.end(JSON.stringify({ status: 'images were successfully saved to the server'}));
         });
     }
 });
 
-app.get('/processImg',async function (req, res) {
+//resize + facial morphing
+app.post('/processImg',async function (req, res) {
+    const img1Name = req.files.image1.name;
+    const img2Name = req.files.image2.name;
     const { outputImg1, outputImg2 } = await processImages(img1Name, img2Name);
     await facialDetection(outputImg1, outputImg2);
     setTimeout(function() {
@@ -351,11 +350,9 @@ app.post('/purchase', function (req, res) {
         } else {
             var customerEmail = req.body.customer.email;
             var customerName = req.body.customer.name;
-            var link = 'TODO'; // to do
             const emailContent = `
                             <p>Hello ${customerName},</p>
                             <p>Thank you for your purchase. You can access your items here:</p>
-                            <p>${link}</p>
                             `;
             const emailAttachment = [];
             const itemsJson = JSON.parse(data);
@@ -370,7 +367,8 @@ app.post('/purchase', function (req, res) {
                 total += itemJson.price * item.quantity;
                 emailAttachment.push({
                     path: itemJson.path,
-                    fileName: itemJson.imgName
+                    // fileName: itemJson.imgName
+                    fileName: itemJson.file
                 });
             }); // end forEach
 
