@@ -22,8 +22,8 @@ const sizeOf = require('image-size');
 const canvas = require('canvas');
 const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
-var jsdom = require('jsdom');
-$ = require('jquery')(new jsdom.JSDOM().window);
+// var jsdom = require('jsdom');
+// $ = require('jquery')(new jsdom.JSDOM().window);
 
 const port = process.env.PORT || 3000;
 
@@ -42,24 +42,30 @@ app.post('/', function async(req, res, next) {
 });
 
 //render index or admin page
-app.all('/', function (req, res) {
-    fs.readFile('items.json', function (err, data) {
-        if (err) {
-            res.status(500).end();
-        } else {
-            if (email == gmailAcc) { //admin
+app.all('/', async function (req, res) {
+    try {
+        const items = await fs.promises.readFile('items.json').then(JSON.parse);
+        const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
+        const images = await fs.promises.readFile('images.json').then(JSON.parse);
+
+        if (email == gmailAcc) { //admin
                 res.render('admin.ejs', {
                     stripePublicKey: stripePublicKey,
-                    items: JSON.parse(data)
+                    items: items,
+                    videos: videos,
+                    images: images
                 });
             } else {
                 res.render('index.ejs', {
                     stripePublicKey: stripePublicKey,
-                    items: JSON.parse(data)
+                    items: items,
+                    videos: videos,
+                    images: images
                 });
             }
-        }
-    });
+    } catch (e) {
+        res.status(500).end();
+    }
 });
 
 //check if admin
@@ -378,7 +384,6 @@ app.post('/purchase', function (req, res) {
                 total += itemJson.price * item.quantity;
                 emailAttachment.push({
                     path: itemJson.path,
-                    // fileName: itemJson.imgName
                     fileName: itemJson.file
                 });
             }); // end forEach
