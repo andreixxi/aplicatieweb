@@ -67,6 +67,7 @@
   <script src="https://checkout.stripe.com/checkout.js" defer></script>
   <script>var stripePublicKey = '<%= stripePublicKey %>'</script>
   <script src="store.js" defer></script>
+  <script src="FileSaver.js"></script>
   <script src="imgs.js" type="module"> </script>
 </head>
 
@@ -285,7 +286,7 @@
         <i class="fas fa-caret-left"></i>
         <div class="container-fluid slide2-img">
           <h2>Try our face morphing algorithm!</h2>
-          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the "Choose file" button to upload a picture. After a few seconds you will be able to download the morphed face!</p>
+          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the "Choose file" button to upload a picture. <br>After a few seconds you will be able to download the morphed face!</p>
           <div class="uploadbuttons">
             <form>
               <input type="file" id="picture1">
@@ -298,6 +299,7 @@
           </div>
           <div id="getResult">
             <button id="resbtn">Show result</button>
+            <button id="downloadbtn"><i class="bi bi-cloud-download"></i></button>
             <div id="appendResult"></div>
           </div>
         </div>

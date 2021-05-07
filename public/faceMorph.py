@@ -75,7 +75,8 @@ if __name__ == '__main__':
     filename2 = sys.argv[2]
     pathAvgPts = sys.argv[3]
     pathTri = sys.argv[4]
-
+    outputPath = sys.argv[5]
+    
     alpha = 0.5
     
     # Read images
@@ -113,5 +114,5 @@ if __name__ == '__main__':
 
 
     # Save Result
-    cv2.imwrite('uploads\\MorphedFace.jpg', imgMorph)
+    cv2.imwrite(outputPath, imgMorph)
     cv2.waitKey(0)

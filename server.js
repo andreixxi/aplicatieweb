@@ -36,6 +36,8 @@ app.use(fileupload());
 var email;
 app.post('/', function async(req, res, next) {
     email = req.body.email;
+    if (email !== undefined)
+        email = email.split(' ').join('')
     next(); // pass control to the next handler
 });
 
@@ -76,7 +78,16 @@ app.post('/saveImage', function (req, res) {
     console.log("Both images were uploaded, algorithm starting...");
     const files = [req.files.image1, req.files.image2]; // files from request
     const fileNames = [req.files.image1.name, req.files.image2.name];
-    const paths = [__dirname + '/uploads/' + fileNames[0], __dirname + '/uploads/' + fileNames[1]];
+    const path1 = __dirname + `/uploads/${email}/`; 
+    const path2 = __dirname + `/uploads/${email}/`; 
+    const paths = [path1 + fileNames[0], path2 + fileNames[1]];
+
+    if (!fs.existsSync(path1)) {
+        fs.mkdirSync(path1);
+    }
+    if(!fs.existsSync(path2)) {
+        fs.mkdirSync(path2);
+    }
     //upload images to folder
     for (var i = 0; i < 2; i++) {
         files[i].mv(paths[i], (err) => {
@@ -97,8 +108,8 @@ app.post('/processImg',async function (req, res) {
     const { outputImg1, outputImg2 } = await processImages(img1Name, img2Name);
     await facialDetection(outputImg1, outputImg2);
     setTimeout(function() {
-        const image64 = base64_encode(`${__dirname}\\uploads\\MorphedFace.jpg`);
-        removeDir(path.join(__dirname, 'uploads')); //clean folder
+        const image64 = base64_encode(`${__dirname}\\uploads\\${email}\\MorphedFace.jpg`);
+        removeDir(path.join(__dirname, `uploads\\${email}`)); //clean folder
         res.send(image64)}, 5000); // wait 5s
 });
 
@@ -111,8 +122,8 @@ function base64_encode(file) {
 }
 
 async function processImages(img1Name, img2Name) {
-    let img1 = `uploads/${img1Name}`; //get images
-    let img2 = `uploads/${img2Name}`;
+    let img1 = `uploads\\${email}\\${img1Name}`; //get images
+    let img2 = `uploads\\${email}\\${img2Name}`;
     var imgs = [img1, img2];
 
     var name1 = img1Name.split('.')[0]; //get name w/o extension
@@ -121,8 +132,8 @@ async function processImages(img1Name, img2Name) {
     var imgExt1 = img1Name.split('.')[1]; //get extensions
     var imgExt2 = img2Name.split('.')[1];
 
-    outputImg1 = `uploads/${name1}_resized.${imgExt1}`;
-    outputImg2 = `uploads/${name2}_resized.${imgExt2}`;
+    outputImg1 = `uploads\\${email}\\${name1}_resized.${imgExt1}`;
+    outputImg2 = `uploads\\${email}\\${name2}_resized.${imgExt2}`;
     var outputs = [outputImg1, outputImg2];
 
     var dimensions1 = sizeOf(img1); //first img size
@@ -195,7 +206,7 @@ async function facialDetection(outputImg1, outputImg2) {
     //calculate the average of corresponding points in the two sets and obtain a single set of points
     var alpha = 0.5;
     var avgCoords = [];
-    var file = fs.createWriteStream('uploads/avg.txt');
+    var file = fs.createWriteStream(`uploads/${email}/avg.txt`);
     file.on('error', function (error) {
         console.log('There has been an error while writing avg pts to file.');
     });
@@ -222,7 +233,7 @@ async function facialDetection(outputImg1, outputImg2) {
     var triangles = triangulate(delaunayCoords); // get triangles from points
 
     // write triangles to file
-    file = fs.createWriteStream(__dirname + '/uploads/tri.txt');
+    file = fs.createWriteStream(__dirname + `/uploads/${email}/tri.txt`);
     file.on('error', function (error) {
         console.log('There has been an error while writing triangles to file.');
     });
@@ -237,8 +248,9 @@ async function facialDetection(outputImg1, outputImg2) {
         args: [
             `${outputImg1}`, //path to image 1
             `${outputImg2}`, //path to image 2
-            `uploads\\avg.txt`, //path to avg coords
-            `uploads\\tri.txt` //path to triangles
+            `uploads\\${email}\\avg.txt`, //path to avg coords
+            `uploads\\${email}\\tri.txt`, //path to triangles
+            `uploads\\${email}\\MorphedFace.jpg` //output path
         ]
     };
     // run python script for face morph
@@ -324,21 +336,20 @@ function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
 
 const removeDir = function (path) {
     if (fs.existsSync(path)) {
-        const files = fs.readdirSync(path)
-
+        var files = fs.readdirSync(path);
         if (files.length > 0) {
             files.forEach(function (filename) {
                 if (fs.statSync(path + "/" + filename).isDirectory()) {
-                    removeDir(path + "/" + filename)
+                    removeDir(path + "/" + filename);
                 } else {
-                    fs.unlinkSync(path + "/" + filename)
+                    fs.unlinkSync(path + "/" + filename);
                 }
-            })
+            });
         } else {
-            console.log("No files found in the directory.")
+            console.log("No files found in the directory.");
         }
     } else {
-        console.log("Directory path not found.")
+        console.log("Directory path not found.");
     }
 }
 

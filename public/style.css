@@ -287,7 +287,7 @@ HEADER
 #getResult {
   height: 0;
 }
-.slide2-img input::-webkit-file-upload-button, #resbtn {
+.slide2-img input::-webkit-file-upload-button, #resbtn, #downloadbtn {
   background-color: var(--color3);
   color: var(--color2);
   padding: 0.5rem;
@@ -296,8 +296,11 @@ HEADER
   cursor: pointer;
   margin-top: 1rem;
 }
-#resbtn {
+#resbtn, #downloadbtn {
   margin-top: 1.5rem;
+}
+#downloadbtn {
+  margin-left: 15rem;
 }
 .slide2-img p, .slide2-img form, .slide2-img img {
   color: var(--color3);
