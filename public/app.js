@@ -55,7 +55,6 @@ $(function () {
       } else {
         $('#footer').show(500);
       }
-
       if (destination.anchor == '3d-view') {
         $('#threedbody').show(500);
         // $('#stats').show(500);
@@ -65,6 +64,9 @@ $(function () {
         $('#threedbody').hide(500);
         // $('#stats').hide(500);
         $('#panel').hide(500);
+      }
+      if (destination.anchor == 'images') {
+        $.fn.fullpage.setKeyboardScrolling(false, 'left, right');
       }
     }
   });

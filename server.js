@@ -22,8 +22,7 @@ const sizeOf = require('image-size');
 const canvas = require('canvas');
 const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
-// var jsdom = require('jsdom');
-// $ = require('jquery')(new jsdom.JSDOM().window);
+const rimraf = require("rimraf");
 
 const port = process.env.PORT || 3000;
 
@@ -47,22 +46,17 @@ app.all('/', async function (req, res) {
         const items = await fs.promises.readFile('items.json').then(JSON.parse);
         const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
         const images = await fs.promises.readFile('images.json').then(JSON.parse);
-
+        const options = {
+            stripePublicKey: stripePublicKey,
+            items: items,
+            videos: videos,
+            images: images
+        };
         if (email == gmailAcc) { //admin
-                res.render('admin.ejs', {
-                    stripePublicKey: stripePublicKey,
-                    items: items,
-                    videos: videos,
-                    images: images
-                });
-            } else {
-                res.render('index.ejs', {
-                    stripePublicKey: stripePublicKey,
-                    items: items,
-                    videos: videos,
-                    images: images
-                });
-            }
+            res.render('admin.ejs', options);
+        } else {
+            res.render('index.ejs', options);
+        }
     } catch (e) {
         res.status(500).end();
     }
@@ -84,16 +78,13 @@ app.post('/saveImage', function (req, res) {
     console.log("Both images were uploaded, algorithm starting...");
     const files = [req.files.image1, req.files.image2]; // files from request
     const fileNames = [req.files.image1.name, req.files.image2.name];
-    const path1 = __dirname + `/uploads/${email}/`; 
-    const path2 = __dirname + `/uploads/${email}/`; 
-    const paths = [path1 + fileNames[0], path2 + fileNames[1]];
+    const path = __dirname + `/uploads/${email}/`;
+    const paths = [path + fileNames[0], path + fileNames[1]];
 
-    if (!fs.existsSync(path1)) {
-        fs.mkdirSync(path1);
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(path);
     }
-    if(!fs.existsSync(path2)) {
-        fs.mkdirSync(path2);
-    }
+
     //upload images to folder
     for (var i = 0; i < 2; i++) {
         files[i].mv(paths[i], (err) => {
@@ -102,21 +93,24 @@ app.post('/saveImage', function (req, res) {
                 res.end(JSON.stringify({ status: 'error', message: err }));
                 return;
             }
-            res.end(JSON.stringify({ status: 'images were successfully saved to the server'}));
+            res.end(JSON.stringify({ status: 'images were successfully saved to the server' }));
         });
     }
 });
 
 //resize + facial morphing
-app.post('/processImg',async function (req, res) {
+app.post('/processImg', async function (req, res) {
     const img1Name = req.files.image1.name;
     const img2Name = req.files.image2.name;
     const { outputImg1, outputImg2 } = await processImages(img1Name, img2Name);
     await facialDetection(outputImg1, outputImg2);
-    setTimeout(function() {
+    setTimeout(function () {
         const image64 = base64_encode(`${__dirname}\\uploads\\${email}\\MorphedFace.jpg`);
-        removeDir(path.join(__dirname, `uploads\\${email}`)); //clean folder
-        res.send(image64)}, 5000); // wait 5s
+        rimraf(path.join(__dirname, `uploads/${email}`), function () {
+            console.log(`done deleting items for ${email}'s face morphing`); 
+           });
+        res.send(image64)
+    }, 5000); // wait 5s
 });
 
 // function to encode file data to base64 encoded string
@@ -161,7 +155,7 @@ async function processImages(img1Name, img2Name) {
             fit: 'contain' // contain - centreaza imaginea si in rest fundal negru; fill face un aspect urat
         }).toFile(outputs[i])
             .then(function () {
-                console.log(`images were resized successfully`);
+                console.log(`images were successfully resized`);
             })
             .catch(function () {
                 console.log(`error while resizing images`);
@@ -266,9 +260,9 @@ async function facialDetection(outputImg1, outputImg2) {
     });
 }
 
-function createArchive(customerName, emailAttachment) {
+function createArchive(customerName, customerEmail) {
     // create a file to stream archive data to.
-    const output = fs.createWriteStream('archives/' + customerName + '.zip');
+    const output = fs.createWriteStream(`archives/${customerEmail}/${customerName}.zip`);
     const archive = archiver('zip');
 
     // listen for all archive data to be written'close' event is fired only when a file descriptor is involved
@@ -302,7 +296,8 @@ function createArchive(customerName, emailAttachment) {
     // pipe archive data to the file
     archive.pipe(output);
 
-    archive.directory(emailAttachment[0].path); //append files from path and naming it fileName within the archive
+    const path = __dirname + `/archives/${customerEmail}/content/`;
+    archive.directory(path, 'order'); //append files from given path and name within the archive
 
     // finalize the archive (ie we are done appending files but streams have to finish yet)
     archive.finalize();
@@ -310,7 +305,7 @@ function createArchive(customerName, emailAttachment) {
     return output;
 }
 
-function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
+async function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -326,10 +321,10 @@ function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
         }
     });
 
-    const output = createArchive(customerName, emailAttachment);
+    const output = createArchive(customerName, customerEmail, emailAttachment);
 
     // send mail with defined transport object
-    let info = transporter.sendMail({
+    let info = await transporter.sendMail({
         from: `"LA21IXX" <${gmailAcc}>`, // sender address
         to: customerEmail, // list of receivers
         subject: "LA21IXX ORDER", // Subject line
@@ -338,24 +333,33 @@ function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
     });
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+    // delete files for current order
+    rimraf(path.join(__dirname, `archives/${customerEmail}`), function () {
+         console.log(`done deleting items for ${customerEmail}'s order`); 
+        });
 }
 
-const removeDir = function (path) {
-    if (fs.existsSync(path)) {
-        var files = fs.readdirSync(path);
-        if (files.length > 0) {
-            files.forEach(function (filename) {
-                if (fs.statSync(path + "/" + filename).isDirectory()) {
-                    removeDir(path + "/" + filename);
-                } else {
-                    fs.unlinkSync(path + "/" + filename);
-                }
-            });
-        } else {
-            console.log("No files found in the directory.");
-        }
-    } else {
-        console.log("Directory path not found.");
+function saveEmailData(emailAttachment, customerEmail) {
+    const paths = emailAttachment[0].path;
+    const fileNames = emailAttachment[0].fileName;
+    var writePath = __dirname + `/archives/${customerEmail}/`;
+    if (!fs.existsSync(writePath)) {
+        fs.mkdirSync(writePath);
+    }
+    writePath = __dirname + `/archives/${customerEmail}/content/`;
+    if (!fs.existsSync(writePath)) {
+        fs.mkdirSync(writePath);
+    }
+    //upload content to folder
+    for (var i = 0; i < fileNames.length; i++) {
+        let srcfile = __dirname + '/' + paths[i] + fileNames[i];
+        let dstfile = writePath + fileNames[i]
+        fs.copyFile(srcfile, dstfile, (err) => {
+            if (err) throw err;
+            // console.log(srcfile, 'was copied to', dstfile);
+        });
+        console.log('archive attachment was successfully saved');
     }
 }
 
@@ -374,6 +378,9 @@ app.post('/purchase', function (req, res) {
             const emailAttachment = [];
             const itemsJson = JSON.parse(data);
             const itemsArray = itemsJson.images; //.concat(itemsJson.something)
+
+            const emailItems = [];
+            const paths = [];
             let total = 0;
             req.body.items.forEach(function (item) {
                 // item from the req
@@ -382,11 +389,13 @@ app.post('/purchase', function (req, res) {
                     return i.id == item.id;
                 });
                 total += itemJson.price * item.quantity;
-                emailAttachment.push({
-                    path: itemJson.path,
-                    fileName: itemJson.file
-                });
+                emailItems.push(itemJson.file);
+                paths.push(itemJson.path);
             }); // end forEach
+            emailAttachment.push({
+                path: paths,
+                fileName: emailItems,
+            });
 
             stripe.charges.create({
                 amount: total,
@@ -396,11 +405,11 @@ app.post('/purchase', function (req, res) {
                 //success
                 console.log('charge succesful');
 
-                //send email to customer
-                sendEmail(customerName, customerEmail, emailContent, emailAttachment);
+                //save data for email attachemnt
+                saveEmailData(emailAttachment, customerEmail);
 
-                //delete the archives
-                removeDir(path.join(__dirname, 'archives'));
+                //send email with the archive to customer
+                sendEmail(customerName, customerEmail, emailContent, emailAttachment);
 
                 res.json({
                     message: 'Successfully purchased items. You will soon get your items via email.'

@@ -294,11 +294,100 @@ HEADER
 	left: 1rem !important;
 }
 
+/**
+ SECTION 3
+  **/
+
+#section3 {
+	width: 100%;
+	display: flex;
+}
+
+#section3 h2 {
+	color: var(--color1);
+	text-align: center;
+	padding-top: 10vh;
+}
+
+.gallery-container {
+	width: 70%;
+	margin-top: 10vh;
+	white-space: nowrap;
+}
+
+.gallery-container div {
+	float: left;
+	width: 99%;
+	width: fit-content;
+}
+
+.border-img {
+	height: 35vmin;
+}
+
+.hide-img {
+	display: none;
+}
+
+#description3 {
+	width: 30%;
+	display: inline-flex;
+	color: var(--color1);
+	font-size: 1.3vmax;
+	font-weight: bold;
+	/* margin-top: 3%; */
+	color: var(--color3);
+}
+
+#description3 span {
+	color: var(--color2);
+}
+
+@media only screen and (max-width: 993px) {
+	.border-img {
+		height: 25vmin;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.border-img {
+		/* height: 15vmin; */
+		/* margin-bottom: 5%; */
+	}
+	#section3 h2 {
+		/* margin-top: 10%; */
+	}
+}
+
+.fa-caret-right {
+	color: var(--color1);
+	font-size: 4vmax;
+	float: right;
+	position: absolute;
+	right: 50%;
+	top: 50vh;
+	margin-right: 1vw;
+}
+
+.fa-caret-right:hover,
+.fa-caret-left:hover {
+	cursor: pointer;
+}
+
+.fa-caret-left {
+	color: var(--color1);
+	font-size: 4vmax;
+	float: left;
+	position: absolute;
+	top: 50vh;
+	margin-left: 1vw;
+}
 
 /******* face morphing*******/
 
 .slide2-img {
 	margin: 5rem;
+	margin-top: 0;
 }
 
 #getResult {
@@ -345,97 +434,6 @@ HEADER
 	/* display: inline-block; */
 	float: left;
 }
-
-
-/**
- SECTION 3
-  **/
-
-#section3 {
-	width: 100%;
-	display: flex;
-}
-
-#section3 h2 {
-	color: var(--color1);
-	text-align: center;
-	margin-top: 4%;
-}
-
-.gallery-container {
-	width: 70%;
-	margin-top: 10vh;
-	white-space: nowrap;
-}
-
-.gallery-container div {
-	float: left;
-	width: 99%;
-	width: fit-content;
-}
-
-.border-img {
-	height: 35vmin;
-}
-
-.hide-img {
-	display: none;
-}
-
-#description3 {
-	width: 30%;
-	display: inline-flex;
-	color: var(--color1);
-	font-size: 1.3vmax;
-	font-weight: bold;
-	margin-top: 3%;
-	color: var(--color3);
-}
-
-#description3 span {
-	color: var(--color2);
-}
-
-@media only screen and (max-width: 993px) {
-	.border-img {
-		height: 25vmin;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	.border-img {
-		height: 15vmin;
-		margin-bottom: 5%;
-	}
-	#section3 h2 {
-		margin-top: 10%;
-	}
-}
-
-.fa-caret-right {
-	color: var(--color1);
-	font-size: 4vmax;
-	float: right;
-	position: absolute;
-	right: 50%;
-	top: 50vh;
-	margin-right: 1vw;
-}
-
-.fa-caret-right:hover,
-.fa-caret-left:hover {
-	cursor: pointer;
-}
-
-.fa-caret-left {
-	color: var(--color1);
-	font-size: 4vmax;
-	float: left;
-	position: absolute;
-	top: 50vh;
-	margin-left: 1vw;
-}
-
 
 /***********
 SECTION 4 - VIDEO SLIDER
@@ -700,7 +698,6 @@ AUTHENTICATION FORM
 	display: flex;
 	height: 72px;
 	border-bottom: 1px solid var(--color1);
-	;
 	justify-content: space-between;
 }
 
@@ -743,7 +740,7 @@ AUTHENTICATION FORM
 	width: 100%;
 	height: 100%;
 	flex-shrink: 0;
-	padding: 44px 38px;
+	padding: 0 38px 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -814,12 +811,14 @@ AUTHENTICATION FORM
 	border-color: var(--color1);
 }
 
+#authProviders {
+	text-align: center;
+}
 #authProviders i {
 	color: var(--color1);
 	margin-right: 20px;
 	opacity: 0.5;
 }
-
 #authProviders i:hover {
 	cursor: pointer;
 	opacity: 1;
@@ -899,11 +898,6 @@ CONTACT FORM LAST PAGE
 	/* transform: translateX(650px) translateY(90px); */
 	margin-left: 100%;
 }
-
-
-/* .contact-form:focus, .contact-form:active {
-  background: transparent;
-} */
 
 .contact-form .card {
 	margin-top: -40px;

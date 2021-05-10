@@ -213,19 +213,17 @@
             </div>
           </div>
           <% images.hidden.forEach(function(image) { %>
-          <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
-            data-lcl-author="Andrei Lungu">
+          <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>" data-lcl-author="Andrei Lungu">
             <img src="<%= image.href %>" class="hide-img" alt="<%= image.desc %>" onContextMenu="return false;">
           </a>
           <% }) %>
         </div>
-        <div id="description3">
+        <div id="description3" class="text-center">
           <p>Watch our scene setup which goes straight to the eye and heart S2!<br><br>
             Rendered both in eevee and cycles! ٩(◕‿◕｡)۶<br><br>
             <span>!!! If you want to download a picture don't forget to signin !!!</span><br><br>
             If you wish to test our image processing feature go to the next slide.
           </p>
-
         </div>
         <i class="fas fa-caret-right"></i>
       </div>
@@ -233,7 +231,8 @@
         <i class="fas fa-caret-left"></i>
         <div class="container-fluid slide2-img">
           <h2>Try our face morphing algorithm!</h2>
-          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the "Choose file" button to upload a picture. <br>After a few seconds you will be able to download the morphed face!</p>
+          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the "Choose file" button to upload a picture.<br>
+          After a few seconds you will be able to download the morphed face!</p>
           <div class="uploadbuttons">
             <form>
               <input type="file" id="picture1">

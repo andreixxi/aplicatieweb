@@ -114,6 +114,7 @@ var stripeHandler = StripeCheckout.configure({
             updateCartTotal();
         }).catch(function (error) {
             console.error(error);
+            alert('There has been an error, please try again later.');
         });
     }
 });

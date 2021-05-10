@@ -6,9 +6,6 @@ import { GLTFLoader } from '/three.js/examples/jsm/loaders/GLTFLoader.js';
 
 let scene, renderer, camera, stats, controls;
 let model, skeleton, mixer, clock;
-let selected, color;
-let raycaster, mouse, intersects, objects = [];
-let colorControls;
 
 const crossFadeControls = [];
 
@@ -27,10 +24,7 @@ const baseActions = {
     HipHop: { weight: 0},
 };
 const additiveActions = {
-    Sad_Idle: { weight: 0 },
-    // sad_pose: { weight: 0 },
-    // agree: { weight: 0 },
-    // headShake: { weight: 0 }
+    Sad_Idle: { weight: 0 }
 };
 let panelSettings, numAnimations;
 
@@ -75,25 +69,8 @@ function init() {
         model.traverse(function (object) {
             if (object.isMesh) {
                 object.castShadow = true;
-                objects.push(object);
-                // console.log(object)
-                if (object.name == 'low_shirt_SHIRT_FINAL_PLZ002')
-                selected = object; 
             }
-            // object.name: {rightsole)_baked002, low_shirt_SHIRT_FINAL_PLZ002 etc} ;
         });
-        // console.log('selected', selected);     
-        // console.log(selected.material.color);
-        color = selected.material.color.getStyle();
-        colorControls = new function () {
-            this.color = color; //first save shirt color 
-        }
-
-        // console.log('color', color);
-
-        raycaster = new THREE.Raycaster();
-        mouse = new THREE.Vector2();
-        intersects = [];
 
         skeleton = new THREE.SkeletonHelper(model);
         skeleton.visible = false;
@@ -143,7 +120,6 @@ function init() {
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.domElement.id = 'renderer';
-    renderer.domElement.addEventListener("click", onClickChangeColor);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -178,7 +154,6 @@ function createPanel() {
         'modify time scale': 1.0,
         'wireframe': false,
         'skeleton': false,
-        'color' : '',
         'autoRotate': false,
         'resetCamera': false,
     };
@@ -209,7 +184,6 @@ function createPanel() {
 
     folder4.add(panelSettings, 'wireframe').onChange(toggleWireframe);
     folder4.add(panelSettings, 'skeleton').onChange(toggleSkeleton);
-    folder4.add(panelSettings, 'color').onChange(changeColor);
 
     folder5.add(panelSettings, 'autoRotate').onChange(toggleAutoRotate);
     folder5.add(panelSettings, 'resetCamera').onChange(resetCamera);
@@ -260,23 +234,6 @@ function toggleWireframe(wireframe) {
 function toggleSkeleton(skel) {
     skeleton.visible = skel;
 }
-
-function changeColor(color) {
-    selected.material.color.setStyle(color);
-}
-
-function onClickChangeColor(event) {
-    mouse.x = event.clientX / window.innerWidth * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
-    raycaster.setFromCamera(mouse, camera);
-    intersects = raycaster.intersectObjects(objects);
-    if (intersects.length > 0) {
-      selected = intersects[159].object;
-      colorControls.color = selected.material.color.getStyle();
-      panelSettings[3] = selected.material.color.getStyle();
-    }
-  }
 
 function toggleAutoRotate(rotate) {
     controls.autoRotate = rotate;
@@ -367,7 +324,7 @@ function animate() {
     }
     // Get the time elapsed since the last frame, used for mixer update
     const mixerUpdateDelta = clock.getDelta();
-    // Update the animation mixer, the stats panel, and render this frame
+    // Update the animation mixer, the stats panel, the controls and render this frame
     mixer.update(mixerUpdateDelta);
     stats.update();
     controls.update();
