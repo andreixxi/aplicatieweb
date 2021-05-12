@@ -70,7 +70,6 @@ def morphTriangle(img1, img2, img, t1, t2, t, alpha) :
 
 if __name__ == '__main__':
 
-    # print('cwd', os.getcwd()) # C:\\Users\\andrei\\Desktop\\licenta\\aplicatieweb'
     filename1 = sys.argv[1]
     filename2 = sys.argv[2]
     pathAvgPts = sys.argv[3]

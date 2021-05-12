@@ -152,7 +152,7 @@ async function processImages(img1Name, img2Name) {
         sharp(imgs[i]).resize({
             height: hmin,
             width: wmin,
-            fit: 'contain' // contain - centreaza imaginea si in rest fundal negru; fill face un aspect urat
+            fit: 'contain' // contain - centreaza imaginea si in rest fundal negru
         }).toFile(outputs[i])
             .then(function () {
                 console.log(`images were successfully resized`);
