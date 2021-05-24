@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@splidejs/splide-extension-video": "^0.4.6",
     "@tensorflow/tfjs-node": "^3.6.1",
     "@vladmandic/face-api": "^1.2.2",
     "archiver": "^5.3.0",

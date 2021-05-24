@@ -1,6 +1,49 @@
 import faceMorphing from './imgs.js';
 
+function videoSlider() {
+ const splide = new Splide('.splide', {
+    // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
+    perPage: 4,
+    rewind: true,
+    speed: 1000,
+    gap: '2.1em',
+    padding: '2em',
+    arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
+    pagination: true,
+    lazyLoad: 'nearby',
+    breakpoints: {
+      '1000': {
+        perPage: 3,
+        gap: '2em',
+      },
+      '900': {
+        perPage: 2,
+        gap: '2em'
+      },
+      '650': {
+        perPage: 1,
+        gap: '2em'
+      }
+    }
+  }).mount();
+}
+
 $(function () {
+
+  var lightboxIntro = GLightbox({
+    selector: '.glightboxintro'
+  });
+  lightboxIntro;
+
+  var lightboxVideo = GLightbox({
+    selector: '.glightboxvideos'
+  });
+  lightboxVideo;
+  
+  var lightboxShop = GLightbox({ 
+    selector: '.glightbox-shop'
+  });
+  lightboxShop;
   //////////////////////////////////////////////////////////////
   function init() {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -204,37 +247,8 @@ $(function () {
 
   //////////////////////////////////////////////////////////////
   // video gallery, pentru mobile sa am directie ttb + heightRatio setat
-  splide = new Splide('.splide', {
-    // https://www.cssscript.com/carousel-splide/   ++++ https://splidejs.com/
-    perPage: 4,
-    rewind: true,
-    speed: 1000,
-    gap: '2.1em',
-    padding: '2em',
-    arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
-    pagination: false,
-    lazyLoad: 'nearby',
-    breakpoints: {
-      '1000': {
-        perPage: 3,
-        gap: '2em',
-      },
-      '900': {
-        perPage: 2,
-        gap: '2em'
-      },
-      '650': {
-        perPage: 1,
-        gap: '2em'
-      }
-    },
-    video: {
-      loop: true,
-      playsinline: true,
-      volume: 1,
-      disableOverlayUI: true // hides the play button
-    },
-  }).mount(window.splide.Extensions);
+  videoSlider();
+
 
   //SHOP SLIDER
   splide = new Splide('#shop-splide', {
@@ -266,4 +280,28 @@ $(function () {
     rclick_prevent: true,
     download: false
   });
+
+
+
+  //ADMIN SLIDER
+  splide = new Splide('#admin-works', {
+    perPage: 4,
+    keyboard: false,
+    rewind: true,
+    speed: 1000,
+    // gap: '2.1em',
+    // padding: '2em',
+    arrowPath: 'M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z',
+    pagination: false,
+    lazyLoad: 'nearby',
+  },
+  ).mount(window.splide.Extensions);
+
+    // ADMIN IMG LIGHTBOX
+    var lightboxAdmin = GLightbox({ 
+      selector: '.glightbox-admin',
+      zoomable: false,
+      draggable: false
+    });
+    lightboxAdmin;
 });

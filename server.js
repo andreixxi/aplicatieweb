@@ -35,8 +35,10 @@ app.use(fileupload());
 var email;
 app.post('/', function async(req, res, next) {
     email = req.body.email;
-    if (email !== undefined)
-        email = email.split(' ').join('')
+    if (email !== undefined) {
+        email = email.split(' ').join('');
+        email = email.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, ''); //remove emoji (from twitter's display name)
+    }
     next(); // pass control to the next handler
 });
 
@@ -46,11 +48,13 @@ app.all('/', async function (req, res) {
         const items = await fs.promises.readFile('items.json').then(JSON.parse);
         const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
         const images = await fs.promises.readFile('images.json').then(JSON.parse);
+        const adminData = await fs.promises.readFile('admin.json').then(JSON.parse);
         const options = {
             stripePublicKey: stripePublicKey,
             items: items,
             videos: videos,
-            images: images
+            images: images,
+            admin: adminData
         };
         if (email == gmailAcc) { //admin
             res.render('admin.ejs', options);

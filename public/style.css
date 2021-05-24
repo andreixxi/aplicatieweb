@@ -7,7 +7,7 @@
 }
 
 body {
-	background-color: black;
+	background-color: rgb(16,16,16);;
 }
 
 a {
@@ -260,7 +260,6 @@ HEADER
 
 #section2 {
 	overflow: hidden;
-	width: 95%;
 	margin: auto;
 }
 
@@ -474,7 +473,10 @@ SECTION 4 - VIDEO SLIDER
 	fill: url(#MyGradient);
 }
 
-
+.glightbox-clean .gprev,
+.glightbox-clean .gnext {
+	display: none;
+}
 /* ******************** 
 SECTION5 - SHOPPING CART
 ************************/
@@ -501,7 +503,6 @@ SECTION5 - SHOPPING CART
 
 .shop-img {
 	border-radius: 25px;
-	/* max-width: 18vw; */
 }
 
 #shop-splide .splide__slide {
@@ -519,7 +520,7 @@ SECTION5 - SHOPPING CART
 }
 
 #shop-splide .splide__slide .row {
-	width: 90%;
+	display: inline-flex;
 	text-align: center;
 }
 
@@ -572,7 +573,17 @@ SECTION5 - SHOPPING CART
 	text-align: center;
 	margin-right: 25px;
 }
-
+.cart-items input {
+	text-align: center;
+  top: -50%;
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
+}
+.cart-items span, .cart-items button {
+	top: -25%;
+  -ms-transform: translateY(25%);
+  transform: translateY(25%);
+}
 .btn-purchase,
 .btn-remove {
 	background: rgba(0, 255, 255, 0.3);
@@ -670,7 +681,7 @@ AUTHENTICATION FORM
 
 .logo {
 	position: relative;
-	left: -65%;
+	left: -71%;
 	/* bottom: -100%; */
 	transform: translateY(50%);
 	z-index: 1;
@@ -872,7 +883,7 @@ AUTHENTICATION FORM
 
 
 /***** 
-CONTACT FORM LAST PAGE
+CONTACT FORM 
 *******/
 
 #section6 h1 {
@@ -894,6 +905,7 @@ CONTACT FORM LAST PAGE
 
 .contact-form .logo {
 	width: 5%;
+	left: -65%;
 	/* transform: translateX(650px) translateY(90px); */
 	margin-left: 100%;
 }
@@ -947,4 +959,14 @@ CONTACT FORM LAST PAGE
 .errorMsg {
 	color: var(--color2);
 	font-weight: bold;
+}
+
+
+/****************
+ADMIN PAGE SECTION 7  
+****************/
+
+#admin-section h1 {
+	color: var(--color1);
+	padding-top: 10vh;
 }

@@ -241,6 +241,7 @@ function toggleAutoRotate(rotate) {
 
 function resetCamera() {
     controls.reset();
+    camera.position.set(-1, 0, 3);
 }
 
 function prepareCrossFade(startAction, endAction, duration) {

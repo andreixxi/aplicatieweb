@@ -44,6 +44,15 @@
             "thumbName": "charobj.jpg",
             "path" : "public/shop/full/",
             "file": "charobj.obj"
+        },
+        {
+            "id": 6,
+            "name": "vid1",
+            "price": 750,
+            "imgName": "video.mp4",
+            "thumbName": "video.jpg",
+            "path" : "public/shop/full/",
+            "file": "video.mp4"
         }
     ]
 }

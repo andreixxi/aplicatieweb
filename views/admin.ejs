@@ -11,14 +11,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <!-- lity (pentru video popup) -->
-  <link href="lity.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
   <!-- lc_lightbox -->
   <link href="lc_lightbox.min.css" rel="stylesheet" />
   <link href="skins/dark.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@2.4.21/dist/css/themes/splide-sea-green.min.css"
     rel="stylesheet">
-    <link href="fullpage.css" rel="stylesheet">
+  <link href="fullpage.css" rel="stylesheet">
   <link
     href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/css/splide-extension-video.min.css"
     rel="stylesheet">
@@ -35,8 +34,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- fullpage (before jquery!!) -->
   <script type="text/javascript" src="fullPage.js/dist/fullpage.min.js"></script>
-  <!-- lity (for video popup) -->
-  <script src="lity.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
   <!-- alloy_finger (image gallery) -->
   <script src="alloy_finger.min.js"></script>
   <script src="lc_lightbox.lite.min.js"></script>
@@ -62,12 +60,13 @@
   <script type="module" src="login.js"></script>
   <script type="module" src="contact-form.js"></script>
   <script type="module" src="app.js"></script>
-  <script type="module" src="load3D_glb.js"></script>
+  <!-- <script type="module" src="load3D_glb.js"></script> -->
   <!-- stripe before store.js-->
   <script src="https://checkout.stripe.com/checkout.js" defer></script>
-
   <script>var stripePublicKey = '<%= stripePublicKey %>'</script>
   <script src="store.js" defer></script>
+  <script src="FileSaver.js"></script>
+  <script src="imgs.js" type="module"> </script>
 </head>
 
 <body>
@@ -76,7 +75,7 @@
     <div class="navigation">
       <div class="toggle-wrapper">
         <i class="bi bi-list show"></i>
-        <i class="bi bi-x-octagon hide"></i>
+        <i class="bi bi-x hide"></i>
       </div>
       <ul class="menu">
         <li data-menuanchor="home" class="active"><a href="#home">Home</a></li>
@@ -164,7 +163,7 @@
     <!-- PAGE 1 --- BG VIDEO + YT EMBED PLAY BUTTON  -->
     <div class="section container" id="section1" data-anchor="home">
       <h2>Wonbin<br>Character Presentation</h2>
-      <a href="https://www.youtube.com/watch?v=phGur4M9ics" data-lity>
+      <a href="https://www.youtube.com/watch?v=phGur4M9ics" class="glightboxintro">
         <button type="button" class="btn btn-light" id="button1">
           <!-- imi pot face propriul SVG pentru play -->
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(0,255,255,1)" class="bi bi-play-btn"
@@ -194,100 +193,63 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col">
-                <a class="mybox" href="media/butterfly.png" title="title 1" data-lcl-txt="description 1"
-                  data-lcl-author="andrei lungu" onContextMenu="return false;">
-                  <svg viewBox='0 0 120 100' class="border-img">
-                    <defs>
-                      <pattern id="galleryimg1" patternUnits="userSpaceOnUse" width="120" height="100">
-                        <image href="media/butterfly.png" x="0" y="0" width="120" height="150" />
-                      </pattern>
-                    </defs>
-                    <path
-                      d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
-                      style='stroke:var(--color1); fill: url(#galleryimg1)' />
-                  </svg>
-                </a>
-              </div>
-              <div class="col">
-                <a class="mybox" href="media/butterfly.png" title="title 2" data-lcl-txt="description 2"
-                  data-lcl-author="andrei lungu" onContextMenu="return false;">
-                  <svg viewBox='0 0 120 100' class="border-img">
-                    <defs>
-                      <pattern id="galleryimg2" patternUnits="userSpaceOnUse" width="120" height="100">
-                        <image href="media/butterfly.png" x="0" y="0" width="130" height="130" />
-                      </pattern>
-                    </defs>
-                    <path
-                      d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
-                      style='stroke:var(--color1); fill: url(#galleryimg2)' />
-                  </svg>
-                </a>
-              </div>
-              <div class="col">
-                <a class="mybox" href="media/icon2.png" title="title 3" data-lcl-txt="description 3"
-                  data-lcl-author="andrei lungu" onContextMenu="return false;">
-                  <svg viewBox='0 0 120 100' class="border-img">
-                    <defs>
-                      <pattern id="galleryimg3" patternUnits="userSpaceOnUse" width="120" height="100">
-                        <image href="media/logo.svg" x="0" y="0" width="100" height="100" />
-                      </pattern>
-                    </defs>
-                    <path
-                      d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
-                      style='stroke:var(--color1); fill: url(#galleryimg3)' />
-                  </svg>
-                </a>
-              </div>
-              <div class="col">
-                <a class="mybox" href="media/butterfly.png" title="title 4" data-lcl-txt="description 4"
-                  data-lcl-author="andrei lungu" onContextMenu="return false;">
-                  <svg viewBox='0 0 120 100' class="border-img">
-                    <defs>
-                      <pattern id="galleryimg4" patternUnits="userSpaceOnUse" width="120" height="100">
-                        <image href="media/butterfly.png" x="0" y="0" width="50" height="150" />
-                      </pattern>
-                    </defs>
-                    <path
-                      d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
-                      style='stroke:var(--color1); fill: url(#galleryimg4)' />
-                  </svg>
-                </a>
+                <% images.images.forEach(function(image) { %>
+                  <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
+                    data-lcl-author="Andrei Lungu" onContextMenu="return false;">
+                    <svg viewBox='0 0 120 100' class="border-img">
+                      <defs>
+                        <pattern id="<%= image.pattern %>" patternUnits="userSpaceOnUse" width="120" height="100">
+                          <image href="<%= image.href %>" x="0" y="0" width="130" height="130" />
+                        </pattern>
+                      </defs>
+                      <path
+                        d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
+                        style="stroke:var(--color1); fill: url(#<%=image.pattern%>)" />
+                    </svg>
+                  </a>
+                  <% }) %>
               </div>
             </div>
           </div>
-          <a class="mybox" href="media/butterfly.png" title="title 5" data-lcl-txt="description 5"
-            data-lcl-author="andrei lungu">
-            <img src="media/butterfly.png" class="hide-img" alt="pic5" onContextMenu="return false;">
-          </a>
-          <a class="mybox" href="media/butterfly.png" title="title 6" data-lcl-txt="description 6"
-            data-lcl-author="andrei lungu">
-            <img src="media/icon.png" class="hide-img" alt="pic6" onContextMenu="return false;">
-          </a>
-          <a class="mybox" href="media/icon2.png" title="title 7" data-lcl-txt="description 7"
-            data-lcl-author="andrei lungu">
-            <img src="media/icon2.png" class="hide-img" alt="pic7" onContextMenu="return false;">
-          </a>
-          <a class="mybox" href="media/play-icon.png" title="title 8" data-lcl-txt="description 8"
-            data-lcl-author="andrei lungu">
-            <img src="media/play-icon.png" class="hide-img" alt="pic8" onContextMenu="return false;">
-          </a>
+          <% images.hidden.forEach(function(image) { %>
+            <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
+              data-lcl-author="Andrei Lungu">
+              <img src="<%= image.href %>" class="hide-img" alt="<%= image.desc %>" onContextMenu="return false;">
+            </a>
+            <% }) %>
         </div>
-        <div id="description3">
+        <div id="description3" class="text-center">
           <p>Watch our scene setup which goes straight to the eye and heart S2!<br><br>
             Rendered both in eevee and cycles! ٩(◕‿◕｡)۶<br><br>
             <span>!!! If you want to download a picture don't forget to signin !!!</span><br><br>
             If you wish to test our image processing feature go to the next slide.
           </p>
-         
-        </div>   
-        <i class="fas fa-caret-right"></i>
         </div>
+        <i class="fas fa-caret-right"></i>
+      </div>
       <div class="slide" id="image-processing" data-anchor="image-processing">
         <i class="fas fa-caret-left"></i>
-        <h4 style="color:white">combinarea trasaturilor din doua imagini -Aici doar se incarca doua imagini si folosind
-          triangulari se suprapun trasaturile si se obtine o imagina finala. Poate fi interesant deoarece in momentul
-          sustinerii poti explica si putin din partea de triangulari si procesare de imagini, fiind un subiect
-          interesant. </h4>
+        <div class="slide2-img">
+          <h2>Try our face morphing algorithm!</h2>
+          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the
+            "Choose file" button to upload a picture.<br>
+            After a few seconds you will be able to download the morphed face!</p>
+          <div class="uploadbuttons">
+            <form>
+              <input type="file" id="picture1">
+              <div id="appendimg1"></div>
+            </form>
+            <form>
+              <input type="file" id="picture2">
+              <div id="appendimg2"></div>
+            </form>
+          </div>
+          <div id="getResult">
+            <button id="resbtn">Show result</button>
+            <button id="downloadbtn"><i class="bi bi-cloud-download">Download</i></button>
+            <div id="appendResult"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -295,102 +257,39 @@
     <div class="section text-center container-fluid" id="section4" data-anchor="videos">
       <h1>VIDEOS</h1>
       <br>
-      <h3>Take a look at the rendered videos!</h3>
+      <h3>Take a look at the rendered animations!</h3>
       <br>
       <div class="splide">
         <!-- root -->
         <div class="splide__track">
           <!-- track -->
           <ul class="splide__list">
-
-            <li class="splide__slide">
-              <a href="media/video.mp4" data-lity>
-                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
-                  <path
-                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+            <% videos.videos.forEach(function(video) { %>
+              <li class="splide__slide">
+                <a href="<%= video.href %>" class="glightboxvideos" onContextMenu="return false;">
+                  <img class="thumbnail" data-splide-lazy="<%= video.src %>" alt="<%= video.alt %>">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                    <path
+                      d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
                                                         			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
                                                         			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
                                                         			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
                                                         			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
                                                         			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
                                                         			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
-                  <defs>
-                    <linearGradient id="MyGradient">
-                      <stop offset="5%" stop-color="#00FFFF" />
-                      <stop offset="95%" stop-color="#20B2AA" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </a>
-              <p>descriere1</p>
-            </li>
-            <li class="splide__slide">
-              <a href="media/video.mp4" data-lity>
-                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
-                  <path
-                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
-                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
-                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
-                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
-                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
-                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
-                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
-                </svg>
-              </a>
-              <p>descriere2</p>
-            </li>
-            <li class="splide__slide">
-              <a href="media/video.mp4" data-lity>
-                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
-                  <path
-                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
-                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
-                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
-                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
-                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
-                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
-                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
-                </svg>
-              </a>
-              <p>descriere3</p>
-            </li>
-            <li class="splide__slide">
-              <a href="https://www.youtube.com/watch?v=en4BDQgflG0&ab_channel=Apink%28%EC%97%90%EC%9D%B4%ED%95%91%ED%81%AC%29"
-                data-lity>
-                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
-                  <path
-                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
-                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
-                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
-                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
-                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
-                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
-                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
-                </svg>
-              </a>
-              <p>descriere4</p>
-            </li>
-            <li class="splide__slide">
-              <a href="https://www.youtube.com/watch?v=en4BDQgflG0&ab_channel=Apink%28%EC%97%90%EC%9D%B4%ED%95%91%ED%81%AC%29"
-                data-lity>
-                <img class="thumbnail" data-splide-lazy="thumbnails/thumbnail2.png" alt="video with 1">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
-                  <path
-                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
-                                                        			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
-                                                        			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
-                                                        			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
-                                                        			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
-                                                        			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
-                                                        			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
-                </svg>
-              </a>
-              <p>descriere5</p>
-            </li>
+                    <defs>
+                      <linearGradient id="MyGradient">
+                        <stop offset="5%" stop-color="#00FFFF" />
+                        <stop offset="95%" stop-color="#20B2AA" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </a>
+                <p>
+                  <%= video.desc %>
+                </p>
+              </li>
+              <% }) %>
           </ul>
         </div>
       </div>
@@ -435,18 +334,37 @@
               <ul class="splide__list">
                 <% items.images.forEach(function(item) { %>
                   <li class="splide__slide" data-item-id="<%= item.id %>">
-                    <a class="myshopbox" href="thumbnails/<%= item.imgName %>" title="<%= item.name %>"
+                    <a class="myshopbox" href="shop/full/<%= item.imgName %>" title="<%= item.name %>"
                       onContextMenu="return false;">
-                      <img class="shop-img" src="thumbnails/<%= item.imgName %>" alt="<%= item.imgName %>">
+                      <% let extension=item.imgName.split('.')[1]; if (extension=='png' ) { %>
+                        <img class="shop-img img-fluid" src="shop/thumbs/<%= item.thumbName %>"
+                          alt="<%= item.imgName %>">
                     </a>
-                    <div class="row">
-                      <p class="price col">$<%= item.price / 100 %>
-                      </p>
-                      <p class="desc col">
-                        <%= item.name %>
-                      </p>
-                      <button class="shopbtn col">add</button>
-                    </div>
+                    <% } if (extension=='mp4' ) { %>
+                      <a href="shop/full/<%= item.file %>" class="glightbox-shop">
+                        <img class="shop-img img-fluid" data-splide-lazy="shop/thumbs/<%= item.thumbName %>"
+                          alt="shop/thumbs/<%= item.thumbName %>">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                          <path
+                            d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                                			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                                			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                                			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                                			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                                			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                                			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                        </svg>
+                      </a>
+                      <% } %>
+                        <div class="row">
+                          <p class="price col">
+                            $<%= item.price / 100 %>
+                          </p>
+                          <p class="desc col">
+                            <%= item.name %>
+                          </p>
+                          <button class="shopbtn col">add</button>
+                        </div>
                   </li>
                   <% }) %>
               </ul>
@@ -483,7 +401,7 @@
         <p>If you have any questions, suggestions or feedback, please do not hesitate to contact us!
           ٩(๑･ิᴗ･ิ)۶٩(･ิᴗ･ิ๑)۶</p>
         <div class="align">
-          <img class="logo" src="media/butterfly.png">
+          <img class="logo" src="media/butterfly.png" onContextMenu="return false;">
           <div class="card">
             <div class="head">
               <div></div>
@@ -515,9 +433,41 @@
       </div>
     </div>
     <!-- PAGE 7-->
-        <div class="section text-center container-fluid" id="admin-section" data-anchor="admin">
-            <h1 style="color:aliceblue"> ADMIN PAGE - FUTURE WORKS</h1>
-        </div>
+    <div class="section text-center container-fluid" id="admin-section" data-anchor="admin">
+      <h1>FUTURE WORKS</h1>
+      <div class="splide" id="admin-works">
+            <div class="splide__track">
+              <ul class="splide__list">
+                <% admin.images.forEach(function(item) { %>
+                  <li class="splide__slide" data-item-id="<%= item.id %>">
+                    <a class="glightbox-admin" href="admin/full/<%= item.imgName %>" title="<%= item.name %>"
+                      onContextMenu="return false;" >
+                      <% let extension=item.imgName.split('.')[1]; if (extension=='png' ) { %>
+                        <img class="shop-img img-fluid" src="admin/thumbs/<%= item.thumbName %>"
+                          alt="<%= item.imgName %>">
+                    </a>
+                    <% } if (extension=='mp4' ) { %>
+                      <a href="admin/full/<%= item.file %>" class="glightbox-admin">
+                        <img class="shop-img img-fluid" data-splide-lazy="admin/thumbs/<%= item.thumbName %>"
+                          alt="admin/thumbs/<%= item.thumbName %>">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                          <path
+                            d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                                			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                                			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                                			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                                			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                                			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                                			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                        </svg>
+                      </a>
+                      <% } %> 
+                  </li>
+                  <% }) %>
+              </ul>
+            </div>
+          </div>
+    </div>
   </div>
   <!--fullpage end-->
   <div id="footer">

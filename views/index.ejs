@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <!-- lity (pentru video popup) -->
-  <link href="lity.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
   <!-- lc_lightbox -->
   <link href="lc_lightbox.min.css" rel="stylesheet" />
   <link href="skins/dark.css" rel="stylesheet" />
@@ -35,8 +34,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- fullpage (before jquery!!) -->
   <script type="text/javascript" src="fullPage.js/dist/fullpage.min.js"></script>
-  <!-- lity (for video popup) -->
-  <script src="lity.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
   <!-- alloy_finger (image gallery) -->
   <script src="alloy_finger.min.js"></script>
   <script src="lc_lightbox.lite.min.js"></script>
@@ -164,7 +162,7 @@
     <!-- PAGE 1 --- BG VIDEO + YT EMBED PLAY BUTTON  -->
     <div class="section container" id="section1" data-anchor="home">
       <h2>Wonbin<br>Character Presentation</h2>
-      <a href="https://www.youtube.com/watch?v=phGur4M9ics" data-lity>
+      <a href="https://www.youtube.com/watch?v=phGur4M9ics" class="glightboxintro">
         <button type="button" class="btn btn-light" id="button1">
           <!-- imi pot face propriul SVG pentru play -->
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(0,255,255,1)" class="bi bi-play-btn"
@@ -195,28 +193,29 @@
             <div class="row">
               <div class="col">
                 <% images.images.forEach(function(image) { %>
-                <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
-                  data-lcl-author="Andrei Lungu" onContextMenu="return false;">
-                  <svg viewBox='0 0 120 100' class="border-img">
-                    <defs>
-                      <pattern id="<%= image.pattern %>" patternUnits="userSpaceOnUse" width="120" height="100">
-                        <image href="<%= image.href %>" x="0" y="0" width="130" height="130" />
-                      </pattern>
-                    </defs>
-                    <path
-                      d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
-                      style="stroke:var(--color1); fill: url(#<%=image.pattern%>)" />
-                  </svg>
-                </a>
-                <% }) %>
+                  <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
+                    data-lcl-author="Andrei Lungu" onContextMenu="return false;">
+                    <svg viewBox='0 0 120 100' class="border-img">
+                      <defs>
+                        <pattern id="<%= image.pattern %>" patternUnits="userSpaceOnUse" width="120" height="100">
+                          <image href="<%= image.href %>" x="0" y="0" width="130" height="130" />
+                        </pattern>
+                      </defs>
+                      <path
+                        d='M38,2 L82,2 A12,12 0 0,1 94,10 L112,44 A12,12 0 0,1 112,56L94,90 A12,12 0 0,1 82,98 L38,98 A12,12 0 0,1 26,90 L8,56 A12,12 0 0,1 8,44 L26,10 A12,12 0 0,1 38,2'
+                        style="stroke:var(--color1); fill: url(#<%=image.pattern%>)" />
+                    </svg>
+                  </a>
+                  <% }) %>
               </div>
             </div>
           </div>
           <% images.hidden.forEach(function(image) { %>
-          <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>" data-lcl-author="Andrei Lungu">
-            <img src="<%= image.href %>" class="hide-img" alt="<%= image.desc %>" onContextMenu="return false;">
-          </a>
-          <% }) %>
+            <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
+              data-lcl-author="Andrei Lungu">
+              <img src="<%= image.href %>" class="hide-img" alt="<%= image.desc %>" onContextMenu="return false;">
+            </a>
+            <% }) %>
         </div>
         <div id="description3" class="text-center">
           <p>Watch our scene setup which goes straight to the eye and heart S2!<br><br>
@@ -231,8 +230,9 @@
         <i class="fas fa-caret-left"></i>
         <div class="slide2-img">
           <h2>Try our face morphing algorithm!</h2>
-          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the "Choose file" button to upload a picture.<br>
-          After a few seconds you will be able to download the morphed face!</p>
+          <p>For best results, pick two profile images of similar view and size. After you signin, please click on the
+            "Choose file" button to upload a picture.<br>
+            After a few seconds you will be able to download the morphed face!</p>
           <div class="uploadbuttons">
             <form>
               <input type="file" id="picture1">
@@ -264,29 +264,31 @@
           <!-- track -->
           <ul class="splide__list">
             <% videos.videos.forEach(function(video) { %>
-            <li class="splide__slide">
-              <a href="<%= video.href %>" data-lity>
-                <img class="thumbnail" data-splide-lazy="<%= video.src %>" alt="<%= video.alt %>">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
-                  <path
-                    d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+              <li class="splide__slide">
+                <a href="<%= video.href %>" class="glightboxvideos" onContextMenu="return false;">
+                  <img class="thumbnail" data-splide-lazy="<%= video.src %>" alt="<%= video.alt %>">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                    <path
+                      d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
                                                         			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
                                                         			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
                                                         			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
                                                         			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
                                                         			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
                                                         			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
-                  <defs>
-                    <linearGradient id="MyGradient">
-                      <stop offset="5%" stop-color="#00FFFF" />
-                      <stop offset="95%" stop-color="#20B2AA" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </a>
-              <p><%= video.desc %></p>
-            </li>
-            <% }) %>
+                    <defs>
+                      <linearGradient id="MyGradient">
+                        <stop offset="5%" stop-color="#00FFFF" />
+                        <stop offset="95%" stop-color="#20B2AA" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </a>
+                <p>
+                  <%= video.desc %>
+                </p>
+              </li>
+              <% }) %>
           </ul>
         </div>
       </div>
@@ -333,16 +335,35 @@
                   <li class="splide__slide" data-item-id="<%= item.id %>">
                     <a class="myshopbox" href="shop/full/<%= item.imgName %>" title="<%= item.name %>"
                       onContextMenu="return false;">
-                      <img class="shop-img img-fluid" src="shop/thumbs/<%= item.thumbName %>" alt="<%= item.imgName %>">
+                      <% let extension=item.imgName.split('.')[1]; if (extension=='png' ) { %>
+                        <img class="shop-img img-fluid" src="shop/thumbs/<%= item.thumbName %>"
+                          alt="<%= item.imgName %>">
                     </a>
-                    <div class="row">
-                      <p class="price col">$<%= item.price / 100 %>
-                      </p>
-                      <p class="desc col">
-                        <%= item.name %>
-                      </p>
-                      <button class="shopbtn col">add</button>
-                    </div>
+                    <% } if (extension=='mp4' ) { %>
+                      <a href="shop/full/<%= item.file %>" class="glightbox-shop">
+                        <img class="shop-img img-fluid" data-splide-lazy="shop/thumbs/<%= item.thumbName %>"
+                          alt="shop/thumbs/<%= item.thumbName %>">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
+                          <path
+                            d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
+                                                                			v371.112c0,38.846,31.3,70.619,69.77,70.829c0.105,0,0.21,0.001,0.313,0.001c12.022-0.001,24.55-3.769,36.251-10.909
+                                                                			c9.413-5.743,12.388-18.029,6.645-27.441c-5.743-9.414-18.031-12.388-27.441-6.645c-5.473,3.338-10.818,5.065-15.553,5.064
+                                                                			c-14.515-0.079-30.056-12.513-30.056-30.898V70.058c0-11.021,5.744-20.808,15.364-26.183c9.621-5.375,20.966-5.135,30.339,0.636
+                                                                			l302.401,186.405c9.089,5.596,14.29,14.927,14.268,25.601c-0.022,10.673-5.261,19.983-14.4,25.56L204.147,415.945
+                                                                			c-9.404,5.758-12.36,18.049-6.602,27.452c5.757,9.404,18.048,12.36,27.452,6.602l218.611-133.852
+                                                                			c20.931-12.769,33.457-35.029,33.507-59.55C477.165,232.079,464.729,209.767,443.86,196.919z" />
+                        </svg>
+                      </a>
+                      <% } %>
+                        <div class="row">
+                          <p class="price col">
+                            $<%= item.price / 100 %>
+                          </p>
+                          <p class="desc col">
+                            <%= item.name %>
+                          </p>
+                          <button class="shopbtn col">add</button>
+                        </div>
                   </li>
                   <% }) %>
               </ul>
@@ -379,7 +400,7 @@
         <p>If you have any questions, suggestions or feedback, please do not hesitate to contact us!
           ٩(๑･ิᴗ･ิ)۶٩(･ิᴗ･ิ๑)۶</p>
         <div class="align">
-          <img class="logo" src="media/butterfly.png">
+          <img class="logo" src="media/butterfly.png" onContextMenu="return false;">
           <div class="card">
             <div class="head">
               <div></div>
