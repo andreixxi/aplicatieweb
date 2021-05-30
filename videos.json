@@ -1,7 +1,7 @@
 {
     "videos":[
         {
-            "href":"media/video.mp4",
+            "href":"https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/i.mp4?alt=media&token=091d27ed-5d86-4971-b569-4f7fa02445a2",
             "src":"thumbnails/thumbnail2.png",
             "alt":"video with 1",
             "desc":"descriere1"

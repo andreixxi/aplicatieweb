@@ -101,7 +101,30 @@ var stripeHandler = StripeCheckout.configure({
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
-            alert(data.message);
+            // alert(data.message);
+            Swal.fire({
+                text: data.message,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                },
+                backdrop: `
+                    url("media/thankyou.gif")
+                    center 15%
+                    no-repeat
+                `,
+                background: 'rgb(255, 245, 195)',
+                buttons: {
+                    confirm: { text:'text', className: 'sweet-alert-btn' }
+                },
+                customClass: {
+                    confirmButton: 'sweet-alert-btn',
+                },
+                allowOutsideClick: false,
+                buttonsStyling: false
+            });
 
             //empty cart
             var cartItems = $('.cart-items');
@@ -114,7 +137,30 @@ var stripeHandler = StripeCheckout.configure({
             updateCartTotal();
         }).catch(function (error) {
             console.error(error);
-            alert('There has been an error, please try again later.');
+            Swal.fire({
+                text: 'data.message',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                },
+                customClass: {
+                    confirmButton: 'sweet-alert-btn'
+                },
+                allowOutsideClick: false,
+                buttonsStyling: false         
+            });
+            // alert('There has been an error, please try again later.');
+            Swal.fire({
+                text: 'There has been an error, please try again later.',
+                background: 'rgb(255, 114, 96)',
+                customClass: {
+                    confirmButton: 'sweet-alert-btn'
+                },
+                allowOutsideClick: false,
+                buttonsStyling: false         
+            });
         });
     }
 });
@@ -149,7 +195,16 @@ function purchase() {
             $('.shop-container').show(500);
         });
     } else {
-        alert('EMPTY CART');
+        // alert('EMPTY CART');
+        Swal.fire({
+            text: 'EMPTY CART!',
+            background: 'rgb(255, 114, 96)',
+            customClass: {
+                confirmButton: 'sweet-alert-btn'
+            },
+            allowOutsideClick: false,
+            buttonsStyling: false         
+        });
     }
 }
 
@@ -161,7 +216,16 @@ function addItemToCart(title, price, imgSrc, id) {
     var cartItemNames = cartItems.getElementsByClassName('cart-item-title');
     for (var i = 0; i < cartItemNames.length; i++) {
         if (cartItemNames[i].innerText == title) {
-            alert('This item is already added to the cart');
+            // alert('This item is already added to the cart');
+            Swal.fire({
+                text: 'This item is already added to the cart.',
+                background: 'rgb(255, 114, 96)',
+                customClass: {
+                    confirmButton: 'sweet-alert-btn'
+                },
+                allowOutsideClick: false,
+                buttonsStyling: false         
+            });
             return;
         }
     }

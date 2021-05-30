@@ -1,3 +1,6 @@
+// http://jsfiddle.net/al21al/buamnceL/
+// https://codepen.io/prisoner849/pen/qQEwyO?editors=0011
+
 import * as THREE from '/three.js/build/three.module.js';
 import Stats from '/three.js/examples/jsm/libs/stats.module.js';
 import { GUI } from '/three.js/examples/jsm/libs/dat.gui.module.js';
@@ -6,7 +9,11 @@ import { GLTFLoader } from '/three.js/examples/jsm/loaders/GLTFLoader.js';
 
 let scene, renderer, camera, stats, controls;
 let model, skeleton, mixer, clock;
+let objects = [], selected, guiControls;
 
+var intersects = [];
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 const crossFadeControls = [];
 
 let currentBaseAction = 'StandingPose';
@@ -69,8 +76,17 @@ function init() {
         model.traverse(function (object) {
             if (object.isMesh) {
                 object.castShadow = true;
+                objects.push(object);
+                object.addEventListener('click', onClickChangeColor);
             }
         });
+
+        // console.log('objects length', objects.length); //166
+
+        selected = objects[0];
+        guiControls = new function() {
+            this.color = selected.material.color.getStyle();
+        }
 
         skeleton = new THREE.SkeletonHelper(model);
         skeleton.visible = false;
@@ -112,6 +128,11 @@ function init() {
 	// called when loading has errors
 	function ( error ) {
 		console.log( 'An error happened' );
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'There has been an error while loading the character. Please refresh the page.',
+          });
 	});
 
     stats = new Stats();
@@ -124,6 +145,12 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.shadowMap.enabled = true;
+
+    
+    // for(var idx = 0; idx < objects.length; idx++) {
+    //     objects[idx].addEventListener('click', onClickChangeColor);
+    // }
+
     container.appendChild(renderer.domElement);
 
     // camera
@@ -147,8 +174,9 @@ function createPanel() {
     const folder1 = panel.addFolder('Base Actions');
     const folder2 = panel.addFolder('Additive Action Weights');
     const folder3 = panel.addFolder('General Speed');
-    const folder4 = panel.addFolder('Model Settings');
     const folder5 = panel.addFolder('Camera Settings');
+    const folder4 = panel.addFolder('Model Settings');
+    
 
     panelSettings = {
         'modify time scale': 1.0,
@@ -184,6 +212,11 @@ function createPanel() {
 
     folder4.add(panelSettings, 'wireframe').onChange(toggleWireframe);
     folder4.add(panelSettings, 'skeleton').onChange(toggleSkeleton);
+    folder4.addColor(guiControls, "color")
+        .listen()
+        .onChange(function (e) {
+            selected.material.color.setStyle(e);
+        });
 
     folder5.add(panelSettings, 'autoRotate').onChange(toggleAutoRotate);
     folder5.add(panelSettings, 'resetCamera').onChange(resetCamera);
@@ -211,6 +244,22 @@ function createPanel() {
             control.setInactive();
         }
     });
+}
+
+function onClickChangeColor(event) {
+    // calculate mouse position in normalized device coordinates (-1 to +1) for both components
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);// update the picking ray with the camera and mouse position
+    intersects = raycaster.intersectObjects(objects);// calculate objects intersecting the picking ray
+    console.log(intersects);
+    
+    for ( let i = 0; i < intersects.length; i ++ ) {
+        selected = intersects[i].object;
+        console.log('touched', selected.name)
+        guiControls.color = selected.material.color.getStyle();
+    }
 }
 
 function activateAction(action) {

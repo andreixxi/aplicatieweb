@@ -23,6 +23,10 @@ const canvas = require('canvas');
 const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
 const rimraf = require("rimraf");
+const admin = require('firebase-admin');
+admin.initializeApp();
+const db = admin.firestore();
+
 
 const port = process.env.PORT || 3000;
 
@@ -42,6 +46,32 @@ app.post('/', function async(req, res, next) {
     next(); // pass control to the next handler
 });
 
+//write images from db when opening the server
+app.get('/', async function(req, res, next) {
+    const images = [];
+    await db.collection("imageGallery").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            images.push(doc.data());
+        });
+    });
+    // console.log('58',images)
+    fs.writeFileSync('images-db.json', JSON.stringify(images, null, 4));
+    next();
+})
+
+//update after admin changes sth
+app.post('/adminimg', async function(req, res, next) {
+    const images = [];
+    await db.collection("imageGallery").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            images.push(doc.data());
+        });
+    });
+    console.log('70',images)
+    fs.writeFileSync('images-db.json', JSON.stringify(images, null, 4));
+    res.end(JSON.stringify({ status: 'new images were successfully sent and updated to the server' }));
+    next();
+})
 //render index or admin page
 app.all('/', async function (req, res) {
     try {
@@ -49,12 +79,15 @@ app.all('/', async function (req, res) {
         const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
         const images = await fs.promises.readFile('images.json').then(JSON.parse);
         const adminData = await fs.promises.readFile('admin.json').then(JSON.parse);
+        const imagesDB = await fs.promises.readFile('images-db.json').then(JSON.parse);
+        
         const options = {
             stripePublicKey: stripePublicKey,
             items: items,
             videos: videos,
             images: images,
-            admin: adminData
+            admin: adminData,
+            imagesDB: imagesDB
         };
         if (email == gmailAcc) { //admin
             res.render('admin.ejs', options);
@@ -111,8 +144,8 @@ app.post('/processImg', async function (req, res) {
     setTimeout(function () {
         const image64 = base64_encode(`${__dirname}\\uploads\\${email}\\MorphedFace.jpg`);
         rimraf(path.join(__dirname, `uploads/${email}`), function () {
-            console.log(`done deleting items for ${email}'s face morphing`); 
-           });
+            console.log(`done deleting items for ${email}'s face morphing`);
+        });
         res.send(image64)
     }, 5000); // wait 5s
 });
@@ -294,6 +327,7 @@ function createArchive(customerName, customerEmail) {
 
     // good practice to catch this error explicitly
     archive.on('error', function (err) {
+        console.log('error', err);
         throw err;
     });
 
@@ -340,8 +374,8 @@ async function sendEmail(customerName, customerEmail, emailContent, emailAttachm
 
     // delete files for current order
     rimraf(path.join(__dirname, `archives/${customerEmail}`), function () {
-         console.log(`done deleting items for ${customerEmail}'s order`); 
-        });
+        console.log(`done deleting items for ${customerEmail}'s order`);
+    });
 }
 
 function saveEmailData(emailAttachment, customerEmail) {
@@ -363,7 +397,7 @@ function saveEmailData(emailAttachment, customerEmail) {
             if (err) throw err;
             // console.log(srcfile, 'was copied to', dstfile);
         });
-        console.log('archive attachment was successfully saved');
+        console.log('archive attachment was successfully saved to customer folder');
     }
 }
 

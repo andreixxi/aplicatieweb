@@ -1,3 +1,4 @@
+
 $(function () {
     // toggle login <-> register 
     $(window).on("hashchange", function () {
@@ -124,7 +125,7 @@ $(function () {
                         var dbHash = doc.data().hash; // get hash and salt from the user stored in db
                         var dbSalt = doc.data().salt;
                         var passSalt = rawPassword.concat(dbSalt); //concat pass and salt
-                        var newHash = await digestMessage(passSalt) // apply hash function
+                        var newHash = await digestMessage(passSalt); // apply hash function
                         firebase.auth().signInWithEmailAndPassword(email, newHash)
                             .then(function () {
                                 console.log('signed in');
@@ -264,7 +265,12 @@ $(function () {
                 location.reload();
             })
             .catch((error) => {
-                alert('There has been an error while signing out.');
+                // alert('There has been an error while signing out.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'There has been an error while signing out.',
+                  });
             });
     });
 });

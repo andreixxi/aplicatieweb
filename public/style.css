@@ -198,12 +198,15 @@ HEADER
 /******
  ***  SHARE BUTTON  
  ******/
+#socialGallery, #socialBox {
+	width: fit-content;
+	height: fit-content;
+} 
 
 #socialShare {
 	text-align: right;
+	float: right;
 }
-
-
 /* pentru butonase */
 
 #socialShare a,
@@ -291,6 +294,11 @@ HEADER
 	position: relative !important;
 	top: 8rem !important;
 	left: 1rem !important;
+	width: fit-content;
+}
+
+.cr .color .c {
+	height: 27px !important;
 }
 
 /**
@@ -404,7 +412,16 @@ HEADER
 	cursor: pointer;
 	margin-top: 1rem;
 }
-
+.sweet-alert-btn{
+	outline:0;
+	background-color: var(--color4);
+	color: var(--color1);
+	padding: 0.5rem;
+	border-radius: 0.9rem;
+	border: none;
+	cursor: pointer;
+	margin-top: 1rem;
+}
 #resbtn,
 #downloadbtn {
 	margin-top: 1.5rem;
@@ -965,8 +982,72 @@ CONTACT FORM
 /****************
 ADMIN PAGE SECTION 7  
 ****************/
-
 #admin-section h1 {
 	color: var(--color1);
 	padding-top: 10vh;
+}
+#admin-section h3 {
+	color: var(--color1);
+	margin-bottom: 10vh;
+}
+.btn-group-vertical button,
+.getdata #backbtn,
+.getdata #addbtn,
+.getdata #savebtn {
+	background: var(--color3);
+	border-radius: 8px;
+	color: var(--color4);
+	font-weight: 500;
+	font-size: 15px;
+	border-color: var(--color5);
+	padding: 10px;
+	margin: 10px;
+}
+.getdata #backbtn,
+.getdata #addbtn,
+.getdata #savebtn {
+	color: var(--color2);
+}
+.getdata #backbtn {
+	float: left;
+}
+.getdata #addbtn, .getdata #savebtn {
+	float: right;
+}
+.getdata {
+	margin-top: 15vh;
+}
+.bi-pencil-square, .bi-trash {
+	cursor: pointer;
+}
+/* add image form */
+#addform {
+	display: none;
+	background: var(--color3);
+	color: var(--color2);
+}
+#addform input {
+	background: transparent;
+}
+#addform div {
+	margin: 20px;
+}
+#addform i {
+	font-style: normal;
+}
+#addform button {
+	margin-right: 40px;
+	background: var(--color3);
+	border-radius: 8px;
+	font-weight: 500;
+	font-size: 15px;
+	border-color: var(--color5);
+	padding: 10px;
+}
+/**sweetAlert box blur filter***/
+body.swal2-shown > [aria-hidden="true"] {
+	filter: blur(5px);
+}
+body > * {
+	transition: 0.1s filter linear;  
 }

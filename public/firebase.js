@@ -1,6 +1,7 @@
 var firebaseConfig = {
     apiKey: "AIzaSyCyA_1qg5KW4DyIzaHuF6IMXlJg9WbNVfk",
     authDomain: "web-app-for-3d-model.firebaseapp.com",
+    databaseURL: "https://web-app-for-3d-model-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "web-app-for-3d-model",
     storageBucket: "web-app-for-3d-model.appspot.com",
     messagingSenderId: "636171680645",
@@ -12,4 +13,5 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 var db = firebase.firestore(); // firestore instance
+var storage = firebase.storage();
 
