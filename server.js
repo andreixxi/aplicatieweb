@@ -27,7 +27,6 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
 
-
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
@@ -46,16 +45,27 @@ app.post('/', function async(req, res, next) {
     next(); // pass control to the next handler
 });
 
-//write images from db when opening the server
+//write from db when opening the server
 app.get('/', async function(req, res, next) {
-    const images = [];
+    const images = [], videos = [], works = [];
     await db.collection("imageGallery").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             images.push(doc.data());
         });
     });
-    // console.log('58',images)
+    await db.collection("videos").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            videos.push(doc.data());
+        });
+    })
+    await db.collection("works").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            works.push(doc.data());
+        });
+    })
     fs.writeFileSync('images-db.json', JSON.stringify(images, null, 4));
+    fs.writeFileSync('videos-db.json', JSON.stringify(videos, null, 4));
+    fs.writeFileSync('works-db.json', JSON.stringify(works, null, 4));
     next();
 })
 
@@ -67,9 +77,32 @@ app.post('/adminimg', async function(req, res, next) {
             images.push(doc.data());
         });
     });
-    console.log('70',images)
+    // console.log('70',images)
     fs.writeFileSync('images-db.json', JSON.stringify(images, null, 4));
     res.end(JSON.stringify({ status: 'new images were successfully sent and updated to the server' }));
+    next();
+});
+app.post('/adminvideo', async function(req, res, next) {
+    const videos = [];
+    await db.collection("videos").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            videos.push(doc.data());
+        });
+    });
+    // console.log('70',images)
+    fs.writeFileSync('videos-db.json', JSON.stringify(videos, null, 4));
+    res.end(JSON.stringify({ status: 'new videos were successfully sent and updated to the server' }));
+    next();
+});
+app.post('/adminfutureworks', async function(req,res,next) {
+    const works = [];
+    await db.collection("works").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            works.push(doc.data());
+        });
+    });
+    fs.writeFileSync('works-db.json', JSON.stringify(works, null, 4));
+    res.end(JSON.stringify({ status: 'new future works were successfully sent and updated to the server' }));
     next();
 })
 //render index or admin page
@@ -79,15 +112,20 @@ app.all('/', async function (req, res) {
         const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
         const images = await fs.promises.readFile('images.json').then(JSON.parse);
         const adminData = await fs.promises.readFile('admin.json').then(JSON.parse);
-        const imagesDB = await fs.promises.readFile('images-db.json').then(JSON.parse);
         
+        const imagesDB = await fs.promises.readFile('images-db.json').then(JSON.parse);
+        const videosDB = await fs.promises.readFile('videos-db.json').then(JSON.parse);
+        const worksDB = await fs.promises.readFile('works-db.json').then(JSON.parse);
+
         const options = {
             stripePublicKey: stripePublicKey,
             items: items,
             videos: videos,
             images: images,
             admin: adminData,
-            imagesDB: imagesDB
+            imagesDB: imagesDB,
+            videosDB: videosDB,
+            worksDB: worksDB
         };
         if (email == gmailAcc) { //admin
             res.render('admin.ejs', options);

@@ -1,0 +1,16 @@
+[
+    {
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/videos%2Fvideo.mp4?alt=media&token=1479da0b-9fd8-487c-b9ee-5ef99e2f3235",
+        "name": "video.mp4",
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/videos%2Fthumbnail2.png?alt=media&token=2e6a9864-81ff-4ad1-98c1-f3ff9ae7264c",
+        "id": 1,
+        "title": "video 1"
+    },
+    {
+        "id": 2,
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/videos%2Fki.mp4?alt=media&token=c4f8f7fa-f2bc-4142-befd-843302aee330",
+        "title": "video 2",
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/videos%2Fpoza.png?alt=media&token=1b8f97e7-d3b9-4bbc-8fa5-a4a72a48dbd5",
+        "name": "ki.mp4"
+    }
+]

@@ -2,38 +2,33 @@
     "images": [
         {
             "href":"admin/0.png",
-            "title": "title 0",
-            "desc": "desc 0",
             "thumbName": "0.jpg",
             "imgName": "0.png"
         },
         {
             "href":"admin/1.png",
-            "title": "title 1",
-            "desc": "desc 1",
             "thumbName": "1.jpg",
             "imgName": "1.png"
         },
         {
             "href":"admin/3.png",
-            "title": "title 3",
-            "desc": "desc 3",
             "thumbName": "3.jpg",
             "imgName": "3.png"
         },
         {
             "href":"admin/2.png",
-            "title": "title 2",
-            "desc": "desc 2",
             "thumbName": "2.jpg",
             "imgName": "2.png"
         },
         {
             "href":"admin/4.png",
-            "title": "title 4",
-            "desc": "desc 4",
             "thumbName": "4.jpg",
             "imgName": "4.png"
+        },
+        {
+            "href":"admin/v0.mp4",
+            "thumbName": "v0.jpg",
+            "imgName": "v0.mp4"
         }
     ]
 }

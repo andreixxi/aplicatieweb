@@ -308,6 +308,12 @@ $(function () {
       zoomable: false,
       draggable: false
     });
+    lightboxAdmin.on('slide_before_load', function (data) {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      console.log(slideNode)
+      console.log(slideConfig)
+      console.log(trigger)
+    })
     lightboxAdmin;
   }
 });
