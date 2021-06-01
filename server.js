@@ -47,7 +47,7 @@ app.post('/', function async(req, res, next) {
 
 //write from db when opening the server
 app.get('/', async function(req, res, next) {
-    const images = [], videos = [], works = [];
+    const images = [], videos = [], items = [], works = [];
     await db.collection("imageGallery").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             images.push(doc.data());
@@ -57,7 +57,12 @@ app.get('/', async function(req, res, next) {
         querySnapshot.forEach((doc) => {
             videos.push(doc.data());
         });
-    })
+    });
+    await db.collection("shop").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            items.push(doc.data());
+        });
+    });
     await db.collection("works").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             works.push(doc.data());
@@ -65,6 +70,7 @@ app.get('/', async function(req, res, next) {
     })
     fs.writeFileSync('images-db.json', JSON.stringify(images, null, 4));
     fs.writeFileSync('videos-db.json', JSON.stringify(videos, null, 4));
+    fs.writeFileSync('items-db.json', JSON.stringify(items, null, 4))
     fs.writeFileSync('works-db.json', JSON.stringify(works, null, 4));
     next();
 })
@@ -94,6 +100,18 @@ app.post('/adminvideo', async function(req, res, next) {
     res.end(JSON.stringify({ status: 'new videos were successfully sent and updated to the server' }));
     next();
 });
+app.post('/adminshop', async function(req, res, next) {
+    const items = [];
+    await db.collection("shop").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            items.push(doc.data());
+        });
+    });
+    // console.log('70',images)
+    fs.writeFileSync('items-db.json', JSON.stringify(items, null, 4));
+    res.end(JSON.stringify({ status: 'new items were successfully sent and updated to the server' }));
+    next();
+});
 app.post('/adminfutureworks', async function(req,res,next) {
     const works = [];
     await db.collection("works").get().then((querySnapshot) => {
@@ -116,7 +134,7 @@ app.all('/', async function (req, res) {
         const imagesDB = await fs.promises.readFile('images-db.json').then(JSON.parse);
         const videosDB = await fs.promises.readFile('videos-db.json').then(JSON.parse);
         const worksDB = await fs.promises.readFile('works-db.json').then(JSON.parse);
-
+        const itemsDB = await fs.promises.readFile('items-db.json').then(JSON.parse);
         const options = {
             stripePublicKey: stripePublicKey,
             items: items,
@@ -125,7 +143,8 @@ app.all('/', async function (req, res) {
             admin: adminData,
             imagesDB: imagesDB,
             videosDB: videosDB,
-            worksDB: worksDB
+            worksDB: worksDB,
+            itemsDB: itemsDB
         };
         if (email == gmailAcc) { //admin
             res.render('admin.ejs', options);

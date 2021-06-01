@@ -284,12 +284,15 @@ $(function () {
   });
 
 
+  $('[data-fancybox]').fancybox({
+    protect: true
+  });
 
   //ADMIN SLIDER
   let adminPage = $('#admin-works')[0];
   if (adminPage !== undefined) {
     splide = new Splide('#admin-works', {
-      perPage: 2,
+      perPage: 3,
       keyboard: false,
       rewind: true,
       speed: 1000,
@@ -301,19 +304,5 @@ $(function () {
       lazyLoad: 'nearby',
     },
     ).mount(window.splide.Extensions);
-
-    // ADMIN IMG LIGHTBOX
-    var lightboxAdmin = GLightbox({
-      selector: '.glightbox-admin',
-      zoomable: false,
-      draggable: false
-    });
-    lightboxAdmin.on('slide_before_load', function (data) {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      console.log(slideNode)
-      console.log(slideConfig)
-      console.log(trigger)
-    })
-    lightboxAdmin;
   }
 });

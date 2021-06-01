@@ -1,18 +1,19 @@
 $(function () {
     var imagesRef = storage.ref();
     var videosRef = storage.ref();
+    var shopRef = storage.ref();
     var worksRef = storage.ref();
-
+    
     const tables = $('.getdata table');
+    const saveBtn = $('.getdata #savebtn');
     const backBtn = $('.getdata #backbtn');
     const addBtn = $('.getdata #addbtn'); //images button
-    const saveBtn = $('.getdata #savebtn');
     const addBtn2 = $('.getdata #addbtn2');// video button
+    const addBtn3 = $('.getdata #addbtn3');// shop button
     const addBtn4 = $('.getdata #addbtn4');// future works button
 
     tables.hide();
     backBtn.hide();
-    addBtn.hide();
     saveBtn.hide();
     $('#table-wrapper').hide()
 
@@ -21,9 +22,10 @@ $(function () {
         $('#admin-section .row').show(500);
         tables.hide(500);
         backBtn.hide(500);
-        addBtn.hide(500);
         saveBtn.hide(500);
+        addBtn.hide(500);
         addBtn2.hide(500);
+        addBtn3.hide(500);
         addBtn4.hide(500);
         $('#table-wrapper').hide(500);
     });
@@ -31,6 +33,7 @@ $(function () {
     //////////////////////// IMAGE GALLERY ////////////////////////////////
     const imgsTable = $('#imagesTable');
     var deletedImagesIds = [], addedImages = [];
+    addBtn.hide();
     // update image gallery
     $('.updategallery').on('click', function () {
         $('#admin-section h1').hide(500);
@@ -535,12 +538,312 @@ $(function () {
         }
     });
 
+    /////////////////// SHOP ITEMS ////////////////
+    const itemsTable = $('#itemsTable');
+    var deletedItemsIds = [], addedItems = [];
+    addBtn3.hide();
+    //update items in shop
+    $('.updateshop').on('click', function() {
+        $('#admin-section h1').hide(500);
+        $('#admin-section .row').hide(500);
+        backBtn.show(500);
+        addBtn3.show(500);
+        saveBtn.show(500);
+        $('#table-wrapper').show(500)
+        itemsTable.show(500);
+        addBtn3.on('click', addItem);
+        saveBtn.on('click', saveItems);
+
+        $("td").on('click', function () {
+            var th = $(this).closest('table').find('th').eq($(this).index());
+            var columnName = (th[0].innerText);
+            if (columnName == 'Name' || columnName == 'Price') { //edit
+                if ($(this).attr("contentEditable") == true) {
+                    $(this).attr("contentEditable", "false");
+                } else {
+                    $(this).attr("contentEditable", "true");
+                }
+            }
+        });
+
+        $('.bi-trash').on('click', function () {
+            var tableRow = $(this).closest("td").parent().text();
+            var tableRowContent = tableRow.match(/\b(\w+)\b/g);
+            // console.log(tableRowContent)
+            var id = tableRowContent[0];
+            deletedItemsIds.push(id);
+            tableRow = $(this).closest("td").parent();
+            tableRow.remove();
+        });
+
+        function addItem() {
+            // get table data
+            var tableRows = itemsTable[0].rows;
+            var id = 0;
+            for (var i = 0; i < tableRows.length - 1; i++) { //-1 for the thead
+                var objCells = tableRows.item(i + 1).cells;
+                let idRow = objCells[0].textContent;
+                if (idRow > id) {
+                    id = idRow;
+                }
+            }
+            id++;
+            console.log(id)
+
+            var glightboxform = GLightbox({
+                selector: '.glightboxform3',
+                closeOnOutsideClick: false,
+                draggable: false
+            });
+            glightboxform;
+
+            glightboxform.on('slide_after_load', (data) => {
+                const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+
+                //close form
+                var cancelbtn = slideNode.querySelector('.cancel');
+                cancelbtn.addEventListener('click', function () {
+                    glightboxform.close();
+                });
+
+                //upload and attach thumbnail(image) to form
+                var uploadbtn = slideNode.querySelector('#itemthumbupload');
+                var image, iconImg, thumbnail;
+                uploadbtn.addEventListener('change', function (e) {
+                    var imgdiv = slideNode.querySelector('#uploadedimgitem');
+                    imgdiv.innerHTML = '';
+                    const tgt = e.target;
+                    if (tgt.type !== "file") {
+                        return;
+                    }
+                    if (!tgt.files || !tgt.files[0]) {
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = async function (e) {
+                        image = `<img src="${e.target.result}" style="width:100px;height:auto;">`;
+                        iconImg = e.target.result; //for table
+                        imgdiv.innerHTML = image; //append under the input
+                        thumbnail = tgt.files[0];
+                    }
+                    reader.readAsDataURL(tgt.files[0]);
+                });
+
+                //upload image video or 3D object
+                var file, uploadbtnfile = slideNode.querySelector('#itemupload');
+                uploadbtnfile.addEventListener('change', function (e) {
+                    const tgt = e.target;
+                    if (tgt.type !== "file") {
+                        return;
+                    }
+                    if (!tgt.files || !tgt.files[0]) {
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = async function (e) {
+                        file = tgt.files[0]; //image, video or 3D object
+                    }
+                    reader.readAsDataURL(tgt.files[0]);
+                });
+
+                uploadbtn = slideNode.querySelector('#itempreviewupload');
+                var preview;
+                uploadbtn.addEventListener('change', function (e) {
+                    const tgt = e.target;
+                    if (tgt.type !== "file") {
+                        return;
+                    }
+                    if (!tgt.files || !tgt.files[0]) {
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = async function (e) {
+                        preview = tgt.files[0]; //preview for shop
+                    }
+                    reader.readAsDataURL(tgt.files[0]);
+                });
+
+                //add data to table and close form
+                var addbtn = slideNode.querySelector('.add');
+                addbtn.addEventListener('click', function () {
+                    var name = slideNode.querySelector('#itemname').value;
+                    var price = slideNode.querySelector('#itemprice').value;
+                    if (name !== undefined && price !== undefined) {
+                        var row = itemsTable[0].insertRow(itemsTable[0].length);
+                        var j = 0;
+                        var cell0 = row.insertCell(j++); //id hidden
+                        var cell1 = row.insertCell(j++); //thumbnail
+                        var cell2 = row.insertCell(j++); //name
+                        var cell3 = row.insertCell(j++); //price
+                        var cell6 = row.insertCell(j++); //trash icon
+
+                        cell0.innerText = id;
+                        cell0.style.display = 'none';
+
+                        var img = document.createElement('img');
+                        img.setAttribute('src', iconImg); //thumbnail
+                        img.setAttribute('height', '25px');
+                        img.setAttribute('width', 'auto');
+                        cell1.appendChild(img);
+
+                        cell2.innerHTML = name;
+                        cell3.innerHTML = price;
+                        cell6.innerHTML = '<i class="bi bi-trash"></i>';
+
+                        console.log(name)
+                        addedItems.push({
+                            id: id,
+                            name: name,
+                            price: price,
+                            href: '-',
+                            file: file,
+                            thumb: thumbnail,
+                            filename: file.name,
+                            preview: preview,
+                            prevExtension : preview.name.split('.')[1]
+                        });
+
+                        id++;
+                        glightboxform.close(); //close form
+                    }
+                });
+            });
+        } // end additem() function
+
+        async function saveItems() {
+            console.log(addedItems.length, 'iteme de salvat')
+            Swal.fire({
+                title: 'Do you want to save the changes?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: `Save`,
+                denyButtonText: `Don't save`,
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    console.log('saving changes for shop items...')
+
+                    //DELETE FROM DB
+                    deletedItemsIds.forEach(function (id) {
+                        db.collection("shop").get().then((querySnapshot) => {
+                            querySnapshot.forEach(function (doc) {
+                                if (doc.data().id == id) {
+                                    //delete from storage
+                                    // var itemRef = shopRef.child(`shop/${doc.data().name}`);
+                                    // itemRef.delete()
+                                    //     .then(console.log('item was deleted from firebase storage'))
+                                    //     .catch(console.log('there has been an error while deleting item from fb storage'))
+
+                                    // delete image from DB
+                                    db.collection("shop").doc(doc.id).delete().then(() => {
+                                        console.log("Document successfully deleted!", doc.id, doc.data().id);
+                                    }).catch((error) => {
+                                        console.error("Error deleting document: ", error);
+                                    });
+                                }
+                            });
+                        })
+                    });
+
+                    console.log('deleted items', deletedItemsIds)
+
+                    //ADD
+                    addedItems.forEach(async function (item) {
+                        // preview
+                        var itemRef = shopRef.child(`shop/${item.preview.name}`);
+                        await itemRef.put(item.preview).then(function () {
+                            console.log('uploaded an item preview to firebase storage!');
+                            itemRef.getDownloadURL().then(function (url) {
+                                item.preview = url;
+                            });
+                        });
+
+                        //thumbnail
+                        var itemRef = shopRef.child(`shop/${item.thumb.name}`);
+                        await itemRef.put(item.thumb).then(function () {
+                            console.log('uploaded an item thumbnail to firebase storage!');
+                            itemRef.getDownloadURL().then(function (url) {
+                                item.thumb = url;
+                            });
+                        });
+
+                        //file
+                        itemRef = shopRef.child(`shop/${item.file.name}`);
+                        itemRef.put(item.file).then(function (snapshot) {
+                            console.log('Uploaded an item to firebase storage!');
+                            itemRef.getDownloadURL().then(function (url) {
+                                item.href = url;
+                                //add to firebase DB
+                                db.collection("shop").add({
+                                    name: item.name,
+                                    filename: item.file.name,
+                                    id: item.id,
+                                    href: item.href, //for the sold file
+                                    thumb: item.thumb, 
+                                    price: item.price,
+                                    preview: item.preview,
+                                    prevExtension: item.prevExtension //jpg png mp4 etc
+                                })
+                                    .then((docRef) => {
+                                        console.log("Added new item to DB. Document written with ID: ", docRef.id);
+                                        addedItems.splice(0, 1);//remove first element
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error adding document: ", error);
+                                    });
+                            });
+                        });
+                    });
+
+                    // get table data; update for name or price
+                    var tableRows = itemsTable[0].rows;
+                    var tableRowsArray = Object.values(tableRows);
+                    tableRowsArray.splice(0, 1); //remove header
+
+                    tableRowsArray.forEach(function (tr) {
+                        var objCells = tr.cells;
+                        var id = objCells[0].innerText;
+                        var name = objCells[2].innerHTML;
+                        var price = objCells[3].innerHTML;
+
+                        console.log(tr)
+                        //UPDATE FOR name or price
+                        db.collection("shop").get().then((querySnapshot) => {
+                            querySnapshot.forEach((doc) => {
+                                if (doc.data().id == id) {
+                                    // update price or name
+                                    db.collection("shop").doc(doc.id).update({
+                                        'name': name,
+                                        'price': price
+                                    }).then(() => {
+                                        console.log("Document updated with ID: ", doc.id);
+                                    }).catch((error) => {
+                                        console.error("Error updating document: ", error);
+                                    });
+                                }
+                            });
+                        });
+                    });
+
+                    fetch('/adminshop', {
+                        method: 'POST'
+                    }).then(function (res) {
+                        return res.json();
+                    }).then(function (data) {
+                        console.log(data)
+                    }).then(function () {
+                        Swal.fire('Saved!', '', 'success');
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+    });
 
     /////////////////// FUTURE WORKS //////////////////
     const worksTable = $('#worksTable');
     var deletedWorksIds = [], addedWorks = [];
     addBtn4.hide();
-    
     //update future works
     $('.updateworks').on('click', function () {
         $('#admin-section h1').hide(500);

@@ -69,6 +69,8 @@
   <script src="FileSaver.js"></script>
   <script src="imgs.js" type="module"> </script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
   <script src="admin-crud.js"></script>
 </head>
 
@@ -269,7 +271,7 @@
           <ul class="splide__list">
             <% videosDB.forEach(function(video) { %>
               <li class="splide__slide">
-                <a href="<%= video.href %>" class="glightboxvideos" onContextMenu="return false;">
+                <a href="<%= video.href %>" data-fancybox onContextMenu="return false;">
                   <img class="thumbnail" data-splide-lazy="<%= video.thumb %>" alt="<%= video.title %>">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
                     <path
@@ -335,18 +337,18 @@
           <div class="splide" id="shop-splide">
             <div class="splide__track">
               <ul class="splide__list">
-                <% items.images.forEach(function(item) { %>
+                <% itemsDB.forEach(function(item) { %>
                   <li class="splide__slide" data-item-id="<%= item.id %>">
-                    <a class="myshopbox" href="shop/full/<%= item.imgName %>" title="<%= item.name %>"
+                    <a class="myshopbox" href="<%= item.preview %>" title="<%= item.name %>"
                       onContextMenu="return false;">
-                      <% let extension=item.imgName.split('.')[1]; if (extension=='png' ) { %>
-                        <img class="shop-img img-fluid" src="shop/thumbs/<%= item.thumbName %>"
-                          alt="<%= item.imgName %>">
+                      <% if (item.prevExtension == 'png' || item.prevExtension == 'jpg' ) { %>
+                        <img class="shop-img img-fluid" src="<%= item.thumb %>"
+                          alt="<%= item.name %>">
                     </a>
-                    <% } if (extension=='mp4' ) { %>
-                      <a href="shop/full/<%= item.file %>" class="glightbox-shop">
-                        <img class="shop-img img-fluid" data-splide-lazy="shop/thumbs/<%= item.thumbName %>"
-                          alt="shop/thumbs/<%= item.thumbName %>">
+                    <% } if (item.prevExtension=='mp4' ) { %>
+                      <a href="<%= item.preview %>" data-fancybox onContextMenu="return false;">
+                        <img class="shop-img img-fluid" data-splide-lazy="<%= item.thumb %>"
+                          alt="<%= item.name %>">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
                           <path
                             d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
@@ -440,21 +442,19 @@
     <div class="section text-center container-fluid" id="admin-section" data-anchor="admin">
       <h1>FUTURE WORKS</h1>
       <div class="row">
-        <div class="splide col-6" id="admin-works">
+        <div class="splide col-8" id="admin-works">
           <h3>Sketches, concepts, 3D ##TODO</h3>
           <div class="splide__track">
             <ul class="splide__list">
               <% worksDB.forEach(function(item) { %>
                 <li class="splide__slide">
-                  <a class="glightbox-admin" href="<%= item.href %>" onContextMenu="return false;">
-                    <% let extension=item.name.split('.')[1]; 
-                    if (extension =='png' || extension == 'jpg' ) { %>
+                  <a data-fancybox="admin-works" href="<%= item.href %>" onContextMenu="return false;">
+                    <% let extension=item.name.split('.')[1]; if (extension=='png' || extension=='jpg' ) { %>
                       <img class="shop-img img-fluid" src="<%= item.thumb %>" alt="<%= item.name %>">
                   </a>
                   <% } if (extension=='mp4' ) { %>
-                    <a href="<%= item.href %>" class="glightbox-admin">
-                      <img class="shop-img img-fluid" data-splide-lazy="<%= item.thumb %>"
-                        alt="<%= item.name %>">
+                    <a data-fancybox data-type="iframe" data-src="<%= item.href %>">
+                      <img class="shop-img img-fluid" data-splide-lazy="<%= item.thumb %>" alt="<%= item.name %>">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
                         <path
                           d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
@@ -467,17 +467,13 @@
                       </svg>
                     </a>
                     <% } %>
-
-                    <a href="admin/full/3.png" class="glightbox-admin">
-                      <img class="shop-img img-fluid" data-splide-lazy="admin/thumbs/3.jpg"
-                    </a>
                 </li>
                 <% }) %>
             </ul>
           </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-4">
           <h3>CRUD</h3>
           <div class="btn-group-vertical">
             <button class="updategallery" type="button">UPDATE IMAGE GALLERY</button>
@@ -490,15 +486,19 @@
       <div class="getdata container">
         <button id="backbtn">Go back</button>
         <!-- open gallery image form-->
-        <a href="#addform" class="glightboxform"> 
+        <a href="#addform" class="glightboxform">
           <button id="addbtn">Add</button>
         </a>
         <!-- open videos slider form-->
-        <a href="#addformVideo" class="glightboxform2"> 
+        <a href="#addformVideo" class="glightboxform2">
           <button id="addbtn2">Add</button>
         </a>
+        <!-- open shop items form-->
+        <a href="#addformShop" class="glightboxform3">
+          <button id="addbtn3">Add</button>
+        </a>
         <!-- open future works form-->
-        <a href="#addformWorks" class="glightboxform4"> 
+        <a href="#addformWorks" class="glightboxform4">
           <button id="addbtn4">Add</button>
         </a>
 
@@ -508,7 +508,7 @@
               <caption>Images</caption>
               <tr>
                 <th scope="col" style="display: none;">#</th>
-                <th scope="col">Icon</th>
+                <th scope="col">Thumbnail</th>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
                 <th scope="col">Delete</th>
@@ -546,9 +546,39 @@
             <tbody>
               <% videosDB.forEach(function(item) { %>
                 <tr>
-                  <td style="display: none;"><%= item.id %></td>
+                  <td style="display: none;">
+                    <%= item.id %>
+                  </td>
                   <td><img src="<%= item.thumb %>" style="height: 25px; width:auto;"></td>
-                  <td><%= item.title %></td>
+                  <td>
+                    <%= item.title %>
+                  </td>
+                  <td><i class="bi bi-trash"></i></td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+
+          <table class="table table-dark table-hover table-striped" id="itemsTable">
+            <thead>
+              <caption>Shop items</caption>
+              <tr>
+                <th scope="col" style="display: none;">#</th>
+                <th scope="col">Thumbnail</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% itemsDB.forEach(function(item) { %>
+                <tr>
+                  <td style="display: none;">
+                    <%= item.id %>
+                  </td>
+                  <td><img src="<%= item.thumb %>" style="height: 25px; width:auto;"></td>
+                  <td><%=item.name %></td>
+                  <td><%=item.price %></td>
                   <td><i class="bi bi-trash"></i></td>
                 </tr>
                 <% }) %>
@@ -567,14 +597,16 @@
             <tbody>
               <% worksDB.forEach(function(item) { %>
                 <tr>
-                  <td style="display: none;"><%= item.id %></td>
+                  <td style="display: none;">
+                    <%= item.id %>
+                  </td>
                   <td><img src="<%= item.thumb %>" style="height: 25px; width:auto;"></td>
                   <td><i class="bi bi-trash"></i></td>
                 </tr>
                 <% }) %>
             </tbody>
           </table>
-        </div> 
+        </div>
         <button id="savebtn">Save changes</button>
 
         <div id="addform">
@@ -616,6 +648,38 @@
                 <i class="bi bi-upload">thumbnail</i>
                 <input accept="image/*" type="file" class="form-control-file" id="videothumbupload" required>
                 <div id="uploadedimgvideo"></div>
+              </div>
+              <div class="formbtns">
+                <button class="cancel" type="button">Cancel</button>
+                <button class="add" type="submit">Add</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div id="addformShop">
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="itemname">Name</label>
+                <input type="text" class="form-control" id="itemname" placeholder="Name" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="itemprice">Price</label>
+                <input type="number" class="form-control" id="itemprice" placeholder="Price" required>
+              </div>
+              <div class="form-group">
+                <i class="bi bi-upload">File</i>
+                <input type="file" class="form-control-file" id="itemupload" required>
+              </div>
+              <div class="form-group">
+                <i class="bi bi-upload">Preview</i>
+                <input type="file" class="form-control-file" id="itempreviewupload" required>
+              </div>
+              <div class="form-group">
+                <i class="bi bi-upload">Thumbnail</i>
+                <input accept="image/*" type="file" class="form-control-file" id="itemthumbupload" required>
+                <div id="uploadedimgitem"></div>
               </div>
               <div class="formbtns">
                 <button class="cancel" type="button">Cancel</button>

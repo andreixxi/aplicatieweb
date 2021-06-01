@@ -1,0 +1,32 @@
+[
+    {
+        "prevExtension": "jpg",
+        "filename": "charobj.jpg",
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=fca066f6-48be-4ae9-940f-81db19b64353",
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=40a88a6e-afba-43d0-b09e-8767fb8a169c",
+        "id": 1,
+        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=5c92c205-27ce-45a1-8d74-2719e45083e8",
+        "name": "test`",
+        "price": "150"
+    },
+    {
+        "prevExtension": "png",
+        "filename": "render1.png",
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.jpg?alt=media&token=f074830c-6a26-49b2-a46c-5bd5b6c80b42",
+        "name": "img1",
+        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.png?alt=media&token=7e7f02b3-300f-4080-a8be-019ec8b52c9c",
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.png?alt=media&token=d80ea934-decd-419b-8ac4-346211fc5362",
+        "id": 3,
+        "price": "150"
+    },
+    {
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.PNG?alt=media&token=2623ab63-2ab2-4209-93c1-fc6b28ba4b13",
+        "filename": "video.jpg",
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.jpg?alt=media&token=c1d1ca7a-191c-4e8a-bd02-ae5dce62b826",
+        "id": 2,
+        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.mp4?alt=media&token=e29d96b3-259e-4d0f-97d5-91cf6360a4ee",
+        "prevExtension": "mp4",
+        "price": "350",
+        "name": "video"
+    }
+]
