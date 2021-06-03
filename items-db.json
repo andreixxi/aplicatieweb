@@ -1,32 +1,32 @@
 [
     {
-        "prevExtension": "jpg",
-        "filename": "charobj.jpg",
-        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=fca066f6-48be-4ae9-940f-81db19b64353",
-        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=40a88a6e-afba-43d0-b09e-8767fb8a169c",
-        "id": 1,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=5c92c205-27ce-45a1-8d74-2719e45083e8",
-        "name": "test`",
-        "price": "150"
-    },
-    {
+        "name": "\n                    obj\n                  ",
         "prevExtension": "png",
-        "filename": "render1.png",
-        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.jpg?alt=media&token=f074830c-6a26-49b2-a46c-5bd5b6c80b42",
-        "name": "img1",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.png?alt=media&token=7e7f02b3-300f-4080-a8be-019ec8b52c9c",
-        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.png?alt=media&token=d80ea934-decd-419b-8ac4-346211fc5362",
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.jpg?alt=media&token=a9b21d69-47b8-4b06-9fc3-a2053d2df020",
+        "filename": "charobj.obj",
+        "price": "\n                    7500",
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.obj?alt=media&token=f0f087ba-8d28-4400-9cbe-9f22892800c6",
         "id": 3,
-        "price": "150"
+        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.png?alt=media&token=64d8cbd6-3701-4ff1-b032-b889356e6904"
     },
     {
-        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fcharobj.PNG?alt=media&token=2623ab63-2ab2-4209-93c1-fc6b28ba4b13",
-        "filename": "video.jpg",
-        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.jpg?alt=media&token=c1d1ca7a-191c-4e8a-bd02-ae5dce62b826",
-        "id": 2,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.mp4?alt=media&token=e29d96b3-259e-4d0f-97d5-91cf6360a4ee",
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.mp4?alt=media&token=27c7519e-d921-4d1a-be52-81dfcf6127a0",
+        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.mp4?alt=media&token=c20f6a05-4c1a-412f-9fcb-e46957a194b3",
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Fvideo.jpg?alt=media&token=53a42b29-f8a7-46bd-93e3-f5e860232f8d",
+        "name": "\n                    vid1\n                  ",
+        "filename": "video.mp4",
         "prevExtension": "mp4",
-        "price": "350",
-        "name": "video"
+        "id": 2,
+        "price": "\n                    300"
+    },
+    {
+        "thumb": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.jpg?alt=media&token=a56e8ec9-04e7-4466-a6c5-dfabdc225961",
+        "id": 1,
+        "filename": "render1.png",
+        "prevExtension": "png",
+        "preview": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.png?alt=media&token=98c6fb08-0217-4fb5-8d8a-0a6f9beb8a78",
+        "href": "https://firebasestorage.googleapis.com/v0/b/web-app-for-3d-model.appspot.com/o/shop%2Frender1.png?alt=media&token=c529c03e-b1a8-4d1f-b279-9f96133fd2a9",
+        "name": "\n                    img1\n                  ",
+        "price": "\n                    150"
     }
 ]

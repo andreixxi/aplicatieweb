@@ -41,7 +41,6 @@ export default function faceMorphing() {
                             const image = `<img src="${img}" style="width:20vw;height:auto;">`;
                             $("#appendResult").html(image); //append result
                             $('#downloadbtn').show(500);
-
                         });
 
                         $('#downloadbtn').on('click', function () {

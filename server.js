@@ -24,6 +24,7 @@ const triangulate = require("delaunay-triangulate");
 const PythonShell = require('python-shell').PythonShell;
 const rimraf = require("rimraf");
 const admin = require('firebase-admin');
+
 admin.initializeApp();
 const db = admin.firestore();
 
@@ -46,7 +47,7 @@ app.post('/', function async(req, res, next) {
 });
 
 //write from db when opening the server
-app.get('/', async function(req, res, next) {
+app.get('/', async function (req, res, next) {
     const images = [], videos = [], items = [], works = [];
     await db.collection("imageGallery").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -76,7 +77,7 @@ app.get('/', async function(req, res, next) {
 })
 
 //update after admin changes sth
-app.post('/adminimg', async function(req, res, next) {
+app.post('/adminimg', async function (req, res, next) {
     const images = [];
     await db.collection("imageGallery").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -88,7 +89,7 @@ app.post('/adminimg', async function(req, res, next) {
     res.end(JSON.stringify({ status: 'new images were successfully sent and updated to the server' }));
     next();
 });
-app.post('/adminvideo', async function(req, res, next) {
+app.post('/adminvideo', async function (req, res, next) {
     const videos = [];
     await db.collection("videos").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -100,7 +101,7 @@ app.post('/adminvideo', async function(req, res, next) {
     res.end(JSON.stringify({ status: 'new videos were successfully sent and updated to the server' }));
     next();
 });
-app.post('/adminshop', async function(req, res, next) {
+app.post('/adminshop', async function (req, res, next) {
     const items = [];
     await db.collection("shop").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -112,7 +113,7 @@ app.post('/adminshop', async function(req, res, next) {
     res.end(JSON.stringify({ status: 'new items were successfully sent and updated to the server' }));
     next();
 });
-app.post('/adminfutureworks', async function(req,res,next) {
+app.post('/adminfutureworks', async function (req, res, next) {
     const works = [];
     await db.collection("works").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -126,21 +127,21 @@ app.post('/adminfutureworks', async function(req,res,next) {
 //render index or admin page
 app.all('/', async function (req, res) {
     try {
-        const items = await fs.promises.readFile('items.json').then(JSON.parse);
-        const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
-        const images = await fs.promises.readFile('images.json').then(JSON.parse);
-        const adminData = await fs.promises.readFile('admin.json').then(JSON.parse);
-        
+        // const items = await fs.promises.readFile('items.json').then(JSON.parse);
+        // const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
+        // const images = await fs.promises.readFile('images.json').then(JSON.parse);
+        // const adminData = await fs.promises.readFile('admin.json').then(JSON.parse);
+
         const imagesDB = await fs.promises.readFile('images-db.json').then(JSON.parse);
         const videosDB = await fs.promises.readFile('videos-db.json').then(JSON.parse);
         const worksDB = await fs.promises.readFile('works-db.json').then(JSON.parse);
         const itemsDB = await fs.promises.readFile('items-db.json').then(JSON.parse);
         const options = {
             stripePublicKey: stripePublicKey,
-            items: items,
-            videos: videos,
-            images: images,
-            admin: adminData,
+            // items: items,
+            // videos: videos,
+            // images: images,
+            // admin: adminData,
             imagesDB: imagesDB,
             videosDB: videosDB,
             worksDB: worksDB,
@@ -354,33 +355,11 @@ async function facialDetection(outputImg1, outputImg2) {
     });
 }
 
-function createArchive(customerName, customerEmail) {
+async function createArchive(customerName, customerEmail) {
+    console.log('starting zipping files...');
     // create a file to stream archive data to.
     const output = fs.createWriteStream(`archives/${customerEmail}/${customerName}.zip`);
-    const archive = archiver('zip');
-
-    // listen for all archive data to be written'close' event is fired only when a file descriptor is involved
-    output.on('close', function () {
-        console.log(archive.pointer() + ' total bytes');
-        console.log('archiver has been finalized and the output file descriptor has closed.');
-    });
-
-    // This event is fired when the data source is drained no matter what was the data source.
-    // It is not part of this library but rather from the NodeJS Stream API.
-    // @see: https://nodejs.org/api/stream.html#stream_event_end
-    output.on('end', function () {
-        console.log('Data has been drained');
-    });
-
-    // good practice to catch warnings (ie stat failures and other non-blocking errors)
-    archive.on('warning', function (err) {
-        if (err.code === 'ENOENT') {
-            // log warning
-        } else {
-            // throw error
-            throw err;
-        }
-    });
+    const archive = archiver('zip', {zlib: {level: 9}});
 
     // good practice to catch this error explicitly
     archive.on('error', function (err) {
@@ -388,19 +367,44 @@ function createArchive(customerName, customerEmail) {
         throw err;
     });
 
-    // pipe archive data to the file
-    archive.pipe(output);
+    // await new Promise(function (resolve, reject) {
+        // pipe archive data to the file
+        archive.pipe(output);
+        const path = __dirname + `/archives/${customerEmail}/content/`;
+        archive.directory(path, 'order'); //append files from given path and name within the archive    
 
-    const path = __dirname + `/archives/${customerEmail}/content/`;
-    archive.directory(path, 'order'); //append files from given path and name within the archive
+        // This event is fired when the data source is drained no matter what was the data source.
+        // It is not part of this library but rather from the NodeJS Stream API.
+        // @see: https://nodejs.org/api/stream.html#stream_event_end
+        output.on('end', function () {
+            console.log('Data has been drained');
+        });
 
-    // finalize the archive (ie we are done appending files but streams have to finish yet)
-    archive.finalize();
-
-    return output;
+        // good practice to catch warnings (ie stat failures and other non-blocking errors)
+        archive.on('warning', function (err) {
+            if (err.code === 'ENOENT') {
+                // log warning
+                console.log(err.code, 'archive warning')
+            } else {
+                // throw error
+                throw err;
+            }
+        });
+        
+        // listen for all archive data to be written'close' event is fired only when a file descriptor is involved
+        output.on('close', function () {
+            console.log('zipped ' + archive.pointer() + ' total bytes');
+            console.log('archiver has been finalized and the output file descriptor has closed.');
+        });
+        
+        // finalize the archive (ie we are done appending files but streams have to finish yet)
+        archive.finalize();
+        
+        return output;
+    // });
 }
 
-async function sendEmail(customerName, customerEmail, emailContent, emailAttachment) {
+async function sendEmail(customerName, customerEmail, emailContent) {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -416,28 +420,31 @@ async function sendEmail(customerName, customerEmail, emailContent, emailAttachm
         }
     });
 
-    const output = createArchive(customerName, customerEmail, emailAttachment);
-
+    const output = await new Promise(resolve =>
+        setTimeout(() => resolve(createArchive(customerName, customerEmail)), 1000)
+    );
+    
     // send mail with defined transport object
-    let info = await transporter.sendMail({
-        from: `"LA21IXX" <${gmailAcc}>`, // sender address
-        to: customerEmail, // list of receivers
-        subject: "LA21IXX ORDER", // Subject line
-        html: emailContent, // html body
-        attachments: output // the archive
-    });
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    setTimeout(async () => {
+        console.log('got archive. now sending email..')
+        let info = await transporter.sendMail({
+            from: `"LA21IXX" <${gmailAcc}>`, // sender address
+            to: customerEmail, // list of receivers
+            subject: "LA21IXX ORDER", // Subject line
+            html: emailContent, // html body
+            attachments: output // the archive
+        });
+        console.log("Message sent: %s", info.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
-    // delete files for current order
-    rimraf(path.join(__dirname, `archives/${customerEmail}`), function () {
-        console.log(`done deleting items for ${customerEmail}'s order`);
-    });
+        // // delete files for current order
+        rimraf(path.join(__dirname, `archives/${customerEmail}`), function () {
+            console.log(`done deleting items for ${customerEmail}'s order`);
+        });
+    }, 10000);
 }
 
 function saveEmailData(emailAttachment, customerEmail) {
-    const paths = emailAttachment[0].path;
-    const fileNames = emailAttachment[0].fileName;
     var writePath = __dirname + `/archives/${customerEmail}/`;
     if (!fs.existsSync(writePath)) {
         fs.mkdirSync(writePath);
@@ -446,21 +453,35 @@ function saveEmailData(emailAttachment, customerEmail) {
     if (!fs.existsSync(writePath)) {
         fs.mkdirSync(writePath);
     }
-    //upload content to folder
-    for (var i = 0; i < fileNames.length; i++) {
-        let srcfile = __dirname + '/' + paths[i] + fileNames[i];
-        let dstfile = writePath + fileNames[i]
-        fs.copyFile(srcfile, dstfile, (err) => {
-            if (err) throw err;
-            // console.log(srcfile, 'was copied to', dstfile);
+    const axios = require('axios');
+    function download() {
+        emailAttachment.forEach(async function (item, index) {
+            var srcfile = item.href
+            var dstfile = writePath + item.filename;
+            const request = await axios({
+                url: srcfile,
+                method: 'GET',
+                responseType: 'stream'
+            });
+            if (request.status === 200) {
+                var file = fs.createWriteStream(dstfile);
+                request.data.pipe(file);
+                console.log(`file ${index} ${item.filename} was successfully saved to customer ${customerEmail}'s folder`);
+                return new Promise((resolve, reject) => {
+                    file.on('finish', resolve);
+                    file.on('error', reject);
+                });
+            } else {
+                console.log(`${request.status}:\nSomething went wrong while saving files...`)
+            }
         });
-        console.log('archive attachment was successfully saved to customer folder');
     }
+    download();
 }
 
 //purchase functionality
 app.post('/purchase', function (req, res) {
-    fs.readFile('items.json', function (err, data) {
+    fs.readFile('items-db.json', function (err, data) {
         if (err) {
             res.status(500).end();
         } else {
@@ -472,10 +493,7 @@ app.post('/purchase', function (req, res) {
                             `;
             const emailAttachment = [];
             const itemsJson = JSON.parse(data);
-            const itemsArray = itemsJson.images; //.concat(itemsJson.something)
-
-            const emailItems = [];
-            const paths = [];
+            const itemsArray = itemsJson;
             let total = 0;
             req.body.items.forEach(function (item) {
                 // item from the req
@@ -484,31 +502,30 @@ app.post('/purchase', function (req, res) {
                     return i.id == item.id;
                 });
                 total += itemJson.price * item.quantity;
-                emailItems.push(itemJson.file);
-                paths.push(itemJson.path);
+                emailAttachment.push({
+                    href: itemJson.href,
+                    filename: itemJson.filename
+                });
             }); // end forEach
-            emailAttachment.push({
-                path: paths,
-                fileName: emailItems,
-            });
 
             stripe.charges.create({
                 amount: total,
                 source: req.body.stripeTokenId,
                 currency: 'usd'
-            }).then(function () {
+            }).then( function () {
                 //success
                 console.log('charge succesful');
-
-                //save data for email attachemnt
-                saveEmailData(emailAttachment, customerEmail);
-
-                //send email with the archive to customer
-                sendEmail(customerName, customerEmail, emailContent, emailAttachment);
-
                 res.json({
                     message: 'Successfully purchased items. You will soon get your items via email.'
                 });
+            }).then(async function() {
+                //save data for email attachemnt
+                await new Promise(resolve => setTimeout(() => resolve(saveEmailData(emailAttachment, customerEmail)), 1000));
+
+                //send email with the archive to customer
+                await new Promise(resolve => setTimeout(() => {
+                    resolve(sendEmail(customerName, customerEmail, emailContent, emailAttachment));
+                }, 1000));
             }).catch(function () {
                 console.log('charge fail');
                 res.status(500).end();

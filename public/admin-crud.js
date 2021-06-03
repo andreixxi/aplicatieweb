@@ -232,7 +232,6 @@ $(function () {
                     var tableRows = imgsTable[0].rows;
                     var tableRowsArray = Object.values(tableRows);
                     tableRowsArray.splice(0, 1); //remove header
-
                     tableRowsArray.forEach(function (tr) {
                         var objCells = tr.cells;
                         var id = objCells[0].innerText;

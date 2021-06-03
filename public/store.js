@@ -151,7 +151,6 @@ var stripeHandler = StripeCheckout.configure({
                 allowOutsideClick: false,
                 buttonsStyling: false         
             });
-            // alert('There has been an error, please try again later.');
             Swal.fire({
                 text: 'There has been an error, please try again later.',
                 background: 'rgb(255, 114, 96)',

@@ -22,6 +22,7 @@
     href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.4.6/dist/css/splide-extension-video.min.css"
     rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
   <!-- mine -->
   <link rel="stylesheet" type="text/css" href="style.css" />
   <!-- ------------------------------------------------------------------------------------------------------- -->
@@ -66,6 +67,7 @@
   <script src="https://checkout.stripe.com/checkout.js" defer></script>
   <script>var stripePublicKey = '<%= stripePublicKey %>'</script>
   <script src="store.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
   <script src="FileSaver.js"></script>
   <script src="imgs.js" type="module"> </script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -194,12 +196,12 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col">
-                <% images.images.forEach(function(image) { %>
+                <% imagesDB.forEach(function(image, index) { if (index < 3) { %>
                   <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
                     data-lcl-author="Andrei Lungu" onContextMenu="return false;">
                     <svg viewBox='0 0 120 100' class="border-img">
                       <defs>
-                        <pattern id="<%= image.pattern %>" patternUnits="userSpaceOnUse" width="120" height="100">
+                        <pattern id='<%= image.pattern %>' patternUnits="userSpaceOnUse" width="120" height="100">
                           <image href="<%= image.href %>" x="0" y="0" width="130" height="130" />
                         </pattern>
                       </defs>
@@ -208,16 +210,16 @@
                         style="stroke:var(--color1); fill: url(#<%=image.pattern%>)" />
                     </svg>
                   </a>
-                  <% }) %>
+                  <% } else { %>
+                    <a class="mybox" href="<%= image.href %>" title="<%= image.title %>"
+                      data-lcl-txt="<%= image.desc %>" data-lcl-author="Andrei Lungu">
+                      <img src="<%= image.href %>" class="hide-img" alt="<%= image.desc %>"
+                        onContextMenu="return false;">
+                    </a>
+                    <% } }) %>
               </div>
             </div>
           </div>
-          <% images.hidden.forEach(function(image) { %>
-            <a class="mybox" href="<%= image.href %>" title="<%= image.title %>" data-lcl-txt="<%= image.desc %>"
-              data-lcl-author="Andrei Lungu">
-              <img src="<%= image.href %>" class="hide-img" alt="<%= image.desc %>" onContextMenu="return false;">
-            </a>
-            <% }) %>
         </div>
         <div id="description3" class="text-center">
           <p>Watch our scene setup which goes straight to the eye and heart S2!<br><br>
@@ -265,10 +267,10 @@
         <div class="splide__track">
           <!-- track -->
           <ul class="splide__list">
-            <% videos.videos.forEach(function(video) { %>
+            <% videosDB.forEach(function(video) { %>
               <li class="splide__slide">
-                <a href="<%= video.href %>" class="glightboxvideos" onContextMenu="return false;">
-                  <img class="thumbnail" data-splide-lazy="<%= video.src %>" alt="<%= video.alt %>">
+                <a href="<%= video.href %>" data-fancybox onContextMenu="return false;">
+                  <img class="thumbnail" data-splide-lazy="<%= video.thumb %>" alt="<%= video.title %>">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
                     <path
                       d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
@@ -287,7 +289,7 @@
                   </svg>
                 </a>
                 <p>
-                  <%= video.desc %>
+                  <%= video.title %>
                 </p>
               </li>
               <% }) %>
@@ -333,18 +335,18 @@
           <div class="splide" id="shop-splide">
             <div class="splide__track">
               <ul class="splide__list">
-                <% items.images.forEach(function(item) { %>
+                <% itemsDB.forEach(function(item) { %>
                   <li class="splide__slide" data-item-id="<%= item.id %>">
-                    <a class="myshopbox" href="shop/full/<%= item.imgName %>" title="<%= item.name %>"
+                    <a class="myshopbox" href="<%= item.preview %>" title="<%= item.name %>"
                       onContextMenu="return false;">
-                      <% let extension=item.imgName.split('.')[1]; if (extension=='png' ) { %>
-                        <img class="shop-img img-fluid" src="shop/thumbs/<%= item.thumbName %>"
-                          alt="<%= item.imgName %>">
+                      <% if (item.prevExtension == 'png' || item.prevExtension == 'jpg' ) { %>
+                        <img class="shop-img img-fluid" src="<%= item.thumb %>"
+                          alt="<%= item.name %>">
                     </a>
-                    <% } if (extension=='mp4' ) { %>
-                      <a href="shop/full/<%= item.file %>" class="glightbox-shop">
-                        <img class="shop-img img-fluid" data-splide-lazy="shop/thumbs/<%= item.thumbName %>"
-                          alt="shop/thumbs/<%= item.thumbName %>">
+                    <% } if (item.prevExtension=='mp4' ) { %>
+                      <a href="<%= item.preview %>" data-fancybox onContextMenu="return false;">
+                        <img class="shop-img img-fluid" data-splide-lazy="<%= item.thumb %>"
+                          alt="<%= item.name %>">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.999 511.999" class="video-btn">
                           <path
                             d="M443.86,196.919L141.46,10.514C119.582-2.955,93.131-3.515,70.702,9.016c-22.429,12.529-35.819,35.35-35.819,61.041
