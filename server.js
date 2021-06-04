@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.static('public/'));
 app.use(fileupload());
 
-// get user email if it exists
+// get from request user's email if it exists
 var email;
 app.post('/', function async(req, res, next) {
     email = req.body.email;
@@ -47,7 +47,7 @@ app.post('/', function async(req, res, next) {
 });
 
 //write from db when opening the server
-app.get('/', async function (req, res, next) {
+app.post('/', async function (req, res, next) {
     const images = [], videos = [], items = [], works = [];
     await db.collection("imageGallery").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -127,21 +127,12 @@ app.post('/adminfutureworks', async function (req, res, next) {
 //render index or admin page
 app.all('/', async function (req, res) {
     try {
-        // const items = await fs.promises.readFile('items.json').then(JSON.parse);
-        // const videos = await fs.promises.readFile('videos.json').then(JSON.parse);
-        // const images = await fs.promises.readFile('images.json').then(JSON.parse);
-        // const adminData = await fs.promises.readFile('admin.json').then(JSON.parse);
-
         const imagesDB = await fs.promises.readFile('images-db.json').then(JSON.parse);
         const videosDB = await fs.promises.readFile('videos-db.json').then(JSON.parse);
         const worksDB = await fs.promises.readFile('works-db.json').then(JSON.parse);
         const itemsDB = await fs.promises.readFile('items-db.json').then(JSON.parse);
         const options = {
             stripePublicKey: stripePublicKey,
-            // items: items,
-            // videos: videos,
-            // images: images,
-            // admin: adminData,
             imagesDB: imagesDB,
             videosDB: videosDB,
             worksDB: worksDB,

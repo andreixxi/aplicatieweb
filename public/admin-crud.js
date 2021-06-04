@@ -200,7 +200,6 @@ $(function () {
 
                     console.log('deleted images', deletedImagesIds)
 
-
                     //ADD
                     addedImages.forEach(function (img) {
                         var imgRef = imagesRef.child(`imageGallery/${img.file.name}`);
@@ -264,7 +263,9 @@ $(function () {
                     }).then(function (data) {
                         console.log(data)
                     }).then(function () {
-                        Swal.fire('Saved!', '', 'success');
+                        setTimeout(function() {
+                            Swal.fire('Saved!', '', 'success')
+                        }, 5000);
                     });
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
@@ -528,7 +529,9 @@ $(function () {
                     }).then(function (data) {
                         console.log(data)
                     }).then(function () {
-                        Swal.fire('Saved!', '', 'success');
+                        setTimeout(function() {
+                            Swal.fire('Saved!', '', 'success')
+                        }, 5000);
                     });
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
@@ -830,7 +833,9 @@ $(function () {
                     }).then(function (data) {
                         console.log(data)
                     }).then(function () {
-                        Swal.fire('Saved!', '', 'success');
+                        setTimeout(function() {
+                            Swal.fire('Saved!', '', 'success')
+                        }, 5000);
                     });
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
@@ -1048,7 +1053,9 @@ $(function () {
                     }).then(function (data) {
                         console.log(data)
                     }).then(function () {
-                        Swal.fire('Saved!', '', 'success');
+                        setTimeout(function() {
+                            Swal.fire('Saved!', '', 'success')
+                        }, 5000);
                     });
                 } else if (result.isDenied) {
                     Swal.fire('Changes are not saved', '', 'info')
